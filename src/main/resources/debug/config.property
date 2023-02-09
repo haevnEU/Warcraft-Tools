@@ -1,0 +1,11 @@
+#Updated app.region to eu
+#Sun Feb 05 15:03:51 CET 2023
+preview=true
+license=true
+api.refresh=0
+app.build=0.0.0.4
+network.timeout=3
+region=eu
+app.name=Warcraft Tools
+app.version=ALPHA-DEBUG
+app.region=eu

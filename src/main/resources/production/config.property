@@ -1,0 +1,10 @@
+app.name=Warcraft Tools
+app.version=ALPHA
+app.build=0.0.0.4
+
+region=eu
+
+network.timeout=10
+api.refresh=300
+license=true
+preview=true
