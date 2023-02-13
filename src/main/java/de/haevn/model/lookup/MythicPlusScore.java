@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Map;
 
 @Data
-public class MythicPlusScore {
+public final class MythicPlusScore {
 
     int all;
     int dps;

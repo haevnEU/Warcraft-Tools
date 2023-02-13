@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class PlayerLookupModel {
+public final class PlayerLookupModel {
 
     private String name;
     private String realm;

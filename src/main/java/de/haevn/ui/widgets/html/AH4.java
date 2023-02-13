@@ -1,6 +1,6 @@
 package de.haevn.ui.widgets.html;
 
-import de.haevn.Launcher;
+import de.haevn.Main;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Hyperlink;
 
@@ -28,7 +28,7 @@ public class AH4 extends Hyperlink {
 
     private void openLink(ActionEvent event) {
         if (!link.isEmpty()) {
-            Launcher.openWebsite(link);
+            Main.openWebsite(link);
         }
     }
 

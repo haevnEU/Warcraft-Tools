@@ -25,21 +25,24 @@ public class PremadeGroupFilterView extends BorderPane implements IView {
     private final TextField tfMaxTime = new TextField();
     private final ClearInput tfQuery = new ClearInput();
     private final CheckBox cbDeclined = new CheckBox("Not declined");
-    private final CheckBoxGroup dungeonGroup = new CheckBoxGroup();
+    private final CheckBoxGroup selectedDungeonGroup = new CheckBoxGroup();
+    private final CheckBoxGroup unselectedDungeonGroup = new CheckBoxGroup();
     private final ToggleGroup groupMode = new ToggleGroup();
     private final ToggleGroup groupDifficulty = new ToggleGroup();
     private final TextField customQuery = new TextField();
 
     public PremadeGroupFilterView() {
         VBox root = new VBox();
-        final FlowPane dungeonPane = new FlowPane();
+        final FlowPane selectedDungeonPane = new FlowPane();
+        final FlowPane unselectedDungeonPane = new FlowPane();
         final FlowPane modePane = new FlowPane();
         final FlowPane difficultyPane = new FlowPane();
 
         root.getChildren().addAll(
                 new H1("Premade Group Filter"),
                 tfQuery,
-                Creator.generateTitledPane("Premade Group Filter", dungeonPane, true),
+                Creator.generateTitledPane("Filter for these dungeons", selectedDungeonPane, true),
+                Creator.generateTitledPane("Remove following dungeons", unselectedDungeonPane, true),
                 Creator.generateTitledPane("Max age in minutes", new FlowPane(tfMaxTime, lbTimeError), true),
                 Creator.generateTitledPane("Other", new FlowPane(cbDeclined, new HBox(new A("Custom Query(click for doc)", "https://github.com/0xbs/premade-groups-filter/wiki/Keywords#difficulty"), customQuery)), true),
                 Creator.generateTitledPane("Mode", modePane, false),
@@ -61,8 +64,12 @@ public class PremadeGroupFilterView extends BorderPane implements IView {
                 newValue.forEach((shortName, name) -> {
                     CheckBox cb = new CheckBox(name);
                     cb.setUserData(shortName);
-                    dungeonGroup.addCheckBox(cb);
-                    dungeonPane.getChildren().add(cb);
+                    selectedDungeonGroup.addCheckBox(cb);
+                    selectedDungeonPane.getChildren().add(cb);
+                    CheckBox cb2 = new CheckBox(name);
+                    cb2.setUserData(shortName);
+                    unselectedDungeonGroup.addCheckBox(cb2);
+                    unselectedDungeonPane.getChildren().add(cb2);
                 }));
 
         modePane.getChildren().addAll(FXCollections.observableArrayList(
@@ -84,7 +91,8 @@ public class PremadeGroupFilterView extends BorderPane implements IView {
         groupMode.selectedToggleProperty().addListener((observable, ignore, value) -> generate());
         tfMaxTime.textProperty().addListener((observable, ignore, value) -> generate());
         cbDeclined.setOnAction(e -> generate());
-        dungeonGroup.bind((observable, ignore, value) -> generate());
+        selectedDungeonGroup.bind((observable, ignore, value) -> generate());
+        unselectedDungeonGroup.bind((observable, ignore, value) -> generate());
         groupDifficulty.selectedToggleProperty().addListener((observable, ignore, value) -> generate());
         customQuery.textProperty().addListener((observable, ignore, value) -> generate());
 
@@ -97,7 +105,8 @@ public class PremadeGroupFilterView extends BorderPane implements IView {
     private void reset() {
         tfMaxTime.setText("");
         cbDeclined.setSelected(false);
-        dungeonGroup.reset();
+        selectedDungeonGroup.reset();
+        unselectedDungeonGroup.reset();
         groupMode.selectToggle(groupMode.getToggles().get(0));
         groupDifficulty.selectToggle(groupDifficulty.getToggles().get(0));
         customQuery.setText("");
@@ -105,13 +114,19 @@ public class PremadeGroupFilterView extends BorderPane implements IView {
 
     private void generate() {
         final List<String> query = new ArrayList<>(List.of("partyfit"));
-        final List<String> dungeons = dungeonGroup.getSelectedUserData().stream().map(Object::toString).toList();
+        final List<String> dungeons = selectedDungeonGroup.getSelectedUserData().stream().map(Object::toString).toList();
+        final List<String> filteredOuDungeons = unselectedDungeonGroup.getSelectedUserData().stream().map(Object::toString).toList();
+
         final String mode = groupMode.getSelectedToggle().getUserData().toString();
         final String difficulty = groupDifficulty.getSelectedToggle().getUserData().toString();
 
 
         if (!dungeons.isEmpty()) {
             query.add("(" + String.join(" or ", dungeons) + ")");
+        }
+
+        if (!filteredOuDungeons.isEmpty()) {
+            query.add("not(" + String.join(" or ", filteredOuDungeons) + ")");
         }
 
         if (!tfMaxTime.getText().isEmpty()) {

@@ -9,7 +9,9 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Paint;
 
 public class MessageWidget extends AbstractMessageWindow {
+    public static final MessageWidget INSTANCE = new MessageWidget("");
     private final TextArea stacktrace = new TextArea();
+
 
     private MessageWidget(String text) {
         super();
@@ -25,6 +27,15 @@ public class MessageWidget extends AbstractMessageWindow {
         root.setPadding(new Insets(10));
     }
 
+    public static void show(String text) {
+        INSTANCE.setText(text);
+        INSTANCE.show();
+    }
+
+    public static void showAndWait(String text) {
+        INSTANCE.setText(text);
+        INSTANCE.showAndWait();
+    }
 
     public void setText(String text) {
         stacktrace.setText(text);
@@ -34,8 +45,5 @@ public class MessageWidget extends AbstractMessageWindow {
         stacktrace.appendText("\n" + text);
     }
 
-    public static void show(String text) {
-        MessageWidget widget = new MessageWidget(text);
-        widget.show();
-    }
+
 }

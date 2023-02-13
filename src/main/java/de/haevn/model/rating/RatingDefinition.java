@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 @Data
-public class RatingDefinition {
+public final class RatingDefinition {
 
     private RatingValue<Integer> minKeystoneLevelTimed;
 
@@ -53,23 +53,22 @@ public class RatingDefinition {
     private RatingValue<Integer> minTime;
 
 
-
     @JsonProperty("general")
-    private void unpackNestedGeneral( Map<String, List<RatingValue<String>>> general) {
+    private void unpackNestedGeneral(Map<String, List<RatingValue<String>>> general) {
         this.faction = general.get("faction");
         this.realm = general.get("realm");
         this.country = general.get("country");
     }
 
     @JsonProperty("dungeon")
-    private void unpackNestedDungeon( Map<String, RatingValue<Integer>> dungeon) {
+    private void unpackNestedDungeon(Map<String, RatingValue<Integer>> dungeon) {
         this.maxKeystoneLevel = dungeon.get("maxKeystoneLevel");
         this.minKeystoneLevel = dungeon.get("minKeystoneLevel");
         this.maxKeystoneLevelTimed = dungeon.get("maxKeystoneLevelTimed");
     }
 
     @JsonProperty("score")
-    private void unpackNestedScore( Map<String, RatingValue<Integer>> score) {
+    private void unpackNestedScore(Map<String, RatingValue<Integer>> score) {
         this.minScore = score.get("minScore");
         this.maxScore = score.get("maxScore");
         this.previous = score.get("previous");
@@ -77,7 +76,7 @@ public class RatingDefinition {
     }
 
     @JsonProperty("time")
-    private void unpackNestedTime( Map<String, RatingValue<Integer>> times) {
+    private void unpackNestedTime(Map<String, RatingValue<Integer>> times) {
         this.minTime = times.get("min");
     }
 

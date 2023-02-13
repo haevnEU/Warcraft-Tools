@@ -44,7 +44,6 @@ public class PlayerSearchView extends BorderPane implements IView {
     private final AvatarWidget avatarWidget = new AvatarWidget();
     private final Label tfLastUpdate = new Label();
     private final OverviewView overviewView = new OverviewView();
-    private final RatingView ratingView = new RatingView();
     private final DungeonsView bestRuns = new DungeonsView("Best Runs");
     private final DungeonsView highestRuns = new DungeonsView("Highest Runs");
     private final DungeonsView recentRuns = new DungeonsView("Recent Runs");
@@ -57,7 +56,6 @@ public class PlayerSearchView extends BorderPane implements IView {
         TabPane tabPane = new TabPane();
         tabPane.setPadding(new Insets(10));
         tabPane.getTabs().add(Creator.createTab("Overview", overviewView));
-        tabPane.getTabs().add(Creator.createTab("Rating", ratingView));
         tabPane.getTabs().add(Creator.createTab("Best Runs", bestRuns));
         tabPane.getTabs().add(Creator.createTab("Recent Runs", recentRuns));
         tabPane.getTabs().add(Creator.createTab("Highest Runs", highestRuns));
@@ -81,7 +79,6 @@ public class PlayerSearchView extends BorderPane implements IView {
         Platform.runLater(() -> {
             setCenter(centerBox);
             avatarWidget.setPlayer(player);
-            ratingView.setPlayer(player);
             tfLastUpdate.setText(player.getLastCrawledAt().toString());
             bestRuns.setDungeons(player.getMythicPlusBestRuns());
             highestRuns.setDungeons(player.getMythicPlusHighestLevelRuns());

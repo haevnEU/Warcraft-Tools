@@ -1,21 +1,21 @@
 package de.haevn.ui.views;
 
 import de.haevn.abstraction.IView;
+import de.haevn.api.RaiderIOApi;
 import de.haevn.enumeration.FactionEnum;
 import de.haevn.ui.widgets.GroupWidget;
 import de.haevn.ui.widgets.currentweek.CutoffWidget;
-import de.haevn.ui.widgets.html.H1;
-import de.haevn.ui.widgets.html.H2;
-import de.haevn.ui.widgets.html.H3;
+import de.haevn.ui.widgets.html.*;
 
+import de.haevn.utils.PropertyHandler;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.*;
 
 public class CurrentWeekView extends BorderPane implements IView {
-    private final H3 lbCurrentAffix = new H3();
-    private final H3 lbNextAffix = new H3();
+    private final H4 lbCurrentAffix = new H4();
+    private final H4 lbNextAffix = new H4();
     private final CutoffWidget top001Widget = new CutoffWidget();
     private final CutoffWidget top1Widget = new CutoffWidget();
     private final CutoffWidget top10Widget = new CutoffWidget();
@@ -28,7 +28,7 @@ public class CurrentWeekView extends BorderPane implements IView {
         final GridPane pane = new GridPane();
         final FlowPane widgetCutoff = new FlowPane();
         final FlowPane widgetAchievements = new FlowPane();
-
+        final String cutoffUrl = PropertyHandler.getInstance("urls").get("rio.url.cutoff.current");
         widgetCutoff.setId("widget-box");
         widgetAchievements.setId("widget-box");
 
@@ -39,14 +39,15 @@ public class CurrentWeekView extends BorderPane implements IView {
         widgetAchievements.getChildren().addAll(
                 new GroupWidget("Keystone Hero", kshWidget),
                 new GroupWidget("Keystone Master", ksmWidget));
-        pane.add(new H2("Current week"), 0, 0);
-        pane.add(new H2("Next week"), 0, 1);
+        pane.add(new H4("Current week"), 0, 0);
+        pane.add(new H4("Next week"), 0, 1);
 
         pane.add(lbCurrentAffix, 1, 0);
         pane.add(lbNextAffix, 1, 1, 2, 1);
-        pane.add(new HBox(new H3("Faction"), cbFaction), 0, 2, 2, 1);
-        pane.add(widgetCutoff, 0, 3, 2, 1);
-        pane.add(widgetAchievements, 0, 4, 2, 1);
+        pane.add(new AH1("Current Seasonal Cutoff", cutoffUrl), 0, 2, 2, 1);
+        pane.add(new HBox(new H4("Faction"), cbFaction), 0, 3, 2, 1);
+        pane.add(widgetCutoff, 0, 4, 2, 1);
+        pane.add(widgetAchievements, 0, 5, 2, 1);
         pane.setMaxWidth(Integer.MAX_VALUE);
         pane.setHgap(10);
 

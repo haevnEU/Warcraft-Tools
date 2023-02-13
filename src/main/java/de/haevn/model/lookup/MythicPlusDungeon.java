@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class MythicPlusDungeon {
+public final class MythicPlusDungeon {
     private String dungeon = "";
     @JsonAlias("short_name")
     private String shortName = "";
@@ -27,15 +27,17 @@ public class MythicPlusDungeon {
     private List<Affix> affixes;
 
 
-    public boolean isTyrannical(){
+    public boolean isTyrannical() {
         return !isFortified();
     }
-    public boolean isFortified(){
+
+    public boolean isFortified() {
         return affixes.stream().anyMatch(affix -> affix.getName().equalsIgnoreCase("Fortified"));
     }
+
     @Override
     public String toString() {
-        String upgradeTendency = parTimeMs - clearTimeMs > 0 ? "▲" : "▼";
-        return "[" + mythicLevel + "] " + upgradeTendency + " "  + dungeon + " (" + shortName + ") ";
+        final String upgradeTendency = parTimeMs - clearTimeMs > 0 ? "▲" : "▼";
+        return "[" + mythicLevel + "] " + upgradeTendency + " " + dungeon + " (" + shortName + ") ";
     }
 }
