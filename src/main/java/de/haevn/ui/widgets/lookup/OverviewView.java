@@ -8,33 +8,53 @@ import de.haevn.ui.widgets.html.H2;
 import de.haevn.utils.MathUtils;
 import de.haevn.utils.ScoreUtils;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.FlowPane;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.GridPane;
 
 import java.util.List;
 import java.util.function.Predicate;
 
-public class OverviewView extends FlowPane {
-
+public class OverviewView extends ScrollPane {
     private final SimpleObjectProperty<Average> bestRuns = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Average> highestRuns = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Average> recentRuns = new SimpleObjectProperty<>();
     private final SimpleObjectProperty<Statistic> statistic = new SimpleObjectProperty<>();
 
     public OverviewView() {
+        setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
+        setPadding(new Insets(10));
+        setHbarPolicy(ScrollBarPolicy.AS_NEEDED);
+        setVbarPolicy(ScrollBarPolicy.NEVER);
+        GridPane root = new GridPane();
+        root.setStyle("-fx-background: transparent; -fx-background-color: transparent; ");
 
-        getChildren().addAll(createSummaryBox(bestRuns, "Best Runs"),
-                createSummaryBox(highestRuns, "Highest Runs"),
-                createSummaryBox(recentRuns, "Recent Runs"),
-                createStatisticBox(statistic));
+        root.add(createSummaryBox(bestRuns, "Best Runs"), 0, 0);
+        root.add(createSummaryBox(highestRuns, "Highest Runs"), 1, 0);
+        root.add(createSummaryBox(recentRuns, "Recent Runs"), 2, 0);
+        root.add(createStatisticBox(statistic), 3, 0);
+
+        root.setHgap(10);
+
+        setOnScroll(this::onScroll);
+
+        setContent(root);
+    }
+
+    private void onScroll(ScrollEvent event) {
+        if (event.getDeltaY() > 0) {
+            setHvalue(getHvalue() + 0.33);
+        } else {
+            setHvalue(getHvalue() - 0.33);
+        }
     }
 
     public void setPlayer(PlayerLookupModel player) {
         bestRuns.set(calculateAverage(player.getMythicPlusBestRuns()));
         highestRuns.set(calculateAverage(player.getMythicPlusHighestLevelRuns()));
         recentRuns.set(calculateAverage(player.getMythicPlusRecentRuns()));
-        // var scoreBySeason = calculateAverage(player.getMythicPlusScoresBySeason());
 
 
         double current = player.getMythicPlusScoresBySeason()
@@ -72,6 +92,8 @@ public class OverviewView extends FlowPane {
 
     private GridPane createSummaryBox(SimpleObjectProperty<Average> data, String title) {
         GridPane grid = new GridPane();
+        grid.setMinWidth(200);
+        grid.setMaxWidth(200);
         grid.setId("summary-box");
         grid.setHgap(10);
         grid.setVgap(10);
@@ -124,22 +146,32 @@ public class OverviewView extends FlowPane {
 
     private GridPane createStatisticBox(SimpleObjectProperty<Statistic> data) {
         GridPane grid = new GridPane();
+        grid.setMinWidth(200);
+        grid.setMaxWidth(200);
         grid.setId("summary-box");
         grid.setHgap(10);
         grid.setVgap(10);
         grid.add(new H2("Statistic"), 0, 0, 2, 1);
         grid.add(new Label("Current season"), 0, 1);
-        grid.add(new Label("Previous season"), 0, 2);
+        grid.add(new Label("Previous season"), 0, 3);
 
-        Label lblLevel = new Label();
-        lblLevel.textProperty().bind(data.map(value -> ScoreUtils.getInstance().getPercentileForScore(value.currentSeason(), Season.getCurrentSeasonKey())));
+        final Label lbCurrentScore = new Label();
+        lbCurrentScore.textProperty().bind(data.map(value -> String.valueOf(value.currentSeason())));
 
-        final Label lblClearTime = new Label();
-        lblClearTime.textProperty().bind(data.map(value -> ScoreUtils.getInstance().getPercentileForScore(value.previousSeason(), Season.getPreviousSeasonKey())));
+        final Label lblCurrentCutoff = new Label();
+        lblCurrentCutoff.textProperty().bind(data.map(value -> ScoreUtils.getInstance().getPercentileForScore(value.currentSeason(), Season.getCurrentSeasonKey())));
+
+        final Label lbPreviousScore = new Label();
+        lbPreviousScore.textProperty().bind(data.map(value -> String.valueOf(value.previousSeason())));
+
+        final Label lbPreviousCutoff = new Label();
+        lbPreviousCutoff.textProperty().bind(data.map(value -> ScoreUtils.getInstance().getPercentileForScore(value.previousSeason(), Season.getPreviousSeasonKey())));
 
 
-        grid.add(lblLevel, 1, 1);
-        grid.add(lblClearTime, 1, 2);
+        grid.add(lbCurrentScore, 1, 1);
+        grid.add(lblCurrentCutoff, 1, 2);
+        grid.add(lbPreviousScore, 1, 3);
+        grid.add(lbPreviousCutoff, 1, 4);
         return grid;
     }
 

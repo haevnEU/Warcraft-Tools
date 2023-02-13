@@ -13,20 +13,23 @@ import java.util.concurrent.CompletableFuture;
 
 public final class Network {
     private static final PropertyHandler propertyHandler = PropertyHandler.getInstance("config");
-    private Network() {}
+
+    private Network() {
+    }
 
 
     public static HttpResponse<String> download(String url) throws NetworkException {
-        try{
-            HttpRequest request = HttpRequest.newBuilder()
+        try {
+            final HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(url))
                     .GET()
                     .timeout(java.time.Duration.ofSeconds(propertyHandler.getLong("network.timeout")))
                     .build();
             return HttpClient.newBuilder()
+                    .followRedirects(HttpClient.Redirect.NORMAL)
                     .build()
                     .send(request, HttpResponse.BodyHandlers.ofString());
-        }catch (URISyntaxException | IOException ex){
+        } catch (URISyntaxException | IOException ex) {
             throw new NetworkException(ex);
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -35,7 +38,7 @@ public final class Network {
     }
 
     public static CompletableFuture<Optional<HttpResponse<String>>> downloadAsync(String url) {
-        return CompletableFuture.supplyAsync(()->{
+        return CompletableFuture.supplyAsync(() -> {
             try {
                 return Optional.of(download(url));
             } catch (NetworkException e) {

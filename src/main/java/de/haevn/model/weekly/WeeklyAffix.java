@@ -8,15 +8,23 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WeeklyAffix {
+public final class WeeklyAffix {
     private static final WeeklyAffix INSTANCE = new WeeklyAffix();
 
     public static WeeklyAffix getInstance() {
         return INSTANCE;
     }
 
+    public static String convertToString(WeeklyAffix affix) {
+        return convertToString(affix.getCurrentAffix().get());
+    }
+
+    public static String convertToString(List<Affix> affixes) {
+        return String.join(", ", affixes.stream().map(Affix::getName).toArray(String[]::new));
+    }
 
     public String getCurrentAffixAsString() {
+        if (getCurrentAffix().get() == null) return "Cannot load affixes";
         return String.join(", ", getCurrentAffix().get().stream().map(Affix::getName).toArray(String[]::new));
     }
 
@@ -32,8 +40,7 @@ public class WeeklyAffix {
         List<Affix> nextWeekRotation = new ArrayList<>();
         GitHubApi.getInstance().getAffixRotation().get().forEach((s, affixes) -> {
             var t2 = getCurrentAffix().get();
-            var t1 = affixes;
-            if (ListOperation.isContentEqual(t1,  t2, Affix.COMPARE)) {
+            if (ListOperation.isContentEqual(affixes, t2, Affix.COMPARE)) {
                 int id = (Integer.parseInt(s) + 1) % 10;
                 nextWeekRotation.clear();
                 var t = GitHubApi.getInstance().getAffixRotation().get().get(String.valueOf(id));
@@ -44,12 +51,13 @@ public class WeeklyAffix {
         return nextWeekRotation;
     }
 
-    public static String convertToString(WeeklyAffix affix){
-        return convertToString(affix.getCurrentAffix().get());
+    public static boolean isFortified(){
+        return getInstance().getCurrentAffix().get().stream().anyMatch(affix -> affix.getId().equalsIgnoreCase("10"));
     }
 
-    public static String convertToString(List<Affix> affixes) {
-        return String.join(", ", affixes.stream().map(Affix::getName).toArray(String[]::new));
+    public static boolean isTyrannical(){
+        return !isFortified();
     }
+
 
 }

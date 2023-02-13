@@ -3,7 +3,7 @@ package de.haevn.model.seasonal;
 import lombok.Data;
 
 @Data
-public class Faction {
+public final class Faction {
     private double quantile;
     private double quantileMinValue;
     private int quantilePopulationCount;

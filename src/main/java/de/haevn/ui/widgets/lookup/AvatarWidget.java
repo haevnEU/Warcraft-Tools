@@ -4,6 +4,8 @@ import de.haevn.model.lookup.PlayerLookupModel;
 import de.haevn.ui.widgets.html.AH1;
 import de.haevn.ui.widgets.html.H4;
 import de.haevn.ui.widgets.html.VDIV;
+import de.haevn.utils.MathUtils;
+import de.haevn.utils.ScoreUtils;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -21,10 +23,12 @@ public class AvatarWidget extends HBox {
 
 
     public void setPlayer(PlayerLookupModel player) {
+        String score = MathUtils.numberToRoundText(ScoreUtils.getInstance().getScoreForCurrentSeason(player));
         imageView.setImage(new Image(player.getThumbnailUrl()));
-        lbName.setText(player.getName() + "-" + player.getRealm());
+        lbName.setText(player.getName() + "-" + player.getRealm() + " (" + score + ")");
         lbName.setLink(player.getProfileUrl());
         lbClassInfo.setText(player.getActiveSpecName() + " " + player.getCharacterClass());
         lbFactionInfo.setText(player.getRace() + " " + player.getFaction());
+
     }
 }

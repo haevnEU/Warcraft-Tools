@@ -7,10 +7,10 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class RaidProgression {
+public final class RaidProgression {
 
     @JsonAlias("vault-of-the-incarnates")
-    Raid vaultOfTheIncarnates;
+    private Raid vaultOfTheIncarnates;
 
     @JsonIgnore
     public List<Raid> toList() {

@@ -3,13 +3,13 @@ package de.haevn.ui.views;
 import de.haevn.abstraction.IView;
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
-import de.haevn.enumeration.RegionEnum;
+import de.haevn.enumeration.Theme;
 import de.haevn.ui.utils.Creator;
 import de.haevn.ui.widgets.RefreshButton;
 import de.haevn.ui.widgets.html.A;
 import de.haevn.ui.widgets.html.H1;
 import de.haevn.ui.widgets.html.H3;
-import de.haevn.utils.PropertyHandler;
+import de.haevn.utils.ThemeHandler;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
@@ -115,14 +115,10 @@ public class SettingsView extends BorderPane implements IView {
         pane.setHgap(10);
         pane.setVgap(5);
 
-        pane.add(new Label("Region"), 0, 0);
-        final ComboBox<RegionEnum> cbRegion = new ComboBox<>(FXCollections.observableArrayList(RegionEnum.EU, RegionEnum.US));
+        pane.add(new Label("Style"), 0, 0);
+        final ComboBox<String> cbRegion = new ComboBox<>(FXCollections.observableArrayList(ThemeHandler.getInstance().getThemes()));
+        cbRegion.valueProperty().bindBidirectional(ThemeHandler.getInstance().getCurrentTheme());
 
-        cbRegion.valueProperty().addListener((observable, oldValue, newValue) -> {
-            PropertyHandler.getInstance("config").set("app.region", newValue.toString());
-            RaiderIOApi.getInstance().update();
-        });
-        cbRegion.getSelectionModel().select(RegionEnum.EU);
         pane.add(cbRegion, 1, 0);
 
         pane.add(new Label("RaiderIO"), 0, 1);

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 @Data
-public class CountryRealm {
+public final class CountryRealm {
     private List<String> germany = new ArrayList<>();
     private List<String> england = new ArrayList<>();
     private List<String> spain = new ArrayList<>();
@@ -39,7 +39,7 @@ public class CountryRealm {
         };
     }
 
-    public String getCountry(String realm){
+    public String getCountry(String realm) {
         Predicate<String> realmPredicate = r -> r.equalsIgnoreCase(realm);
         String result = "NONE";
         result = germany.stream().anyMatch(realmPredicate) ? "DE" : result;

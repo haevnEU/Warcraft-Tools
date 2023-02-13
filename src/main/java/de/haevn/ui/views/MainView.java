@@ -2,6 +2,7 @@ package de.haevn.ui.views;
 
 import de.haevn.abstraction.IView;
 import de.haevn.controller.CurrentWeekController;
+import de.haevn.controller.DungeonController;
 import de.haevn.controller.PlayerSearchController;
 import de.haevn.ui.widgets.ButtonBar;
 
@@ -17,18 +18,25 @@ public class MainView extends BorderPane implements IView {
     private final PlayerSearchController lookupController = new PlayerSearchController();
     private final PremadeGroupFilterView premadeGroupFilterView = new PremadeGroupFilterView();
 
+    private final DungeonView dungeonView = new DungeonView();
+    private final DungeonController dungeonController = new DungeonController();
+
+
     private final SettingsView settingsView = new SettingsView();
 
     public MainView() {
         ButtonBar buttonBox = new ButtonBar(Orientation.VERTICAL);
         buttonBox.add(createButton("Current Week", e -> setCenter(currentWeekView)));
         buttonBox.add(createButton("Search player", e -> setCenter(playerSearchView)));
+        buttonBox.add(createButton("Dungeon Enemies", e -> setCenter(dungeonView)));
+
         buttonBox.add(createButton("Premade Group Filter", e -> setCenter(premadeGroupFilterView)));
         buttonBox.add(createButton("Settings", e -> setCenter(settingsView)));
 
         setLeft(buttonBox.getPane());
 
         lookupController.link(playerSearchView, null);
+        dungeonController.link(dungeonView, null);
         new CurrentWeekController(currentWeekView);
     }
 }

@@ -1,18 +1,28 @@
 package de.haevn.utils;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.google.common.flogger.FluentLogger;
+import de.haevn.debug.ExceptionWidget;
+import de.haevn.ui.widgets.ErrorWidget;
+import javafx.scene.control.Alert;
+
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-public class PropertyHandler {
+public final class PropertyHandler {
+    private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
     private static final String EXTENSION = ".property";
-    private static final Logger LOGGER = new Logger(PropertyHandler.class);
     private static final Map<String, PropertyHandler> STRING_PROPERTY_HANDLER_HASH_MAP = new HashMap<>();
+    private final Properties properties;
+    private final String name;
+
+    private PropertyHandler(String propertyName) {
+        properties = new Properties();
+        this.name = propertyName;
+        load();
+    }
 
     public static PropertyHandler getInstance(String name) {
         if (STRING_PROPERTY_HANDLER_HASH_MAP.containsKey(name.toUpperCase())) {
@@ -32,33 +42,20 @@ public class PropertyHandler {
         STRING_PROPERTY_HANDLER_HASH_MAP.values().forEach(PropertyHandler::reload);
     }
 
-    private final Properties properties;
-    private final boolean debug;
-    private final String name;
-
-    private PropertyHandler(String propertyName) {
-        properties = new Properties();
-        debug = Boolean.parseBoolean(System.getenv().getOrDefault("DEBUG", "false"));
-        this.name = propertyName;
-
-
-        load();
-    }
-
     public void reload() {
         load();
     }
 
     public void load() {
 
-        String property = (debug ? "debug" : "production") + "/" + name;
+        String property = "production" + "/" + name;
         if (!property.endsWith(EXTENSION)) {
             property += EXTENSION;
         }
-        try (InputStream inputStream = getClass().getClassLoader().getResourceAsStream(property)) {
+        try (InputStream inputStream = new FileInputStream(FileIO.getRootPath() + property)) {
             properties.load(inputStream);
         } catch (IOException e) {
-            LOGGER.fatal("Could not load property file: " + property, e);
+            LOGGER.atSevere().withCause(e).log("Could not load property file: %s", property);
         }
     }
 
@@ -79,21 +76,17 @@ public class PropertyHandler {
     }
 
 
-    public boolean isDebug() {
-        return debug;
-    }
-
     public List<String> getAllProperties() {
         return properties.keySet().stream().map(Object::toString).toList();
     }
 
     public void set(String k, String value) {
         properties.setProperty(k, value);
-        String root = "src/main/resources/";
-        try (OutputStream os = new FileOutputStream(root + (debug ? "debug" : "production") + "/" + name + EXTENSION)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPath() + "production" + "/" + name + EXTENSION)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
-            e.printStackTrace();
+            ExceptionWidget.show(e);
+            LOGGER.atSevere().withCause(e).log("Could not save property file: %s", name);
         }
     }
 }

@@ -1,6 +1,6 @@
 package de.haevn.debug;
 
-import de.haevn.Launcher;
+import de.haevn.Main;
 import de.haevn.ui.utils.Creator;
 import de.haevn.ui.widgets.html.A;
 import de.haevn.ui.widgets.html.H1;
@@ -47,7 +47,7 @@ public class ExceptionWidget extends AbstractMessageWindow {
         final Button btCopy = Creator.createButton("Copy content", event -> copy());
         final Button btOpen = Creator.createButton("Open BugReport", event -> {
             copy();
-            Launcher.openWebsite("https://github.com/nimile/WarcraftTools/issues/new?template=crash-report.md");
+            Main.openWebsite("https://github.com/nimile/WarcraftTools/issues/new?template=crash-report.md");
         });
 
         root.setTop(top);

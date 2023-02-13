@@ -6,7 +6,7 @@ import lombok.Data;
 import java.util.Date;
 
 @Data
-public class SeasonCutoff {
+public final class SeasonCutoff {
     private String seasonKey;
     private Date updatedAt;
     // 0.1%

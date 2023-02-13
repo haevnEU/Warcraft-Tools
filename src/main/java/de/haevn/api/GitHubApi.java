@@ -2,19 +2,19 @@ package de.haevn.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.flogger.FluentLogger;
 import de.haevn.exceptions.NetworkException;
 import de.haevn.model.CountryRealm;
 import de.haevn.model.rating.MythicPlusScoreMapping;
 import de.haevn.model.rating.RatingDefinition;
 import de.haevn.model.weekly.Affix;
-import de.haevn.utils.ExceptionUtils;
 import de.haevn.utils.JsonAndStringUtils;
-import de.haevn.utils.Logger;
 import de.haevn.utils.Network;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
+import java.net.http.HttpResponse;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -22,14 +22,12 @@ import java.util.function.Consumer;
 
 public final class GitHubApi extends AbstractApi {
 
-    public static final String STYLESHEET_KEY = "git.url.stylesheet";
     private static final String SEASONAL_KEY = "git.url.seasonal";
     private static final String DEFINITION_KEY = "git.url.definition";
     private static final String SCORE_MAP_KEY = "git.url.scoreMap";
     private static final String AFFIX_COMBO_KEY = "git.url.affixCombo";
     private static final String REALM_KEY = "git.url.realm";
-
-    private static final Logger LOGGER = new Logger(GitHubApi.class);
+    private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
     private static final GitHubApi instance = new GitHubApi();
     private final SimpleLongProperty lastUpdate = new SimpleLongProperty(0);
     private final SimpleObjectProperty<Date> lastUpdateDate = new SimpleObjectProperty<>();
@@ -40,7 +38,7 @@ public final class GitHubApi extends AbstractApi {
     private final SimpleObjectProperty<CountryRealm> countryRealms = new SimpleObjectProperty<>();
     private final Consumer<Integer> resultConsumer = result -> {
         if (result < 0) {
-            LOGGER.err("Failed to update " + result + " times.");
+            LOGGER.atWarning().log("Failed to update. Amount failed endpoints %s", result);
             lastUpdate.set(-1);
             lastUpdateDate.set(Date.from(Instant.EPOCH.minusSeconds(1)));
         }
@@ -55,6 +53,7 @@ public final class GitHubApi extends AbstractApi {
     }
 
     public void update() {
+        LOGGER.atFine().log("Updating GitHubApi.");
         if ((lastUpdate.get() + refreshDuration) < System.currentTimeMillis()) {
             lastUpdate.set(System.currentTimeMillis());
             lastUpdateDate.set(Date.from(Instant.now()));
@@ -63,6 +62,9 @@ public final class GitHubApi extends AbstractApi {
             fetchMythicPlusScoreMapping().thenAccept(resultConsumer);
             fetchAffixRotation().thenAccept(resultConsumer);
             fetchCountryRealms().thenAccept(resultConsumer);
+            LOGGER.atFine().log("GitHubApi updated.");
+        } else {
+            LOGGER.atFine().log("GitHubApi is already up to date.");
         }
     }
 
@@ -70,17 +72,26 @@ public final class GitHubApi extends AbstractApi {
 
         return CompletableFuture.supplyAsync(() -> {
             try {
-                var result = Network.download(super.urlHandler.get(SEASONAL_KEY));
+                final String url = urlHandler.get(SEASONAL_KEY);
+
+                LOGGER.atFine().log("Fetching seasonal dungeons from %s.", url);
+                final HttpResponse<String> result = Network.download(url);
+                LOGGER.atFine().log("Request result: %s %s bytes", result.statusCode(), result.body().length());
+
                 if (!Network.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
-                String json = result.body();
-                var temporaryMap = JsonAndStringUtils.parse(json, new TypeReference<Map<String, String>>() {
+
+                LOGGER.atFine().log("Parsing json string.");
+                final String json = result.body();
+                final Map<String, String> temporaryMap = JsonAndStringUtils.parse(json, new TypeReference<Map<String, String>>() {
                 });
+                LOGGER.atFine().log("Parsing done.");
+
                 dungeons.set(temporaryMap);
                 return 0;
             } catch (Exception ex) {
-                LOGGER.err(ExceptionUtils.getStackTrace(ex));
+                LOGGER.atWarning().withCause(ex).log("Failed to fetch seasonal dungeons.");
                 return -1;
             }
         });
@@ -89,16 +100,24 @@ public final class GitHubApi extends AbstractApi {
     private CompletableFuture<Integer> fetchRatingDefinition() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                var result = Network.download(super.urlHandler.get(DEFINITION_KEY));
+                final String url = urlHandler.get(DEFINITION_KEY);
+
+                LOGGER.atFine().log("Fetching rating definition from %s.", url);
+                final HttpResponse<String> result = Network.download(url);
+                LOGGER.atFine().log("Request result: %s %s bytes", result.statusCode(), result.body().length());
                 if (!Network.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
-                String json = result.body();
-                var suggestion = JsonAndStringUtils.parse(json, RatingDefinition.class);
+
+                LOGGER.atFine().log("Parsing json string.");
+                final String json = result.body();
+                final RatingDefinition suggestion = JsonAndStringUtils.parse(json, RatingDefinition.class);
+                LOGGER.atFine().log("Parsing done.");
+
                 ratingDefinition.set(suggestion);
                 return 0;
             } catch (Exception ex) {
-                LOGGER.err(ExceptionUtils.getStackTrace(ex));
+                LOGGER.atWarning().withCause(ex).log("Failed to fetch rating definition.");
                 return -1;
             }
         });
@@ -107,16 +126,25 @@ public final class GitHubApi extends AbstractApi {
     private CompletableFuture<Integer> fetchMythicPlusScoreMapping() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                var result = Network.download(super.urlHandler.get(SCORE_MAP_KEY));
+                final String url = urlHandler.get(SCORE_MAP_KEY);
+
+                LOGGER.atFine().log("Fetching score mapping from %s.", url);
+                final HttpResponse<String> result = Network.download(url);
+                LOGGER.atFine().log("Request result: %s %s bytes", result.statusCode(), result.body().length());
+
                 if (!Network.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
-                String json = result.body();
-                MythicPlusScoreMapping mapping = JsonAndStringUtils.parse(json, MythicPlusScoreMapping.class);
+
+                LOGGER.atFine().log("Parsing json string.");
+                final String json = result.body();
+                final MythicPlusScoreMapping mapping = JsonAndStringUtils.parse(json, MythicPlusScoreMapping.class);
+                LOGGER.atFine().log("Parsing done.");
+
                 mythicPlusScoreMappingProperty.set(mapping);
                 return 0;
             } catch (Exception ex) {
-                LOGGER.err(ExceptionUtils.getStackTrace(ex));
+                LOGGER.atWarning().withCause(ex).log("Failed to fetch score mapping.");
                 return -1;
             }
         });
@@ -125,26 +153,36 @@ public final class GitHubApi extends AbstractApi {
     private CompletableFuture<Integer> fetchAffixRotation() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                var result = Network.download(super.urlHandler.get(AFFIX_COMBO_KEY));
+                final String url = urlHandler.get(AFFIX_COMBO_KEY);
+
+                LOGGER.atFine().log("Fetching affix rotation from %s.", url);
+                final HttpResponse<String> result = Network.download(url);
+                LOGGER.atFine().log("Request result: %s %s bytes", result.statusCode(), result.body().length());
+
                 if (!Network.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
-                String json = result.body();
-                Map<String, List<Affix>> rotation = new HashMap<>();
-                var rootNode = JsonAndStringUtils.parse(json, JsonNode.class);
-                JsonNode node = rootNode.get("affix_combos");
+
+                LOGGER.atFine().log("Parsing json string.");
+                final String json = result.body();
+                final Map<String, List<Affix>> rotation = new HashMap<>();
+                final JsonNode rootNode = JsonAndStringUtils.parse(json, JsonNode.class);
+                final JsonNode node = rootNode.get("affix_combos");
+                LOGGER.atFine().log("Create affix rotation.");
                 node.forEach(jsonNode -> {
-                    List<Affix> affixList = new ArrayList<>();
+                    final List<Affix> affixList = new ArrayList<>();
                     JsonAndStringUtils.parseSecure(jsonNode.get("first").toString(), Affix.class).ifPresent(affixList::add);
                     JsonAndStringUtils.parseSecure(jsonNode.get("second").toString(), Affix.class).ifPresent(affixList::add);
                     JsonAndStringUtils.parseSecure(jsonNode.get("third").toString(), Affix.class).ifPresent(affixList::add);
                     JsonAndStringUtils.parseSecure(jsonNode.get("fourth").toString(), Affix.class).ifPresent(affixList::add);
                     rotation.put(jsonNode.get("id").toString(), affixList);
                 });
+                LOGGER.atFine().log("Parsing done.");
+
                 affixRotation.set(rotation);
                 return 0;
             } catch (Exception ex) {
-                LOGGER.err(ExceptionUtils.getStackTrace(ex));
+                LOGGER.atWarning().withCause(ex).log("Failed to fetch affix rotation.");
                 return -1;
             }
         });
@@ -153,16 +191,25 @@ public final class GitHubApi extends AbstractApi {
     private CompletableFuture<Integer> fetchCountryRealms() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                var result = Network.download(super.urlHandler.get(REALM_KEY));
+                final String url = urlHandler.get(REALM_KEY);
+
+                LOGGER.atFine().log("Fetching country realms from %s.", url);
+                final HttpResponse<String> result = Network.download(url);
+                LOGGER.atFine().log("Request result: %s %s bytes", result.statusCode(), result.body().length());
+
                 if (!Network.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
-                String json = result.body();
-                var countryRealm = JsonAndStringUtils.parse(json, CountryRealm.class);
+
+                LOGGER.atFine().log("Parsing json string.");
+                final String json = result.body();
+                final CountryRealm countryRealm = JsonAndStringUtils.parse(json, CountryRealm.class);
+                LOGGER.atFine().log("Parsing done.");
+
                 countryRealms.set(countryRealm);
                 return 0;
             } catch (Exception ex) {
-                LOGGER.err(ExceptionUtils.getStackTrace(ex));
+                LOGGER.atWarning().withCause(ex).log("Failed to fetch country realms.");
                 return -1;
             }
         });
@@ -197,7 +244,4 @@ public final class GitHubApi extends AbstractApi {
         return lastUpdateDate;
     }
 
-    public String getStylesheetUrl() {
-        return super.urlHandler.get(STYLESHEET_KEY);
-    }
 }
