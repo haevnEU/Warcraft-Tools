@@ -2,7 +2,7 @@ package de.haevn.utils;
 
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
-import de.haevn.debug.MessageWidget;
+import de.haevn.ui.windows.MessageWidget;
 import de.haevn.enumeration.Addon;
 import de.haevn.enumeration.Season;
 import de.haevn.model.lookup.MythicPlusScore;

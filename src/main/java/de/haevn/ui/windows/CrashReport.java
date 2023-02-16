@@ -1,4 +1,4 @@
-package de.haevn.debug;
+package de.haevn.ui.windows;
 
 import de.haevn.Main;
 import de.haevn.ui.utils.Creator;
@@ -8,6 +8,7 @@ import de.haevn.ui.elements.html.H2;
 import de.haevn.utils.ExceptionUtils;
 import de.haevn.utils.JsonAndStringUtils;
 import de.haevn.utils.PropertyHandler;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -21,7 +22,7 @@ import lombok.Data;
 import java.time.Instant;
 import java.util.Date;
 
-public class ExceptionWidget extends AbstractMessageWindow {
+public class CrashReport extends AbstractWindow {
     private final ExceptionJson json = new ExceptionJson();
     private final BorderPane root = new BorderPane();
     private final TextArea stacktrace = new TextArea();
@@ -30,7 +31,7 @@ public class ExceptionWidget extends AbstractMessageWindow {
     private final Button btClose = new Button("Close");
     private final HBox bottom = new HBox();
 
-    private ExceptionWidget(Throwable throwable) {
+    private CrashReport(Throwable throwable) {
         stacktrace.setEditable(false);
         stacktrace.setMaxHeight(Double.MAX_VALUE);
         lbMessage.setMaxWidth(Double.MAX_VALUE);
@@ -41,13 +42,13 @@ public class ExceptionWidget extends AbstractMessageWindow {
         top.getChildren().addAll(
                 new H1("FATAL EXCEPTION"),
                 new Label("An exception occurred.\nPlease open a new BugReport and append the following information."),
-                new A("Press here to start a bug report", "https://github.com/nimile/WarcraftTools/issues/new?template=crash-report.md")
+                new A("Press here to start a bug report", "https://github.com/nimile/Warcraft-Tools/issues/new?template=crash-report.md")
         );
 
         final Button btCopy = Creator.createButton("Copy content", event -> copy());
         final Button btOpen = Creator.createButton("Open BugReport", event -> {
             copy();
-            Main.openWebsite("https://github.com/nimile/WarcraftTools/issues/new?template=crash-report.md");
+            Main.openWebsite("https://github.com/nimile/Warcraft-Tools/issues/new?template=crash-report.md");
         });
 
         root.setTop(top);
@@ -90,9 +91,9 @@ public class ExceptionWidget extends AbstractMessageWindow {
     }
 
     public static void show(Throwable throwable) {
-        ExceptionWidget widget = new ExceptionWidget(throwable);
-        widget.setOnClose(event -> widget.close());
-        widget.show();
+        CrashReport widget = new CrashReport(throwable);
+        widget.showAndWait();
+        Platform.exit();
     }
 
 

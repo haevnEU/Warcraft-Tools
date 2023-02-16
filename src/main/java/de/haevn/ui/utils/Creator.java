@@ -15,9 +15,17 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Creator {
     private Creator(){}
 
-    public static Button createButton(String title, EventHandler<ActionEvent> event){
+    public static Button createButton(String title, EventHandler<ActionEvent> event) {
+        return createButton(title, 0, event);
+    }
+        public static Button createButton(String title, double width, EventHandler<ActionEvent> event){
         Button button = new Button(title);
         button.setOnAction(event);
+        if(width > 0){
+            button.setPrefWidth(width);
+            button.setMaxWidth(width);
+            button.setMinWidth(width);
+        }
         return button;
     }
 

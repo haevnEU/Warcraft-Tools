@@ -5,6 +5,7 @@ import de.haevn.ui.elements.ButtonBar;
 import de.haevn.ui.widgets.currentweek.CurrentWeekWidget;
 import de.haevn.ui.widgets.dungeon.DungeonWidget;
 import de.haevn.ui.widgets.pgf.PremadeGroupFilterWidget;
+import de.haevn.ui.widgets.resources.ResourcesWidget;
 import de.haevn.ui.widgets.search.PlayerSearchWidget;
 import de.haevn.ui.widgets.settings.SettingsWidget;
 import javafx.geometry.Orientation;
@@ -17,9 +18,8 @@ public class MainView extends BorderPane implements IView {
     private final CurrentWeekWidget currentWeekWidget = new CurrentWeekWidget();
     private final PlayerSearchWidget playerSearchView = new PlayerSearchWidget();
     private final PremadeGroupFilterWidget premadeGroupFilterView = new PremadeGroupFilterWidget();
-
     private final DungeonWidget dungeonWidget = new DungeonWidget();
-
+    private final ResourcesWidget resourcesWidget = new ResourcesWidget();
 
     private final SettingsWidget settingsView = new SettingsWidget();
 
@@ -30,6 +30,7 @@ public class MainView extends BorderPane implements IView {
         buttonBox.add(createButton("Dungeon Enemies", e -> setCenter(dungeonWidget.getView())));
 
         buttonBox.add(createButton("Premade Group Filter", e -> setCenter(premadeGroupFilterView.getView())));
+        buttonBox.add(createButton("Resources", e -> setCenter(resourcesWidget.getView())));
         buttonBox.add(createButton("Settings", e -> setCenter(settingsView.getView())));
 
         setLeft(buttonBox.getPane());

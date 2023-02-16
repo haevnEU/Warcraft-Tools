@@ -1,4 +1,4 @@
-package de.haevn.debug;
+package de.haevn.ui.windows;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.TextArea;
@@ -8,7 +8,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.paint.Paint;
 
-public class MessageWidget extends AbstractMessageWindow {
+public class MessageWidget extends AbstractWindow {
     public static final MessageWidget INSTANCE = new MessageWidget("");
     private final TextArea stacktrace = new TextArea();
 

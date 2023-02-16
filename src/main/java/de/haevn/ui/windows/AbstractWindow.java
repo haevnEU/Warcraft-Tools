@@ -1,11 +1,11 @@
-package de.haevn.debug;
+package de.haevn.ui.windows;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-public abstract class AbstractMessageWindow {
+public abstract class AbstractWindow {
     private final Stage stage = new Stage();
 
     protected void initialize(Pane root) {
@@ -13,7 +13,6 @@ public abstract class AbstractMessageWindow {
     }
 
     protected void initialize(Pane root, double width, double height) {
-
         Scene scene = new Scene(root, width, height);
         stage.setResizable(false);
         stage.setScene(scene);
@@ -32,14 +31,6 @@ public abstract class AbstractMessageWindow {
 
     public void hide() {
         stage.hide();
-    }
-
-    public void toggle() {
-        if (isShowing()) {
-            hide();
-        } else {
-            show();
-        }
     }
 
     public void close() {

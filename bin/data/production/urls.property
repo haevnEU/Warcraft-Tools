@@ -13,3 +13,9 @@ rio.query.character=gear,talents,raid_progression,mythic_plus_recent_runs,mythic
 rio.query.character.seasons=mythic_plus_scores_by_season:season-df-1:season-sl-4:season-sl-3
 
 discord.webhook.url=
+
+resources.rio=https://raider.io/
+resources.mythicplus=https://mythicpl.us
+resources.keystone_heroes=https://keystone-heroes.com
+resources.questionablyepic=https://questionablyepic.com
+resources.mythicplus_subcreation=https://mplus.subcreation.net

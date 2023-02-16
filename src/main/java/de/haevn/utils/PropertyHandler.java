@@ -1,7 +1,7 @@
 package de.haevn.utils;
 
 import com.google.common.flogger.FluentLogger;
-import de.haevn.debug.ExceptionWidget;
+import de.haevn.ui.windows.CrashReport;
 
 import java.io.*;
 import java.util.HashMap;
@@ -83,7 +83,7 @@ public final class PropertyHandler {
         try (OutputStream os = new FileOutputStream(FileIO.getRootPath() + "production" + "/" + name + EXTENSION)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
-            ExceptionWidget.show(e);
+            CrashReport.show(e);
             LOGGER.atSevere().withCause(e).log("Could not save property file: %s", name);
         }
     }

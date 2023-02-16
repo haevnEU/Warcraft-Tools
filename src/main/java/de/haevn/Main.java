@@ -4,6 +4,7 @@ import com.google.common.flogger.FluentLogger;
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
 import de.haevn.ui.widgets.MainView;
+import de.haevn.ui.windows.CrashReport;
 import de.haevn.utils.FileIO;
 import de.haevn.utils.PropertyHandler;
 import de.haevn.utils.ThemeHandler;
