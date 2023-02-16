@@ -37,7 +37,7 @@ public final class FileIO {
 
     public static String getRootPath(){
         if(SystemUtils.IS_OS_WINDOWS){
-            return "./app/data/";
+            return "./bin/data/";
         }else if(SystemUtils.IS_OS_MAC){
             return "../app/data/";
         }

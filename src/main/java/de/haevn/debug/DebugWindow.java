@@ -3,7 +3,7 @@ package de.haevn.debug;
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
 import de.haevn.ui.utils.Creator;
-import de.haevn.ui.widgets.ReadOnlyTextField;
+import de.haevn.ui.elements.ReadOnlyTextField;
 import de.haevn.utils.PropertyHandler;
 import de.haevn.utils.ThemeHandler;
 import javafx.application.Platform;

@@ -2,8 +2,6 @@ package de.haevn.utils;
 
 import com.google.common.flogger.FluentLogger;
 import de.haevn.debug.ExceptionWidget;
-import de.haevn.ui.widgets.ErrorWidget;
-import javafx.scene.control.Alert;
 
 import java.io.*;
 import java.util.HashMap;

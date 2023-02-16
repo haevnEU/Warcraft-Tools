@@ -2,9 +2,9 @@ package de.haevn.debug;
 
 import de.haevn.Main;
 import de.haevn.ui.utils.Creator;
-import de.haevn.ui.widgets.html.A;
-import de.haevn.ui.widgets.html.H1;
-import de.haevn.ui.widgets.html.H2;
+import de.haevn.ui.elements.html.A;
+import de.haevn.ui.elements.html.H1;
+import de.haevn.ui.elements.html.H2;
 import de.haevn.utils.ExceptionUtils;
 import de.haevn.utils.JsonAndStringUtils;
 import de.haevn.utils.PropertyHandler;
