@@ -3,11 +3,12 @@ package de.haevn.ui.widgets.settings;
 import de.haevn.abstraction.IView;
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
-import de.haevn.ui.utils.Creator;
 import de.haevn.ui.elements.RefreshButton;
 import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.elements.html.H3;
+import de.haevn.ui.utils.Creator;
+import de.haevn.utils.PropertyHandler;
 import de.haevn.utils.ThemeHandler;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -69,6 +70,11 @@ class SettingsView extends BorderPane implements IView {
     }
 
     private GridPane createHelp() {
+        final String repositoryUrl = PropertyHandler.getInstance("urls").get("settings.repo");
+        final String issueUrl = PropertyHandler.getInstance("urls").get("settings.support.issue");
+        final String featureUrl = PropertyHandler.getInstance("urls").get("settings.support.feature");
+        final String crashUrl = PropertyHandler.getInstance("urls").get("settings.support.crash");
+
         GridPane pane = new GridPane();
         pane.setHgap(10);
         pane.setVgap(5);
@@ -76,10 +82,10 @@ class SettingsView extends BorderPane implements IView {
 
         pane.add(new H3("Support"), 0, 0, 2, 1);
 
-        pane.add(new A("Repository", "https://github.com/nimile/WarcraftTools"), 0, 1, 2, 1);
+        pane.add(new A("Repository", repositoryUrl), 0, 1, 2, 1);
 
-        pane.add(new A("BugReport", "https://github.com/nimile/WarcraftTools/issues/new?template=bug_report.md"), 0, 2, 2, 1);
-        pane.add(new A("Feature Request", "https://github.com/nimile/WarcraftTools/issues/new?template=feature_request.md"), 0, 3, 2, 1);
+        pane.add(new A("BugReport", issueUrl), 0, 2, 2, 1);
+        pane.add(new A("Feature Request", featureUrl), 0, 3, 2, 1);
 
 
         pane.add(new H3("Author"), 0, 4);
@@ -101,11 +107,13 @@ class SettingsView extends BorderPane implements IView {
     }
 
     private VBox createDataSources() {
-        VBox pane = new VBox();
+        final String pgfRepositoryUrl = "https://github.com/0xbs/premade-groups-filter/wiki/Keywords";
+        final String raiderIOUrl = "https://raider.io/";
+        final VBox pane = new VBox();
         pane.setSpacing(10);
         pane.getChildren().add(new Label("The following datasource were used."));
-        pane.getChildren().add(new A("Premade Group Filter Keywords", "https://github.com/0xbs/premade-groups-filter/wiki/Keywords"));
-        pane.getChildren().add(new A("raider.io", "https://raider.io/"));
+        pane.getChildren().add(new A("Premade Group Filter Keywords", pgfRepositoryUrl));
+        pane.getChildren().add(new A("raider.io", raiderIOUrl));
         return pane;
     }
 

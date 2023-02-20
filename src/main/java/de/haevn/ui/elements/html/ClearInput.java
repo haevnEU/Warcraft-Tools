@@ -18,6 +18,7 @@ public class ClearInput extends GridPane {
 
     private final TextField textField = new TextField();
     private final Button btClear = new Button("Clear");
+    private final Button btCopy = new Button("Copy");
 
     public ClearInput() {
         this("");
@@ -34,16 +35,23 @@ public class ClearInput extends GridPane {
 
         addOnClearClicked(event -> textField.setText(""));
         btClear.setOnAction(event -> onActionEventHandler.forEach(actionEventEventHandler -> actionEventEventHandler.handle(event)));
-
+        btCopy.setOnAction(event -> {
+            textField.selectAll();
+            textField.copy();
+        });
         add(textField, 0, 0);
         add(btClear, 1, 0);
+        add(btCopy, 2, 0);
 
         setHgap(10);
         ColumnConstraints col1 = new ColumnConstraints();
         ColumnConstraints col2 = new ColumnConstraints();
+        ColumnConstraints col3 = new ColumnConstraints();
+
         col1.setPercentWidth(90);
-        col2.setPercentWidth(10);
-        getColumnConstraints().addAll(col1, col2);
+        col2.setPercentWidth(7);
+        col3.setPercentWidth(7);
+        getColumnConstraints().addAll(col1, col2, col3);
     }
 
     public void addOnClearClicked(EventHandler<ActionEvent> event) {

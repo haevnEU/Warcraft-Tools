@@ -130,7 +130,7 @@ public final class GitHubApi extends AbstractApi {
 
                 LOGGER.atFine().log("Fetching score mapping from %s.", url);
                 final HttpResponse<String> result = Network.download(url);
-                LOGGER.atFine().log("Request result: %s %s bytes", result.statusCode(), result.body().length());
+                LOGGER.atFine().log("Request result:  %s %s bytes", result.statusCode(), result.body().length());
 
                 if (!Network.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
