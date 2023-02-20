@@ -68,7 +68,13 @@ public class OverviewView extends ScrollPane {
                 .findFirst()
                 .orElseGet(MythicPlusScore::new)
                 .getAll();
-        statistic.set(new Statistic(current, prev));
+
+        double prevPrev = player.getMythicPlusScoresBySeason()
+                .stream().filter(getFilter(Season.getPreviousPreviousSeasonKey()))
+                .findFirst()
+                .orElseGet(MythicPlusScore::new)
+                .getAll();
+        statistic.set(new Statistic(current, prev, prevPrev));
 
     }
 
@@ -77,21 +83,21 @@ public class OverviewView extends ScrollPane {
     }
 
     private Average calculateAverage(List<MythicPlusDungeon> dungeons) {
-        double level = dungeons.stream().mapToDouble(MythicPlusDungeon::getMythicLevel).average().orElse(0);
-        double upgrade = dungeons.stream().mapToDouble(MythicPlusDungeon::getNumKeystoneUpgrades).average().orElse(0);
-        double clearTime = dungeons.stream().mapToDouble(MythicPlusDungeon::getClearTimeMs).average().orElse(0);
-        double averageTimeRemain = dungeons.stream().mapToDouble(value -> value.getParTimeMs() - value.getClearTimeMs()).average().orElse(0);
-        double amountFortified = dungeons.stream().filter(MythicPlusDungeon::isFortified).count();
-        double amountTyrannical = dungeons.stream().filter(MythicPlusDungeon::isTyrannical).count();
-        double timed = dungeons.stream().filter(dungeon -> dungeon.getNumKeystoneUpgrades() > 0).count();
-        double depleates = dungeons.size() - timed;
-        String tendency = dungeons.stream().mapToDouble(MythicPlusDungeon::getNumKeystoneUpgrades).average().orElse(0) > 1 ? "Timed ▲" : "Untimed ▼";
+        final double level = dungeons.stream().mapToDouble(MythicPlusDungeon::getMythicLevel).average().orElse(0);
+        final double upgrade = dungeons.stream().mapToDouble(MythicPlusDungeon::getNumKeystoneUpgrades).average().orElse(0);
+        final double clearTime = dungeons.stream().mapToDouble(MythicPlusDungeon::getClearTimeMs).average().orElse(0);
+        final double averageTimeRemain = dungeons.stream().mapToDouble(value -> value.getParTimeMs() - value.getClearTimeMs()).average().orElse(0);
+        final double amountFortified = dungeons.stream().filter(MythicPlusDungeon::isFortified).count();
+        final double amountTyrannical = dungeons.stream().filter(MythicPlusDungeon::isTyrannical).count();
+        final double timed = dungeons.stream().filter(dungeon -> dungeon.getNumKeystoneUpgrades() > 0).count();
+        final double depleates = dungeons.size() - timed;
+        final String tendency = dungeons.stream().mapToDouble(MythicPlusDungeon::getNumKeystoneUpgrades).average().orElse(0) > 0.5 ? "Timed ▲" : "Untimed ▼";
         return new Average(level, upgrade, clearTime, averageTimeRemain, amountFortified, amountTyrannical, timed, depleates, tendency);
     }
 
 
     private GridPane createSummaryBox(SimpleObjectProperty<Average> data, String title) {
-        GridPane grid = new GridPane();
+        final GridPane grid = new GridPane();
         grid.setMinWidth(200);
         grid.setMaxWidth(200);
         grid.setId("summary-box");
@@ -107,7 +113,7 @@ public class OverviewView extends ScrollPane {
         grid.add(new Label("Tyrannical"), 0, 7);
         grid.add(new Label("Tendency"), 0, 8);
 
-        Label lblLevel = new Label();
+        final Label lblLevel = new Label();
         lblLevel.textProperty().bind(data.map(average -> String.valueOf(average.level())));
 
         final Label lblClearTime = new Label();
@@ -152,14 +158,16 @@ public class OverviewView extends ScrollPane {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.add(new H2("Statistic"), 0, 0, 2, 1);
-        grid.add(new Label("Current season"), 0, 1);
-        grid.add(new Label("Previous season"), 0, 3);
+        grid.add(new Label(Season.getCurrentSeasonKey().toString().replace("-", " ")), 0, 1);
+        grid.add(new Label(Season.getPreviousSeasonKey().toString().replace("-", " ")), 0, 3);
+        grid.add(new Label(Season.getPreviousPreviousSeasonKey().toString().replace("-", " ")), 0, 5);
 
         final Label lbCurrentScore = new Label();
         lbCurrentScore.textProperty().bind(data.map(value -> String.valueOf(value.currentSeason())));
 
         final Label lblCurrentCutoff = new Label();
         lblCurrentCutoff.textProperty().bind(data.map(value -> ScoreUtils.getInstance().getPercentileForScore(value.currentSeason(), Season.getCurrentSeasonKey())));
+
 
         final Label lbPreviousScore = new Label();
         lbPreviousScore.textProperty().bind(data.map(value -> String.valueOf(value.previousSeason())));
@@ -168,15 +176,25 @@ public class OverviewView extends ScrollPane {
         lbPreviousCutoff.textProperty().bind(data.map(value -> ScoreUtils.getInstance().getPercentileForScore(value.previousSeason(), Season.getPreviousSeasonKey())));
 
 
+        final Label lbPreviousPreviousScore = new Label();
+        lbPreviousPreviousScore.textProperty().bind(data.map(value -> String.valueOf(value.previousSeason())));
+
+        final Label lbPreviousPreviousCutoff = new Label();
+        lbPreviousPreviousCutoff.textProperty().bind(data.map(value -> ScoreUtils.getInstance().getPercentileForScore(value.previousPreviousSeason(), Season.getPreviousPreviousSeasonKey())));
+
+
         grid.add(lbCurrentScore, 1, 1);
         grid.add(lblCurrentCutoff, 1, 2);
         grid.add(lbPreviousScore, 1, 3);
         grid.add(lbPreviousCutoff, 1, 4);
+        grid.add(lbPreviousPreviousScore, 1, 5);
+        grid.add(lbPreviousPreviousCutoff, 1, 6);
+
         return grid;
     }
 
 
-    private record Statistic(double currentSeason, double previousSeason) {
+    private record Statistic(double currentSeason, double previousSeason, double previousPreviousSeason) {
     }
 
     private record Average(

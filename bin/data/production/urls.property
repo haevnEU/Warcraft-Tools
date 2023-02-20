@@ -10,7 +10,7 @@ rio.url.staticData=https://raider.io/api/v1/mythic-plus/static-data?expansion_id
 rio.url.cutoff=https://raider.io/api/v1/mythic-plus/season-cutoffs?season=%s&region=%s
 rio.url.character=https://raider.io/api/v1/characters/profile?region=%s&realm=%s&name=%s&fields=%s
 rio.query.character=gear,talents,raid_progression,mythic_plus_recent_runs,mythic_plus_best_runs:all,mythic_plus_highest_level_runs,
-rio.query.character.seasons=mythic_plus_scores_by_season:season-df-1:season-sl-4:season-sl-3
+rio.query.character.seasons=mythic_plus_scores_by_season:season-df-1:season-sl-4:season-sl-3:season-sl-2::season-sl-1
 
 discord.webhook.url=
 
