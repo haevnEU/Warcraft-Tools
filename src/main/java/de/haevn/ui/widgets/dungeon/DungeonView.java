@@ -20,11 +20,11 @@ class DungeonView extends BorderPane implements IView {
     private final FilteredList<Enemy> filteredData = new FilteredList<>(enemyList, s -> true);
     private final ListView<Enemy> enemies = new ListView<>(filteredData);
     private final ComboBox<Dungeon> dungeonsComboBox = new ComboBox<>();
-    private final TextField tfEnemySearch = new TextField();
     private final EnemyWidget enemyWidget = new EnemyWidget();
 
     DungeonView() {
         setTop(new H1("Dungeon Enemies (WIP)"));
+        TextField tfEnemySearch = new TextField();
         setLeft(new VBox(dungeonsComboBox, tfEnemySearch, enemies));
         setCenter(enemyWidget);
 
