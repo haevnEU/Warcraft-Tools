@@ -1,13 +1,14 @@
 package de.haevn.api;
 
-import com.google.common.flogger.FluentLogger;
+import de.haevn.logging.Logger;
+import de.haevn.logging.LoggerHandle;
 import de.haevn.utils.Network;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.concurrent.CompletableFuture;
 
 public class WowHeadApi extends AbstractApi {
-    private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
+    private static final Logger LOGGER = LoggerHandle.get(WowHeadApi.class);
     private static final WowHeadApi INSTANCE = new WowHeadApi();
 
     public static WowHeadApi getInstance() {
@@ -24,7 +25,7 @@ public class WowHeadApi extends AbstractApi {
             if (responseOpt.isEmpty()) return "";
             var response = responseOpt.get();
             if (!Network.is2xx(response.statusCode())) {
-                LOGGER.atInfo().log("Got response for spell %s, Code %s", spellID, response.statusCode());
+                LOGGER.atInfo("Got response for spell %s, Code %s", spellID, response.statusCode());
                 return "";
             }
 

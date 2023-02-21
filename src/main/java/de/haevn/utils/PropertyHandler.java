@@ -1,6 +1,7 @@
 package de.haevn.utils;
 
-import com.google.common.flogger.FluentLogger;
+import de.haevn.logging.Logger;
+import de.haevn.logging.LoggerHandle;
 import de.haevn.ui.windows.CrashReport;
 
 import java.io.*;
@@ -10,7 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public final class PropertyHandler {
-    private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
+    private static final Logger LOGGER = LoggerHandle.get(PropertyHandler.class);
     private static final String EXTENSION = ".property";
     private static final Map<String, PropertyHandler> STRING_PROPERTY_HANDLER_HASH_MAP = new HashMap<>();
     private final Properties properties;
@@ -53,7 +54,7 @@ public final class PropertyHandler {
         try (InputStream inputStream = new FileInputStream(FileIO.getRootPath() + property)) {
             properties.load(inputStream);
         } catch (IOException e) {
-            LOGGER.atSevere().withCause(e).log("Could not load property file: %s", property);
+            LOGGER.atError("Could not load property file: %s", property);
         }
     }
 
@@ -84,7 +85,7 @@ public final class PropertyHandler {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
             CrashReport.show(e);
-            LOGGER.atSevere().withCause(e).log("Could not save property file: %s", name);
+            LOGGER.atError("Could not save property file: %s", name);
         }
     }
 }

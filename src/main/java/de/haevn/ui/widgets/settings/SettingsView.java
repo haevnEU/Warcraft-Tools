@@ -3,6 +3,7 @@ package de.haevn.ui.widgets.settings;
 import de.haevn.abstraction.IView;
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
+import de.haevn.logging.LoggerHandle;
 import de.haevn.ui.elements.RefreshButton;
 import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.H1;
@@ -136,6 +137,8 @@ class SettingsView extends BorderPane implements IView {
         pane.add(lbLastGitHubUpdate, 1, 2);
         pane.add(new RefreshButton(e -> GitHubApi.getInstance().update()), 2, 2);
 
+        pane.add(new Label("FLush logs"), 0, 3);
+        pane.add(new RefreshButton(e -> LoggerHandle.flush()), 1, 3);
         return pane;
     }
 }

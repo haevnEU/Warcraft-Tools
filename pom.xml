@@ -75,20 +75,6 @@
             <version>${version.commons-lang3}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger -->
-        <dependency>
-            <groupId>com.google.flogger</groupId>
-            <artifactId>flogger</artifactId>
-            <version>${version.flogger}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger-system-backend -->
-        <dependency>
-            <groupId>com.google.flogger</groupId>
-            <artifactId>flogger-system-backend</artifactId>
-            <version>${version.flogger}</version>
-            <scope>runtime</scope>
-        </dependency>
         <!--Dependencies for testing-->
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>

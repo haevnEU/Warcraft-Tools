@@ -3,9 +3,11 @@ package de.haevn.utils;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 
 public final class FileIO {
     private FileIO() {
@@ -57,4 +59,16 @@ public final class FileIO {
         return new Tuple<>(true, "All files exist");
     }
 
+    public static void append(String filename, String data) {
+        append(new File(filename), data);
+    }
+
+    public static void append(File file, String data) {
+        try {
+            var parent = new File(file.getParent());
+            if(!parent.exists()) parent.mkdirs();
+            if(!file.exists()) file.createNewFile();
+            Files.write(file.toPath(), data.getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException e) {}
+    }
 }
