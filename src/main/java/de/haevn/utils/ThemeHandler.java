@@ -2,7 +2,7 @@ package de.haevn.utils;
 
 import de.haevn.Main;
 import de.haevn.logging.Logger;
-import de.haevn.logging.LoggerHandle;
+import de.haevn.logging.LoggerHandler;
 import javafx.beans.property.SimpleObjectProperty;
 import lombok.SneakyThrows;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ThemeHandler {
-    private static final Logger LOGGER = LoggerHandle.get(ThemeHandler.class);
+    private static final Logger LOGGER = LoggerHandler.get(ThemeHandler.class);
     private static final ThemeHandler INSTANCE = new ThemeHandler();
 
     private final List<String> themes = new ArrayList<>();

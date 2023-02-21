@@ -7,7 +7,7 @@ import de.haevn.enumeration.Addon;
 import de.haevn.enumeration.Season;
 import de.haevn.exceptions.NetworkException;
 import de.haevn.logging.Logger;
-import de.haevn.logging.LoggerHandle;
+import de.haevn.logging.LoggerHandler;
 import de.haevn.model.lookup.PlayerLookupModel;
 import de.haevn.model.seasonal.SeasonCutoff;
 import de.haevn.model.weekly.Affix;
@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
 public final class RaiderIOApi extends AbstractApi {
-    private static final Logger LOGGER = LoggerHandle.get(RaiderIOApi.class);
+    private static final Logger LOGGER = LoggerHandler.get(RaiderIOApi.class);
 
     private static final RaiderIOApi INSTANCE = new RaiderIOApi();
     private static final String CURRENT_AFFIX_KEY = "rio.url.currentAffix";

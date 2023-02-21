@@ -1,7 +1,7 @@
 package de.haevn.utils;
 
 import de.haevn.logging.Logger;
-import de.haevn.logging.LoggerHandle;
+import de.haevn.logging.LoggerHandler;
 import de.haevn.ui.windows.CrashReport;
 
 import java.io.*;
@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 
 public final class PropertyHandler {
-    private static final Logger LOGGER = LoggerHandle.get(PropertyHandler.class);
+    private static final Logger LOGGER = LoggerHandler.get(PropertyHandler.class);
     private static final String EXTENSION = ".property";
     private static final Map<String, PropertyHandler> STRING_PROPERTY_HANDLER_HASH_MAP = new HashMap<>();
     private final Properties properties;

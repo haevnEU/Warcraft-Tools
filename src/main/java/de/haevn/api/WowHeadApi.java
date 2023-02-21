@@ -1,14 +1,14 @@
 package de.haevn.api;
 
 import de.haevn.logging.Logger;
-import de.haevn.logging.LoggerHandle;
+import de.haevn.logging.LoggerHandler;
 import de.haevn.utils.Network;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.concurrent.CompletableFuture;
 
 public class WowHeadApi extends AbstractApi {
-    private static final Logger LOGGER = LoggerHandle.get(WowHeadApi.class);
+    private static final Logger LOGGER = LoggerHandler.get(WowHeadApi.class);
     private static final WowHeadApi INSTANCE = new WowHeadApi();
 
     public static WowHeadApi getInstance() {

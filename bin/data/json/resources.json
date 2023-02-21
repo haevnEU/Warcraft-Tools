@@ -1,0 +1,31 @@
+{
+  "mythicplus": [
+    {
+      "name": "Tanknotes",
+      "url": "https://www.tanknotes.com"
+    },{
+      "name": "raiderIO",
+      "url": "https://raider.io"
+    },{
+      "name": "MythicPlus",
+      "url": "https://mythicpl.us"
+    },{
+      "name": "KeystoneHeroes",
+      "url": "https://keystone-heroes.com"
+    },{
+      "name": "Questionable Epic",
+      "url": "https://questionablyepic.com"
+    },{
+      "name": "Mythic+ Subcreation",
+      "url": "https://mplus.subcreation.net"
+    },{
+      "name": "Keystone Guru",
+      "url": "https://keystone.guru"
+    },{
+      "name": "",
+      "url": ""
+    }
+  ],
+  "raid": [],
+  "other": []
+}

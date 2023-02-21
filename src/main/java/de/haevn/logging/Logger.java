@@ -18,8 +18,8 @@ public class Logger {
     <T> Logger(Class<T> cl) {
         this.name = cl.getCanonicalName();
         this.filename = cl.getSimpleName();
-        log(LoggerHandle.Level.NONE,"==========BEGIN LOGGING (%s)==========", LocalDateTime.now());
-        log(LoggerHandle.Level.INFO, "Logger initialized for %s", name);
+        log(LoggerHandler.Level.NONE,"==========BEGIN LOGGING (%s)==========", LocalDateTime.now());
+        log(LoggerHandler.Level.INFO, "Logger initialized for %s", name);
     }
 
 
@@ -35,9 +35,9 @@ public class Logger {
         Logger.redirect = redirect;
     }
 
-    private void log(LoggerHandle.Level level, String message, Object... args) {
+    private void log(LoggerHandler.Level level, String message, Object... args) {
         String result = "";
-        if(level == LoggerHandle.Level.NONE){
+        if(level == LoggerHandler.Level.NONE){
             result = String.format(message, args)+"\n";
         }else {
             final String time = LocalDateTime.now().toString();
@@ -59,19 +59,19 @@ public class Logger {
     }
 
     public void atInfo(String message, Object... args) {
-        log(LoggerHandle.Level.INFO, message, args);
+        log(LoggerHandler.Level.INFO, message, args);
     }
 
     public void atWarning(String message, Object... args) {
-        log(LoggerHandle.Level.WARNING, message, args);
+        log(LoggerHandler.Level.WARNING, message, args);
     }
 
     public void atError(String message, Object... args) {
-        log(LoggerHandle.Level.ERROR, message, args);
+        log(LoggerHandler.Level.ERROR, message, args);
     }
 
     public void atDebug(String message, Object... args) {
-        log(LoggerHandle.Level.DEBUG, message, args);
+        log(LoggerHandler.Level.DEBUG, message, args);
     }
 
     public void flush(){

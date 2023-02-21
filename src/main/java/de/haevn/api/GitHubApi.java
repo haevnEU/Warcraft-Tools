@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import de.haevn.exceptions.NetworkException;
 import de.haevn.logging.Logger;
-import de.haevn.logging.LoggerHandle;
+import de.haevn.logging.LoggerHandler;
 import de.haevn.model.CountryRealm;
 import de.haevn.model.rating.MythicPlusScoreMapping;
 import de.haevn.model.rating.RatingDefinition;
@@ -28,7 +28,7 @@ public final class GitHubApi extends AbstractApi {
     private static final String SCORE_MAP_KEY = "git.url.scoreMap";
     private static final String AFFIX_COMBO_KEY = "git.url.affixCombo";
     private static final String REALM_KEY = "git.url.realm";
-    private static final Logger LOGGER = LoggerHandle.get(GitHubApi.class);
+    private static final Logger LOGGER = LoggerHandler.get(GitHubApi.class);
     private static final GitHubApi instance = new GitHubApi();
     private final SimpleLongProperty lastUpdate = new SimpleLongProperty(0);
     private final SimpleObjectProperty<Date> lastUpdateDate = new SimpleObjectProperty<>();

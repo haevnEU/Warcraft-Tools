@@ -1,7 +1,7 @@
-#Updated app.theme to HORDE
-#Tue Feb 21 15:39:44 CET 2023
+#Updated app.theme to PALADIN
+#Tue Feb 21 19:12:54 CET 2023
 preview=true
-app.theme=HORDE
+app.theme=PALADIN
 license=true
 api.refresh=300
 app.build=2.0.0.1

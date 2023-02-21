@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public final class FileIO {
@@ -41,7 +42,7 @@ public final class FileIO {
         if(SystemUtils.IS_OS_WINDOWS){
             return "./bin/data/";
         }else if(SystemUtils.IS_OS_MAC){
-            return "../app/data/";
+            return "./bin/data/";
         }
         return "";
     }
@@ -70,5 +71,14 @@ public final class FileIO {
             if(!file.exists()) file.createNewFile();
             Files.write(file.toPath(), data.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException e) {}
+    }
+
+    public static String readFile(String path) {
+        try {
+            var lines = Files.readAllLines(Paths.get(path));
+            return String.join("\n", lines);
+        } catch (IOException e) {
+            return "";
+        }
     }
 }

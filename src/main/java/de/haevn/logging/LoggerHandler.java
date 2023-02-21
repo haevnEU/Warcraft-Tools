@@ -3,7 +3,7 @@ package de.haevn.logging;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LoggerHandle {
+public class LoggerHandler {
 
     private static final Map<String, Logger> loggers = new HashMap<>();
 

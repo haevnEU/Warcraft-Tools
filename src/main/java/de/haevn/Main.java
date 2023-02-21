@@ -3,9 +3,8 @@ package de.haevn;
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
 import de.haevn.logging.Logger;
-import de.haevn.logging.LoggerHandle;
+import de.haevn.logging.LoggerHandler;
 import de.haevn.ui.widgets.MainView;
-import de.haevn.ui.windows.CrashReport;
 import de.haevn.utils.FileIO;
 import de.haevn.utils.PropertyHandler;
 import de.haevn.utils.ThemeHandler;
@@ -15,12 +14,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import java.io.FileOutputStream;
-import java.io.PrintWriter;
 import java.net.URL;
 
 public class Main extends Application {
-    private static final Logger LOGGER = LoggerHandle.get(Main.class);
+    private static final Logger LOGGER = LoggerHandler.get(Main.class);
     private static final String CONFIG_FILE = "config";
     public static final String VERSION = PropertyHandler.getInstance(CONFIG_FILE).get("app.version");
     public static final String BUILD = PropertyHandler.getInstance(CONFIG_FILE).get("app.build");
