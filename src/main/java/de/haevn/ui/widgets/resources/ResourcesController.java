@@ -38,4 +38,8 @@ class ResourcesController implements IController {
             this.view.addResource(resource.getName(), resource.getUrl());
         });
     }
+
+    public boolean isResourceAvailable() {
+        return null != resources && !resources.isEmpty();
+    }
 }

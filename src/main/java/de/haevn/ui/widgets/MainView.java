@@ -44,14 +44,14 @@ public class MainView extends BorderPane implements IView {
 
         buttonBox.add(createButton("Premade Group Filter", e -> setCenter(premadeGroupFilterView.getView())));
 
-        if(null != mythicPlusResourcesWidget) {
+        if(null != mythicPlusResourcesWidget && mythicPlusResourcesWidget.isResourceAvailable()) {
             buttonBox.add(createButton("M+ Resources", e -> setCenter(mythicPlusResourcesWidget.getView())));
         }
 
-        if(null != raidResourcesWidget) {
+        if(null != raidResourcesWidget && raidResourcesWidget.isResourceAvailable()) {
             buttonBox.add(createButton("Raid Resources", e -> setCenter(raidResourcesWidget.getView())));
         }
-        if(null != otherResourcesWidget) {
+        if(null != otherResourcesWidget && otherResourcesWidget.isResourceAvailable()) {
             buttonBox.add(createButton("Other Resources", e -> setCenter(otherResourcesWidget.getView())));
         }
 

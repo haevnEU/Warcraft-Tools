@@ -27,11 +27,11 @@ public class Logger {
         Logger.buffered = buffered;
     }
 
-    public void setOutput(PrintStream output) {
+    public static void setOutput(PrintStream output) {
         Logger.output = output;
     }
 
-    public void redirectToFile(boolean redirect){
+    public static void redirectToFile(boolean redirect){
         Logger.redirect = redirect;
     }
 
