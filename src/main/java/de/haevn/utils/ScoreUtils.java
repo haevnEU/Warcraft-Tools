@@ -131,7 +131,7 @@ public final class ScoreUtils {
 
 
         normalizedPlayerScore *= normalizedPlayerScore > 0 ? 1 : -1;
-        builder.append("final nornalization:    ").append(normalizedPlayerScore).append("\n");
+        builder.append("final normalization:    ").append(normalizedPlayerScore).append("\n");
         MessageWidget.show(builder.toString());
         return new RatingResult();
     }

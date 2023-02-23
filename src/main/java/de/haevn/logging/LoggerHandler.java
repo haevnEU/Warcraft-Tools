@@ -7,6 +7,10 @@ public class LoggerHandler {
 
     private static final Map<String, Logger> loggers = new HashMap<>();
 
+    public static Logger get(){
+        return get(AnonymousLogger.class);
+    }
+
     public static <T> Logger get(Class<T> cl) {
         if (!loggers.containsKey(cl.getCanonicalName())) {
             loggers.put(cl.getCanonicalName(), new Logger(cl));
@@ -25,4 +29,6 @@ public class LoggerHandler {
         ERROR,
         DEBUG
     }
+
+    private static final class AnonymousLogger{}
 }

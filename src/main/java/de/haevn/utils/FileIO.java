@@ -1,5 +1,7 @@
 package de.haevn.utils;
 
+import de.haevn.logging.Logger;
+import de.haevn.logging.LoggerHandler;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
@@ -13,6 +15,7 @@ import java.nio.file.StandardOpenOption;
 public final class FileIO {
     private FileIO() {
     }
+
 
     public static String getFileName(String path) {
         return path.substring(path.lastIndexOf("\\") + 1);
@@ -66,11 +69,32 @@ public final class FileIO {
 
     public static void append(File file, String data) {
         try {
-            var parent = new File(file.getParent());
-            if(!parent.exists()) parent.mkdirs();
-            if(!file.exists()) file.createNewFile();
+            createFile(file);
             Files.write(file.toPath(), data.getBytes(), StandardOpenOption.APPEND);
-        } catch (IOException e) {}
+        } catch (IOException ex) {}
+    }
+
+    public static void createFile(File file) {
+        if(file.exists()){
+            return;
+        }
+        try {
+            createDirectory(file.getParentFile());
+            if(file.createNewFile()){
+            }else{
+            }
+        } catch (IOException e) {
+        }
+    }
+
+    public static void createDirectory(File directory){
+        if(directory.exists()){
+           return;
+        }
+        if(directory.mkdirs()){
+        }else{
+       }
+
     }
 
     public static String readFile(String path) {

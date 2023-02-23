@@ -1,5 +1,7 @@
 package de.haevn.logging;
 
+import de.haevn.Main;
+import de.haevn.utils.ExceptionUtils;
 import de.haevn.utils.FileIO;
 
 import java.io.PrintStream;
@@ -68,6 +70,10 @@ public class Logger {
 
     public void atError(String message, Object... args) {
         log(LoggerHandler.Level.ERROR, message, args);
+    }
+    public void atError(String message, Exception ex, Object ... args) {
+
+        log(LoggerHandler.Level.ERROR, message + "\n%s", args, ExceptionUtils.getStackTrace(ex));
     }
 
     public void atDebug(String message, Object... args) {
