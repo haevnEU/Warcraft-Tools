@@ -31,27 +31,6 @@ public class NewRecordWidget extends Stage {
     private boolean dialogResult = false;
 
 
-    public static Optional<RecordEntry> getResult() {
-        if (instance.isShowing()) {
-            instance.toFront();
-        } else {
-            instance.showAndWait();
-        }
-        if (!instance.dialogResult) {
-            return Optional.empty();
-        }
-
-        final RecordEntry recordEntry = new RecordEntry();
-        recordEntry.setName(instance.textFieldName.getText());
-        recordEntry.setRecordDate(Date.from(instance.textFieldRecordDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-        recordEntry.setLogLink(instance.textFieldWarcraftLogsLink.getText());
-        recordEntry.setTags(instance.textAreaTags.getText().replace("\n", ";"));
-        recordEntry.setVideoLink(instance.textFieldRecordingLocation.getText());
-
-
-        return Optional.of(recordEntry);
-    }
-
     private NewRecordWidget() {
         final GridPane root = new GridPane();
         final HBox buttonBox = new HBox();
@@ -107,8 +86,26 @@ public class NewRecordWidget extends Stage {
         textFieldName.setOnAction(e -> prefill());
     }
 
+    public static Optional<RecordEntry> getResult() {
+        if (instance.isShowing()) {
+            instance.toFront();
+        } else {
+            instance.clear();
+            instance.showAndWait();
+        }
+        if (!instance.dialogResult) {
+            return Optional.empty();
+        }
 
-    private void clear(){
+        return Optional.of(instance.getData());
+    }
+
+    public static void loadStylesheet(URL url) {
+        instance.getScene().getStylesheets().clear();
+        instance.getScene().getStylesheets().add(url.toExternalForm());
+    }
+
+    private void clear() {
         textFieldName.clear();
         textFieldRecordDate.setValue(LocalDate.now());
         textFieldWarcraftLogsLink.clear();
@@ -116,21 +113,20 @@ public class NewRecordWidget extends Stage {
         textFieldRecordingLocation.clear();
     }
 
-    private void cancel(){
+    private void cancel() {
         instance.dialogResult = false;
-        clear();
         this.close();
     }
 
     private void save() {
         dialogResult = true;
-        clear();
         this.close();
     }
 
     private void selectRecordingFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose");
+        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Video files", "*.mp4", "*.avi", "*.mkv", "*.mov"));
         var result = fileChooser.showOpenDialog(this.getScene().getWindow());
         textFieldRecordingLocation.setText(result.getAbsolutePath());
     }
@@ -145,8 +141,13 @@ public class NewRecordWidget extends Stage {
         }
     }
 
-    public static void loadStylesheet(URL url) {
-        instance.getScene().getStylesheets().clear();
-        instance.getScene().getStylesheets().add(url.toExternalForm());
+    private RecordEntry getData() {
+        final RecordEntry recordEntry = new RecordEntry();
+        recordEntry.setName(textFieldName.getText());
+        recordEntry.setRecordDate(Date.from(textFieldRecordDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        recordEntry.setLogLink(textFieldWarcraftLogsLink.getText());
+        recordEntry.setTags(textAreaTags.getText().replace("\n", ";"));
+        recordEntry.setVideoLink(textFieldRecordingLocation.getText());
+        return recordEntry;
     }
 }
