@@ -6,8 +6,8 @@ import de.haevn.abstraction.IModel;
 import de.haevn.abstraction.IView;
 import de.haevn.model.recording.RecordEntry;
 import de.haevn.utils.FileIO;
-import de.haevn.utils.JsonAndStringUtils;
-import de.haevn.utils.Network;
+import de.haevn.utils.SerializationUtils;
+import de.haevn.utils.NetworkUtils;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -46,7 +46,7 @@ class RecordArchiveController implements IController {
         } else {
             view.setOnButtonViewVideoClicked(null);
         }
-        if (null != entry.getLogLink() && Network.isUrl(entry.getLogLink())) {
+        if (null != entry.getLogLink() && NetworkUtils.isUrl(entry.getLogLink())) {
             view.setOnButtonViewLogsClicked(e -> Main.openWebsite(entry.getLogLink()));
         } else {
             view.setOnButtonViewLogsClicked(null);
@@ -64,15 +64,15 @@ class RecordArchiveController implements IController {
 
     private void load() {
         String json = FileIO.readFile("json/recording.json");
-        JsonAndStringUtils.parseSecure(json, RecordEntry[].class).ifPresent(entries::addAll);
+        SerializationUtils.parseJsonSecure(json, RecordEntry[].class).ifPresent(entries::addAll);
     }
 
     private void store() {
-        JsonAndStringUtils.exportJson(entries).ifPresent(data -> FileIO.store("json/recording.json", data));
+        SerializationUtils.exportJson(entries).ifPresent(data -> FileIO.store("json/recording.json", data));
     }
 
     private void openVideo(String url) {
-        if (Network.isUrl(url)) {
+        if (NetworkUtils.isUrl(url)) {
             Main.openWebsite(url);
         } else {
             try {

@@ -5,8 +5,9 @@ import de.haevn.ui.utils.Creator;
 import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.elements.html.H2;
+import de.haevn.utils.CustomStringUtils;
 import de.haevn.utils.ExceptionUtils;
-import de.haevn.utils.JsonAndStringUtils;
+import de.haevn.utils.SerializationUtils;
 import de.haevn.utils.PropertyHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -99,7 +100,7 @@ public class CrashReport extends AbstractWindow {
 
     private void copy() {
         json.userMessage = lbMessage.getText();
-        JsonAndStringUtils.exportJson(json).ifPresent(JsonAndStringUtils::copy);
+        SerializationUtils.exportJson(json).ifPresent(CustomStringUtils::copy);
     }
 
 

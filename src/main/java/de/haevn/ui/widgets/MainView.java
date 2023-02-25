@@ -10,9 +10,8 @@ import de.haevn.ui.widgets.resources.ResourcesWidget;
 import de.haevn.ui.widgets.search.PlayerSearchWidget;
 import de.haevn.ui.widgets.settings.SettingsWidget;
 import de.haevn.utils.FileIO;
-import de.haevn.utils.JsonAndStringUtils;
+import de.haevn.utils.SerializationUtils;
 import de.haevn.utils.WarcraftResources;
-import javafx.application.Platform;
 import javafx.geometry.Orientation;
 import javafx.scene.layout.BorderPane;
 
@@ -35,7 +34,7 @@ public class MainView extends BorderPane implements IView {
 
     public MainView() {
         final String json = FileIO.readFile("./bin/data/json/resources.json");
-        Optional<WarcraftResources> resources = JsonAndStringUtils.parseSecure(json, WarcraftResources.class);
+        Optional<WarcraftResources> resources = SerializationUtils.parseJsonSecure(json, WarcraftResources.class);
         mythicPlusResourcesWidget = resources.map(warcraftResources -> new ResourcesWidget(warcraftResources.getMythicplus())).orElse(null);
         raidResourcesWidget = resources.map(warcraftResources -> new ResourcesWidget(warcraftResources.getRaid())).orElse(null);
         otherResourcesWidget = resources.map(warcraftResources -> new ResourcesWidget(warcraftResources.getOther())).orElse(null);

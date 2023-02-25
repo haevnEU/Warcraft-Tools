@@ -26,6 +26,7 @@ class DungeonView extends BorderPane implements IView {
         setTop(new H1("Dungeon Enemies (WIP)"));
         TextField tfEnemySearch = new TextField();
         setLeft(new VBox(dungeonsComboBox, tfEnemySearch, enemies));
+        VBox.setVgrow(enemies, javafx.scene.layout.Priority.ALWAYS);
         setCenter(enemyWidget);
 
         enemies.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {

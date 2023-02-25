@@ -33,7 +33,7 @@ class CurrentWeekView extends BorderPane implements IView {
         widgetAchievements.setId("widget-box");
 
         widgetCutoff.getChildren().addAll(
-                new GroupWidget("Top 0.01%", top001Widget),
+                new GroupWidget("Top 0.1%", top001Widget),
                 new GroupWidget("Top 1%", top1Widget),
                 new GroupWidget("Top 10%", top10Widget));
         widgetAchievements.getChildren().addAll(

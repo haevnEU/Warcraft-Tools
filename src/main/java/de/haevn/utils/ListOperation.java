@@ -8,6 +8,10 @@ public final class ListOperation {
     }
 
     public static <T> boolean isContentEqual(List<T> first, List<T> second, Comparator<T> comparator) {
+        return isContentEqual(first, second, comparator, 4);
+    }
+
+    public static <T> boolean isContentEqual(List<T> first, List<T> second, Comparator<T> comparator, int depth) {
 
         if (null == first || null == second || first.size() != second.size()) {
             return false;
@@ -20,6 +24,6 @@ public final class ListOperation {
             }
         }
 
-        return idMatch == 4;
+        return idMatch == depth;
     }
 }

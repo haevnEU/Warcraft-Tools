@@ -8,7 +8,7 @@ import de.haevn.model.dungeons.Dungeon;
 import de.haevn.model.dungeons.Dungeons;
 import de.haevn.model.dungeons.Enemy;
 import de.haevn.utils.FileIO;
-import de.haevn.utils.JsonAndStringUtils;
+import de.haevn.utils.SerializationUtils;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 
@@ -47,13 +47,13 @@ class DungeonController implements IController {
         try {
             final List<String> data = Files.readAllLines(Path.of(FileIO.getRootPath() + "json/dungeons_df_1.json"));
             final String json = String.join("\n", data);
-            final JsonNode root = JsonAndStringUtils.parse(json, JsonNode.class);
+            final JsonNode root = SerializationUtils.parseJson(json, JsonNode.class);
             final Dungeons dungeons = new Dungeons();
 
             final Function<JsonNode, ArrayList<Enemy>> extractEnemies = (JsonNode node) -> {
                 ArrayList<Enemy> enemies = new ArrayList<>();
                 for (JsonNode enemyNode : node) {
-                    var enemy = JsonAndStringUtils.parseSecure(enemyNode.toString(), Enemy.class);
+                    var enemy = SerializationUtils.parseJsonSecure(enemyNode.toString(), Enemy.class);
                     enemy.ifPresent(enemies::add);
                 }
                 return enemies;

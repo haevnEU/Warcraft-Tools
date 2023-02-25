@@ -11,10 +11,10 @@ import java.net.http.HttpResponse;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 
-public final class Network {
+public final class NetworkUtils {
     private static final PropertyHandler propertyHandler = PropertyHandler.getInstance("config");
 
-    private Network() {
+    private NetworkUtils() {
     }
 
 

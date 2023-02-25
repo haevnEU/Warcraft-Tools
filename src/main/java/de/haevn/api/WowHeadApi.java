@@ -2,7 +2,7 @@ package de.haevn.api;
 
 import de.haevn.logging.Logger;
 import de.haevn.logging.LoggerHandler;
-import de.haevn.utils.Network;
+import de.haevn.utils.NetworkUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.concurrent.CompletableFuture;
@@ -21,10 +21,10 @@ public class WowHeadApi extends AbstractApi {
     public CompletableFuture<String> getNameForSpell(int spellID) {
         String url = "http://www.wowdb.com/spells/" + spellID;
 
-        return Network.downloadAsync(url).thenApply(responseOpt -> {
+        return NetworkUtils.downloadAsync(url).thenApply(responseOpt -> {
             if (responseOpt.isEmpty()) return "";
             var response = responseOpt.get();
-            if (!Network.is2xx(response.statusCode())) {
+            if (!NetworkUtils.is2xx(response.statusCode())) {
                 LOGGER.atInfo("Got response for spell %s, Code %s", spellID, response.statusCode());
                 return "";
             }

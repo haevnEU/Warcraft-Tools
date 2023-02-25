@@ -9,8 +9,8 @@ import de.haevn.model.CountryRealm;
 import de.haevn.model.rating.MythicPlusScoreMapping;
 import de.haevn.model.rating.RatingDefinition;
 import de.haevn.model.weekly.Affix;
-import de.haevn.utils.JsonAndStringUtils;
-import de.haevn.utils.Network;
+import de.haevn.utils.SerializationUtils;
+import de.haevn.utils.NetworkUtils;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -76,16 +76,16 @@ public final class GitHubApi extends AbstractApi {
                 final String url = urlHandler.get(SEASONAL_KEY);
 
                 LOGGER.atInfo("Fetching seasonal dungeons from %s.", url);
-                final HttpResponse<String> result = Network.download(url);
+                final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
 
-                if (!Network.is2xx(result.statusCode())) {
+                if (!NetworkUtils.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
                 LOGGER.atInfo("Parsing json string.");
                 final String json = result.body();
-                final Map<String, String> temporaryMap = JsonAndStringUtils.parse(json, new TypeReference<Map<String, String>>() {
+                final Map<String, String> temporaryMap = SerializationUtils.parseJson(json, new TypeReference<Map<String, String>>() {
                 });
                 LOGGER.atInfo("Parsing done.");
 
@@ -104,15 +104,15 @@ public final class GitHubApi extends AbstractApi {
                 final String url = urlHandler.get(DEFINITION_KEY);
 
                 LOGGER.atInfo("Fetching rating definition from %s.", url);
-                final HttpResponse<String> result = Network.download(url);
+                final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
-                if (!Network.is2xx(result.statusCode())) {
+                if (!NetworkUtils.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
                 LOGGER.atInfo("Parsing json string.");
                 final String json = result.body();
-                final RatingDefinition suggestion = JsonAndStringUtils.parse(json, RatingDefinition.class);
+                final RatingDefinition suggestion = SerializationUtils.parseJson(json, RatingDefinition.class);
                 LOGGER.atInfo("Parsing done.");
 
                 ratingDefinition.set(suggestion);
@@ -130,16 +130,16 @@ public final class GitHubApi extends AbstractApi {
                 final String url = urlHandler.get(SCORE_MAP_KEY);
 
                 LOGGER.atInfo("Fetching score mapping from %s.", url);
-                final HttpResponse<String> result = Network.download(url);
+                final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result:  %s %s bytes", result.statusCode(), result.body().length());
 
-                if (!Network.is2xx(result.statusCode())) {
+                if (!NetworkUtils.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
                 LOGGER.atInfo("Parsing json string.");
                 final String json = result.body();
-                final MythicPlusScoreMapping mapping = JsonAndStringUtils.parse(json, MythicPlusScoreMapping.class);
+                final MythicPlusScoreMapping mapping = SerializationUtils.parseJson(json, MythicPlusScoreMapping.class);
                 LOGGER.atInfo("Parsing done.");
 
                 mythicPlusScoreMappingProperty.set(mapping);
@@ -157,25 +157,25 @@ public final class GitHubApi extends AbstractApi {
                 final String url = urlHandler.get(AFFIX_COMBO_KEY);
 
                 LOGGER.atInfo("Fetching affix rotation from %s.", url);
-                final HttpResponse<String> result = Network.download(url);
+                final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
 
-                if (!Network.is2xx(result.statusCode())) {
+                if (!NetworkUtils.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
                 LOGGER.atInfo("Parsing json string.");
                 final String json = result.body();
                 final Map<String, List<Affix>> rotation = new HashMap<>();
-                final JsonNode rootNode = JsonAndStringUtils.parse(json, JsonNode.class);
+                final JsonNode rootNode = SerializationUtils.parseJson(json, JsonNode.class);
                 final JsonNode node = rootNode.get("affix_combos");
                 LOGGER.atInfo("Create affix rotation.");
                 node.forEach(jsonNode -> {
                     final List<Affix> affixList = new ArrayList<>();
-                    JsonAndStringUtils.parseSecure(jsonNode.get("first").toString(), Affix.class).ifPresent(affixList::add);
-                    JsonAndStringUtils.parseSecure(jsonNode.get("second").toString(), Affix.class).ifPresent(affixList::add);
-                    JsonAndStringUtils.parseSecure(jsonNode.get("third").toString(), Affix.class).ifPresent(affixList::add);
-                    JsonAndStringUtils.parseSecure(jsonNode.get("fourth").toString(), Affix.class).ifPresent(affixList::add);
+                    SerializationUtils.parseJsonSecure(jsonNode.get("first").toString(), Affix.class).ifPresent(affixList::add);
+                    SerializationUtils.parseJsonSecure(jsonNode.get("second").toString(), Affix.class).ifPresent(affixList::add);
+                    SerializationUtils.parseJsonSecure(jsonNode.get("third").toString(), Affix.class).ifPresent(affixList::add);
+                    SerializationUtils.parseJsonSecure(jsonNode.get("fourth").toString(), Affix.class).ifPresent(affixList::add);
                     rotation.put(jsonNode.get("id").toString(), affixList);
                 });
                 LOGGER.atInfo("Parsing done.");
@@ -195,16 +195,16 @@ public final class GitHubApi extends AbstractApi {
                 final String url = urlHandler.get(REALM_KEY);
 
                 LOGGER.atInfo("Fetching country realms from %s.", url);
-                final HttpResponse<String> result = Network.download(url);
+                final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
 
-                if (!Network.is2xx(result.statusCode())) {
+                if (!NetworkUtils.is2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
                 LOGGER.atInfo("Parsing json string.");
                 final String json = result.body();
-                final CountryRealm countryRealm = JsonAndStringUtils.parse(json, CountryRealm.class);
+                final CountryRealm countryRealm = SerializationUtils.parseJson(json, CountryRealm.class);
                 LOGGER.atInfo("Parsing done.");
 
                 countryRealms.set(countryRealm);

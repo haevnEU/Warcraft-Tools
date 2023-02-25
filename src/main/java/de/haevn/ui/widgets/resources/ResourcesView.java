@@ -1,35 +1,15 @@
 package de.haevn.ui.widgets.resources;
 
 import de.haevn.abstraction.IView;
-import de.haevn.exceptions.NetworkException;
-import de.haevn.model.lookup.PlayerLookupModel;
-import de.haevn.ui.elements.ErrorWidget;
-import de.haevn.ui.elements.ProgressWidget;
-import de.haevn.ui.elements.html.H1;
-import de.haevn.ui.elements.html.H3;
-import de.haevn.ui.elements.lookup.*;
 import de.haevn.ui.utils.Creator;
-import de.haevn.utils.Network;
-import de.haevn.utils.PropertyHandler;
 import javafx.application.Platform;
-import javafx.beans.property.ReadOnlyStringProperty;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.geometry.Side;
-import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
-
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 class ResourcesView extends BorderPane implements IView {
 

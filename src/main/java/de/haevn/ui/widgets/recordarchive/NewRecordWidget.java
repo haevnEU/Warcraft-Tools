@@ -102,6 +102,15 @@ public class NewRecordWidget extends Stage {
         return Optional.of(instance.getData());
     }
 
+    public static void update(RecordEntry entry){
+        instance.textFieldName.setText(entry.getName());
+        instance.textFieldRecordDate.setValue(entry.getRecordDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+        instance.textFieldWarcraftLogsLink.setText(entry.getLogLink());
+        instance.textFieldRecordingLocation.setText(entry.getVideoLink());
+        instance.textAreaTags.setText(entry.getTags());
+
+    }
+
     public static void loadStylesheet(URL url) {
         instance.getScene().getStylesheets().clear();
         instance.getScene().getStylesheets().add(url.toExternalForm());
@@ -128,7 +137,7 @@ public class NewRecordWidget extends Stage {
         } else if(textFieldRecordingLocation.getText().isEmpty()){
             AlertUtils.showNormal("Recording location is empty", "Please choose the location of the recording");
         }else if(textFieldWarcraftLogsLink.getText().isEmpty()){
-            if(AlertUtils.showConfirmation("Name is empty", "Enter a valid name for the recording")){
+            if(AlertUtils.showConfirmation("Warcaftlogs link is empty", "Do you want to continue without a link to any logfile?")){
                 this.close();
             }
         }else{
@@ -139,9 +148,11 @@ public class NewRecordWidget extends Stage {
     private void selectRecordingFile() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Choose");
-        fileChooser.setSelectedExtensionFilter(new FileChooser.ExtensionFilter("Video files", "*.mp4", "*.avi", "*.mkv", "*.mov"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Video files", "*.mp4", "*.avi", "*.mkv", "*.mov"));
         var result = fileChooser.showOpenDialog(this.getScene().getWindow());
-        textFieldRecordingLocation.setText(result.getAbsolutePath());
+        if (null != result) {
+            textFieldRecordingLocation.setText(result.getAbsolutePath());
+        }
     }
 
     private void prefill() {

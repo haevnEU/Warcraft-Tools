@@ -11,8 +11,8 @@ import de.haevn.logging.LoggerHandler;
 import de.haevn.model.lookup.PlayerLookupModel;
 import de.haevn.model.seasonal.SeasonCutoff;
 import de.haevn.model.weekly.Affix;
-import de.haevn.utils.JsonAndStringUtils;
-import de.haevn.utils.Network;
+import de.haevn.utils.SerializationUtils;
+import de.haevn.utils.NetworkUtils;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
@@ -68,7 +68,7 @@ public final class RaiderIOApi extends AbstractApi {
     private CompletableFuture<Integer> fetchCurrentAffix() {
         final String url = String.format(urlHandler.get(CURRENT_AFFIX_KEY), region.get());
         LOGGER.atInfo("Fetching current affix from %s", url);
-        return Network.downloadAsync(url).thenApply(response -> {
+        return NetworkUtils.downloadAsync(url).thenApply(response -> {
             LOGGER.atInfo("Fetching current affix");
             if (response.isPresent()) {
                 try {
@@ -80,10 +80,10 @@ public final class RaiderIOApi extends AbstractApi {
 
                     LOGGER.atInfo("Parsing current affix");
                     final String json = result.body();
-                    final JsonNode rootNode = JsonAndStringUtils.parse(json, JsonNode.class);
+                    final JsonNode rootNode = SerializationUtils.parseJson(json, JsonNode.class);
                     LOGGER.atInfo("Transform root node into affix details");
                     final JsonNode node = rootNode.get("affix_details");
-                    final List<Affix> currentRotation = JsonAndStringUtils.parse(node.toString(), new TypeReference<List<Affix>>() {
+                    final List<Affix> currentRotation = SerializationUtils.parseJson(node.toString(), new TypeReference<List<Affix>>() {
                     });
                     LOGGER.atInfo("Parsing done.");
 
@@ -135,15 +135,15 @@ public final class RaiderIOApi extends AbstractApi {
                 final String slug = season.label;
                 final String url = String.format(urlHandler.get(CUTOFF_KEY), slug, region.get());
                 LOGGER.atInfo("Fetching cutoff for season %s from %s", season.label, url);
-                final HttpResponse<String> result = Network.download(url);
+                final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
                 final String json = result.body();
 
                 LOGGER.atInfo("Parsing cutoff for season %s", season.label);
-                final JsonNode rootNode = JsonAndStringUtils.parse(json, JsonNode.class);
+                final JsonNode rootNode = SerializationUtils.parseJson(json, JsonNode.class);
                 LOGGER.atInfo("Transform root node into cutoff details");
                 final JsonNode cutoffNode = rootNode.get("cutoffs");
-                final SeasonCutoff cutoff = JsonAndStringUtils.parse(cutoffNode.toString(), SeasonCutoff.class);
+                final SeasonCutoff cutoff = SerializationUtils.parseJson(cutoffNode.toString(), SeasonCutoff.class);
                 cutoff.setSeasonKey(season.label);
 
                 LOGGER.atInfo("Parsing done.");
@@ -161,15 +161,15 @@ public final class RaiderIOApi extends AbstractApi {
                 LOGGER.atInfo("Fetching player %s-%s", realm, name);
                 final String url = String.format(urlHandler.get(CHARACTER_KEY), region.get(), realm, name, (urlHandler.get(QUERY_KEY) + urlHandler.get(QUERY_KEY_SEASONS)));
 
-                final HttpResponse<String> download = Network.download(url);
+                final HttpResponse<String> download = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", download.statusCode(), download.body().length());
-                if (!Network.is2xx(download.statusCode())) {
+                if (!NetworkUtils.is2xx(download.statusCode())) {
                     throw new NetworkException(download);
                 }
 
                 LOGGER.atInfo("Parsing player %s-%s", realm, name);
                 String json = download.body();
-                var player = JsonAndStringUtils.parse(json, PlayerLookupModel.class);
+                var player = SerializationUtils.parseJson(json, PlayerLookupModel.class);
 
                 LOGGER.atInfo("Parsing done.");
                 return new NetworkData<>(player);
