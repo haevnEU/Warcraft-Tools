@@ -5,10 +5,7 @@ import de.haevn.ui.utils.Creator;
 import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.elements.html.H2;
-import de.haevn.utils.CustomStringUtils;
-import de.haevn.utils.ExceptionUtils;
-import de.haevn.utils.SerializationUtils;
-import de.haevn.utils.PropertyHandler;
+import de.haevn.utils.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -49,7 +46,7 @@ public class CrashReport extends AbstractWindow {
         final Button btCopy = Creator.createButton("Copy content", event -> copy());
         final Button btOpen = Creator.createButton("Open BugReport", event -> {
             copy();
-            Main.openWebsite("https://github.com/nimile/Warcraft-Tools/issues/new?template=crash-report.md");
+            NetworkUtils.openWebsite("https://github.com/nimile/Warcraft-Tools/issues/new?template=crash-report.md");
         });
 
         root.setTop(top);

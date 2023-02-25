@@ -37,7 +37,7 @@ public class Logger {
     }
 
     private void log(LoggerHandler.Level level, String message, Object... args) {
-        String result = "";
+        String result;
         if (level == LoggerHandler.Level.NONE) {
             result = String.format(message, args) + "\n";
         } else {

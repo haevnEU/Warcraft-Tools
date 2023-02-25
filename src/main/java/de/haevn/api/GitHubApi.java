@@ -85,7 +85,7 @@ public final class GitHubApi extends AbstractApi {
 
                 LOGGER.atInfo("Parsing json string.");
                 final String json = result.body();
-                final Map<String, String> temporaryMap = SerializationUtils.parseJson(json, new TypeReference<Map<String, String>>() {
+                final Map<String, String> temporaryMap = SerializationUtils.parseJson(json, new TypeReference<>() {
                 });
                 LOGGER.atInfo("Parsing done.");
 

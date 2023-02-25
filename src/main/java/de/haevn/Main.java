@@ -14,7 +14,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
-import java.io.File;
 import java.net.URL;
 
 public class Main extends Application {
@@ -30,14 +29,6 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void openWebsite(String url) {
-        LOGGER.atInfo("Opening website: %s", url);
-        if (null != instance && null != instance.getHostServices()) {
-            instance.getHostServices().showDocument(url);
-        } else {
-            LOGGER.atWarning("Could not open website: %s", url);
-        }
-    }
 
     public static void loadStylesheet(URL url) {
         if (null == instance || null == instance.scene) {
@@ -48,7 +39,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
         LOGGER.atInfo("Loading %s %s (%s)", NAME, VERSION, BUILD);
         var result = FileIO.validate();
 

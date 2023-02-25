@@ -5,6 +5,7 @@ import javafx.scene.input.Clipboard;
 import javafx.scene.input.ClipboardContent;
 
 public final class CustomStringUtils {
+    private CustomStringUtils() {}
 
     public static void copy(String text) {
         final ClipboardContent content = new ClipboardContent();

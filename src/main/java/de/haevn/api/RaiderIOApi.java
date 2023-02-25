@@ -83,7 +83,7 @@ public final class RaiderIOApi extends AbstractApi {
                     final JsonNode rootNode = SerializationUtils.parseJson(json, JsonNode.class);
                     LOGGER.atInfo("Transform root node into affix details");
                     final JsonNode node = rootNode.get("affix_details");
-                    final List<Affix> currentRotation = SerializationUtils.parseJson(node.toString(), new TypeReference<List<Affix>>() {
+                    final List<Affix> currentRotation = SerializationUtils.parseJson(node.toString(), new TypeReference<>() {
                     });
                     LOGGER.atInfo("Parsing done.");
 

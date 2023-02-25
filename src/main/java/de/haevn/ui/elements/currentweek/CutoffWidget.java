@@ -5,8 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
 public class CutoffWidget extends GridPane {
-    private Label lbScore = new Label();
-    private Label lbTotalAchieved = new Label();
+    private final Label lbScore = new Label();
+    private final Label lbTotalAchieved = new Label();
 
     public CutoffWidget() {
         setId("cutoff-widget");

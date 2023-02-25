@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TitleBar extends VBox {
-    private H1 header = new H1();
-    private List<Label> lbSubtext = new ArrayList<>();
+    private final H1 header = new H1();
+    private final List<Label> lbSubtext = new ArrayList<>();
     public TitleBar() {
         this("");
     }

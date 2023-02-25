@@ -7,7 +7,7 @@ public enum RegionEnum {
     NONE("","");
     public final String regionCode;
     public final String regionName;
-    private RegionEnum(String regionCode, String regionName) {
+    RegionEnum(String regionCode, String regionName) {
         this.regionName = regionName;
         this.regionCode = regionCode;
     }

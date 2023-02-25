@@ -14,8 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchBox extends GridPane {
-    private List<EventHandler<ActionEvent>> onActionEventHandler = new ArrayList<>();
-    private final Button btSearch = new Button("Search");
+    private final List<EventHandler<ActionEvent>> onActionEventHandler = new ArrayList<>();
     private final TextField searchField = new TextField();
     private final TextField nameBox = new TextField();
     private final TextField realmBox = new TextField();
@@ -31,6 +30,7 @@ public class SearchBox extends GridPane {
         add(new Label("Realm"), 2, 1);
         add(realmBox, 3, 1);
 
+        Button btSearch = new Button("Search");
         add(btSearch, 1, 2, 3, 1);
 
         GridPane.setHgrow(searchField, Priority.ALWAYS);

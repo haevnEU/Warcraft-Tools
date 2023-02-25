@@ -6,15 +6,12 @@ import de.haevn.abstraction.IModel;
 import de.haevn.abstraction.IView;
 import de.haevn.model.recording.RecordEntry;
 import de.haevn.utils.FileIO;
-import de.haevn.utils.SerializationUtils;
 import de.haevn.utils.NetworkUtils;
-import javafx.beans.value.ObservableValue;
+import de.haevn.utils.SerializationUtils;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
-import java.awt.*;
 import java.io.File;
-import java.io.IOException;
 
 class RecordArchiveController implements IController {
 
@@ -32,13 +29,13 @@ class RecordArchiveController implements IController {
         this.view.setOnAddNewEntry(this::addNewEntry);
         this.view.bindRecordArchiveList(entries);
         this.view.setOnDeleteEntry(this::deleteEntry);
-        this.view.setOnSelectionChanged(this::onSelectionChanged);
+        this.view.setOnSelectionChanged(((observable, oldValue, newValue) -> onSelectionChanged(newValue)));
 
         load();
         Runtime.getRuntime().addShutdownHook(new Thread(this::store));
     }
 
-    private void onSelectionChanged(ObservableValue<? extends RecordEntry> observable, RecordEntry old, RecordEntry entry) {
+    private void onSelectionChanged(RecordEntry entry) {
 
         view.displayRecord(entry);
         if (null != entry.getVideoLink() && !entry.getVideoLink().isEmpty()) {
@@ -47,7 +44,7 @@ class RecordArchiveController implements IController {
             view.setOnButtonViewVideoClicked(null);
         }
         if (null != entry.getLogLink() && NetworkUtils.isUrl(entry.getLogLink())) {
-            view.setOnButtonViewLogsClicked(e -> Main.openWebsite(entry.getLogLink()));
+            view.setOnButtonViewLogsClicked(e -> NetworkUtils.openWebsite(entry.getLogLink()));
         } else {
             view.setOnButtonViewLogsClicked(null);
         }
@@ -73,12 +70,9 @@ class RecordArchiveController implements IController {
 
     private void openVideo(String url) {
         if (NetworkUtils.isUrl(url)) {
-            Main.openWebsite(url);
+            NetworkUtils.openWebsite(url);
         } else {
-            try {
-                Desktop.getDesktop().open(new File(url));
-            } catch (IOException ignored) {
-            }
+            FileIO.openDefaultApplication(new File(url));
         }
     }
 

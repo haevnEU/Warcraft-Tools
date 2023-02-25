@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dungeon {
-    private SimpleObjectProperty<List<Enemy>> enemies = new SimpleObjectProperty<>();
-    private String name;
-    private String shortName;
+    private final SimpleObjectProperty<List<Enemy>> enemies = new SimpleObjectProperty<>();
+    private final String name;
+    private final String shortName;
 
     @Override
     public String toString() {

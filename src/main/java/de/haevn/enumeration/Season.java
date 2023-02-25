@@ -5,13 +5,13 @@ public enum Season {
     DF_SEASON_1("season-df-1", "DF Season 1"),
     SL_SEASON_4("season-sl-4", "SL Season 4"),
     SL_SEASON_3("season-sl-3", "SL Season 3"),
-    NONE("");
+    NONE();
 
     public final String label;
     public final String slug;
 
-    Season(String label) {
-        this(label, label);
+    Season() {
+        this("", "");
     }
 
     Season(String label, String slug) {

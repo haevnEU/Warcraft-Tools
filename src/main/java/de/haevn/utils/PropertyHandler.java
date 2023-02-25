@@ -17,6 +17,7 @@ public final class PropertyHandler {
     private final Properties properties;
     private final String name;
 
+
     private PropertyHandler(String propertyName) {
         properties = new Properties();
         this.name = propertyName;
@@ -58,6 +59,11 @@ public final class PropertyHandler {
         }
     }
 
+
+    //----------------------------------------------------------------------------------------------------------------------
+    //  Getter
+    //----------------------------------------------------------------------------------------------------------------------
+
     public String get(String key) {
         return properties.getProperty(key, "");
     }
@@ -74,10 +80,10 @@ public final class PropertyHandler {
         return Double.parseDouble(properties.getProperty(key, "0"));
     }
 
-
     public List<String> getAllProperties() {
         return properties.keySet().stream().map(Object::toString).toList();
     }
+
 
     public void set(String k, String value) {
         properties.setProperty(k, value);

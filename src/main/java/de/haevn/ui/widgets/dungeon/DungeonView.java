@@ -29,16 +29,13 @@ class DungeonView extends BorderPane implements IView {
         VBox.setVgrow(enemies, javafx.scene.layout.Priority.ALWAYS);
         setCenter(enemyWidget);
 
-        enemies.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            internalShowEnemy(newValue);
-        });
+        enemies.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> internalShowEnemy(newValue));
 
 
-        tfEnemySearch.textProperty().addListener((observable, oldValue, newValue) -> {
 
-            filteredData.setPredicate(enemy -> enemy.getName().toLowerCase().contains(newValue.toLowerCase())
-                    || String.valueOf(enemy.getId()).contains(newValue));
-        });
+        tfEnemySearch.textProperty().addListener((observable, oldValue, newValue) ->
+                filteredData.setPredicate(enemy -> enemy.getName().toLowerCase().contains(newValue.toLowerCase())
+                || String.valueOf(enemy.getId()).contains(newValue)));
 
     }
 

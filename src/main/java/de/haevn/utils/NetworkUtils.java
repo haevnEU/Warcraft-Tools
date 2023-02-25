@@ -2,6 +2,7 @@ package de.haevn.utils;
 
 import de.haevn.exceptions.NetworkException;
 
+import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -16,8 +17,12 @@ public final class NetworkUtils {
 
     private NetworkUtils() {
     }
-
-
+    
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    //  Downloader
+    //----------------------------------------------------------------------------------------------------------------------
+    
     public static HttpResponse<String> download(String url) throws NetworkException {
         try {
             final HttpRequest request = HttpRequest.newBuilder()
@@ -47,6 +52,12 @@ public final class NetworkUtils {
         });
     }
 
+    
+    
+    //----------------------------------------------------------------------------------------------------------------------
+    // Helper methods
+    //----------------------------------------------------------------------------------------------------------------------
+
 
     public static boolean is2xx(int code) {
         return code >= 200 && code < 300;
@@ -66,5 +77,14 @@ public final class NetworkUtils {
 
     public static boolean isUrl(String url){
         return url.startsWith("http://") || url.startsWith("https://");
+    }
+
+    public static void openWebsite(String url) {
+        if (isUrl(url)) {
+            try {
+                Desktop.getDesktop().browse(java.net.URI.create(url));
+            } catch (IOException e) {
+            }
+        }
     }
 }

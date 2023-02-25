@@ -7,7 +7,7 @@ public enum FactionEnum {
     ALLIANCE("Alliance");
 
     private final String label;
-    private FactionEnum(String label) {
+    FactionEnum(String label) {
         this.label = label;
     }
 

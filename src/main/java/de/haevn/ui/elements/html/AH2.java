@@ -1,6 +1,7 @@
 package de.haevn.ui.elements.html;
 
 import de.haevn.Main;
+import de.haevn.utils.NetworkUtils;
 import javafx.event.ActionEvent;
 import javafx.scene.control.Hyperlink;
 
@@ -28,7 +29,7 @@ public class AH2 extends Hyperlink {
 
     private void openLink(ActionEvent event) {
         if (!link.isEmpty()) {
-            Main.openWebsite(link);
+            NetworkUtils.openWebsite(link);
         }
     }
 

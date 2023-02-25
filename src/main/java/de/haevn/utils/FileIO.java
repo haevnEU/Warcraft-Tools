@@ -2,9 +2,12 @@ package de.haevn.utils;
 
 import org.apache.commons.lang3.SystemUtils;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,12 +34,16 @@ public final class FileIO {
         return path.substring(0, path.lastIndexOf("\\"));
     }
 
-    public static URI getURI(String path) {
-        return getURI(new File(path));
+    public static URL getURI(String path) {
+        return getURL(new File(path));
     }
 
-    public static URI getURI(File file) {
-        return file.toURI();
+    public static URL getURL(File file) {
+        try {
+            return file.toURL();
+        } catch (MalformedURLException e) {
+            return null;
+        }
     }
 
     public static String getRootPath() {
@@ -109,6 +116,14 @@ public final class FileIO {
             String target = getRootPath() + path;
             createFile(new File(target));
             Files.write(Paths.get(target), data.getBytes());
+        } catch (IOException ignored) {
+        }
+    }
+
+
+    public static void openDefaultApplication(File file){
+        try {
+            Desktop.getDesktop().open(file);
         } catch (IOException ignored) {
         }
     }

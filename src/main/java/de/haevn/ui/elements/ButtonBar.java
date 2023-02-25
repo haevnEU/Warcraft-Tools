@@ -7,7 +7,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
 public class ButtonBar {
-    Pane root;
+    private final Pane root;
     public ButtonBar(){
         this(Orientation.VERTICAL);
     }

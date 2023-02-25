@@ -17,8 +17,6 @@ public class ClearInput extends GridPane {
     private final List<EventHandler<ActionEvent>> onActionEventHandler = new ArrayList<>();
 
     private final TextField textField = new TextField();
-    private final Button btClear = new Button("Clear");
-    private final Button btCopy = new Button("Copy");
 
     public ClearInput() {
         this("");
@@ -34,7 +32,9 @@ public class ClearInput extends GridPane {
         textField.setOnMouseClicked(event1 -> textField.selectAll());
 
         addOnClearClicked(event -> textField.setText(""));
+        Button btClear = new Button("Clear");
         btClear.setOnAction(event -> onActionEventHandler.forEach(actionEventEventHandler -> actionEventEventHandler.handle(event)));
+        Button btCopy = new Button("Copy");
         btCopy.setOnAction(event -> {
             textField.selectAll();
             textField.copy();

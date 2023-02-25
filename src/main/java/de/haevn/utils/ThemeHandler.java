@@ -5,7 +5,7 @@ import de.haevn.logging.Logger;
 import de.haevn.logging.LoggerHandler;
 import de.haevn.ui.widgets.recordarchive.NewRecordWidget;
 import javafx.beans.property.SimpleObjectProperty;
-import lombok.SneakyThrows;
+
 
 import java.io.File;
 import java.net.URL;
@@ -59,10 +59,9 @@ public final class ThemeHandler {
         reload();
     }
 
-    @SneakyThrows
     public void reload() {
         LOGGER.atInfo("Reloading theme");
-        URL uri = FileIO.getURI(FileIO.getRootPath() + "styles/" + currentTheme.get() + ".css").toURL();
+        URL uri = FileIO.getURI(FileIO.getRootPath() + "styles/" + currentTheme.get() + ".css");
 
         LOGGER.atInfo("Loading stylesheet: %s", uri);
         if (!new File(uri.getPath()).exists()) {

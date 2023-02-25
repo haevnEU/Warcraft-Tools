@@ -21,6 +21,11 @@ public final class SerializationUtils {
     private SerializationUtils() {
     }
 
+
+    //----------------------------------------------------------------------------------------------------------------------
+    //  Regula
+    //----------------------------------------------------------------------------------------------------------------------
+
     public static <T> T parseXml(String json, Class<T> type) throws JsonProcessingException {
         return xmlMapper.readValue(json, type);
     }
@@ -39,6 +44,9 @@ public final class SerializationUtils {
     }
 
 
+    //----------------------------------------------------------------------------------------------------------------------
+    //  Secure parsing
+    //----------------------------------------------------------------------------------------------------------------------
 
     public static <T> Optional<T> parseXmlSecure(String json, Class<T> type) {
         try {
@@ -67,7 +75,7 @@ public final class SerializationUtils {
         }
     }
 
-    public static <T> Optional<T> parseJsonSecure(String json, TypeReference<T> type) throws JsonProcessingException {
+    public static <T> Optional<T> parseJsonSecure(String json, TypeReference<T> type) {
         try {
             return Optional.of(jsonMapper.readValue(json, type));
         } catch (JsonProcessingException ex) {
@@ -75,6 +83,10 @@ public final class SerializationUtils {
         }
     }
 
+
+    //----------------------------------------------------------------------------------------------------------------------
+    //  Export
+    //----------------------------------------------------------------------------------------------------------------------
 
     public static Optional<String> exportXml(Object data){
         try {
