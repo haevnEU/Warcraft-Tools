@@ -39,6 +39,7 @@ class RecordArchiveController implements IController {
     }
 
     private void onSelectionChanged(ObservableValue<? extends RecordEntry> observable, RecordEntry old, RecordEntry entry) {
+
         view.displayRecord(entry);
         if (null != entry.getVideoLink() && !entry.getVideoLink().isEmpty()) {
             view.setOnButtonViewVideoClicked(e -> openVideo(entry.getVideoLink()));

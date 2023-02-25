@@ -33,7 +33,11 @@ class RecordArchiveView extends BorderPane implements IView {
     private final Predicate<RecordEntry> nameFilter = recordEntry -> recordEntry.getName().toLowerCase().contains(tfQuery.getText().toLowerCase());
     //private final Predicate<RecordEntry> dateFilter = recordEntry -> recordEntry.getRecordDate().contains(tfQuery.getText().toLowerCase());
     private final Predicate<RecordEntry> dateFilter = recordEntry -> false;
-    private final Predicate<RecordEntry> tagFilter = recordEntry -> Arrays.stream(recordEntry.getTags().toLowerCase().split(";")).toList().contains(tfQuery.getText().toLowerCase());
+    private final Predicate<RecordEntry> tagFilter = recordEntry ->
+            Arrays.stream(recordEntry.getTags().toLowerCase().split(";"))
+            .toList()
+                    .stream()
+                    .anyMatch(s -> s.contains(tfQuery.getText().toLowerCase()));
 
 
     private FilteredList<RecordEntry> filteredData;
@@ -71,8 +75,13 @@ class RecordArchiveView extends BorderPane implements IView {
         setPadding(new Insets(10));
         lvRecordArchive.setItems(filteredData);
 
-        final Predicate<RecordEntry> filter = nameFilter.or(tagFilter).or(dateFilter);
-        tfQuery.textProperty().addListener((observable, old, entry) -> filteredData.setPredicate(filter));
+        tfQuery.textProperty().addListener((observable, old, entry) -> {
+            if(entry.isEmpty()){
+                filteredData.setPredicate(p -> true);
+            }else{
+                filteredData.setPredicate(nameFilter.or(tagFilter).or(dateFilter));
+            }
+        });
 
         GridPane.setValignment(lbTags, VPos.TOP);
         taTags.setEditable(false);

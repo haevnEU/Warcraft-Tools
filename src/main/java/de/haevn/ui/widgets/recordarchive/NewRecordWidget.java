@@ -84,6 +84,7 @@ public class NewRecordWidget extends Stage {
 
         textFieldRecordingLocation.setEditable(false);
         textFieldName.setOnAction(e -> prefill());
+        textFieldName.setPromptText("Type prefill to add some basic tags");
     }
 
     public static Optional<RecordEntry> getResult() {
@@ -133,9 +134,16 @@ public class NewRecordWidget extends Stage {
 
     private void prefill() {
         if (textFieldName.getText().equalsIgnoreCase("prefill")) {
-            final LocalDate date = LocalDate.now();
-            textFieldRecordDate.setValue(date);
-            textAreaTags.setText(date + "\nrecording\nraid\n" + System.currentTimeMillis());
+            textFieldRecordDate.setValue(LocalDate.now());
+            final LocalDate date = textFieldRecordDate.getValue();
+            textAreaTags.setText(date
+                    + "\n" + date.getYear()
+                    + "\n" + date.getMonth()
+                    + "\n" + date.getDayOfMonth()
+                    + "\n" + date.getDayOfWeek()
+                    + "\nrecording"
+                    + "\nraid"
+                    + "\n" + System.currentTimeMillis());
             textFieldName.setText(date.toString());
 
         }
