@@ -3,6 +3,7 @@ package de.haevn.ui.widgets.recordarchive;
 import de.haevn.model.recording.RecordEntry;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.utils.Creator;
+import de.haevn.utils.AlertUtils;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -121,7 +122,18 @@ public class NewRecordWidget extends Stage {
 
     private void save() {
         dialogResult = true;
-        this.close();
+
+        if(textFieldName.getText().isEmpty()){
+            AlertUtils.showNormal("Name is empty", "Enter a valid name for the recording");
+        } else if(textFieldRecordingLocation.getText().isEmpty()){
+            AlertUtils.showNormal("Recording location is empty", "Please choose the location of the recording");
+        }else if(textFieldWarcraftLogsLink.getText().isEmpty()){
+            if(AlertUtils.showConfirmation("Name is empty", "Enter a valid name for the recording")){
+                this.close();
+            }
+        }else{
+            this.close();
+        }
     }
 
     private void selectRecordingFile() {
