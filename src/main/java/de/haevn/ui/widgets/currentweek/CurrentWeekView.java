@@ -4,8 +4,9 @@ import de.haevn.abstraction.IView;
 import de.haevn.enumeration.FactionEnum;
 import de.haevn.ui.elements.GroupWidget;
 import de.haevn.ui.elements.currentweek.CutoffWidget;
-import de.haevn.ui.elements.html.*;
-
+import de.haevn.ui.elements.html.AH1;
+import de.haevn.ui.elements.html.H1;
+import de.haevn.ui.elements.html.H4;
 import de.haevn.utils.PropertyHandler;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;

@@ -66,7 +66,7 @@ class CurrentWeekController implements IController {
 
     @Override
     public void link(IView view, IModel model) {
-        if(!(view instanceof CurrentWeekView))
+        if (!(view instanceof CurrentWeekView))
             throw new IllegalArgumentException("View must be of type CurrentWeekView!");
 
         this.view = (CurrentWeekView) view;

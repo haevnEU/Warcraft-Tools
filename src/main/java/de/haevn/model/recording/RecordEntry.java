@@ -13,7 +13,7 @@ public class RecordEntry {
     private String tags;
 
     @Override
-    public String toString(){
+    public String toString() {
         return name + " " + recordDate;
     }
 }

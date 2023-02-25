@@ -50,7 +50,7 @@ public final class SerializationUtils {
 
     public static <T> Optional<T> parseXmlSecure(String json, Class<T> type) {
         try {
-            var value =  xmlMapper.readValue(json, type);
+            var value = xmlMapper.readValue(json, type);
             return Optional.of(value);
         } catch (JsonProcessingException ignored) {
             return Optional.empty();
@@ -59,7 +59,7 @@ public final class SerializationUtils {
 
     public static <T> Optional<T> parseXmlSecure(String json, TypeReference<T> type) {
         try {
-            var value =  xmlMapper.readValue(json, type);
+            var value = xmlMapper.readValue(json, type);
             return Optional.of(value);
         } catch (JsonProcessingException ignored) {
             return Optional.empty();
@@ -88,7 +88,7 @@ public final class SerializationUtils {
     //  Export
     //----------------------------------------------------------------------------------------------------------------------
 
-    public static Optional<String> exportXml(Object data){
+    public static Optional<String> exportXml(Object data) {
         try {
             final String result = xmlMapper.writeValueAsString(data);
             return Optional.of(result);

@@ -1,10 +1,9 @@
 package de.haevn.ui.windows;
 
-import de.haevn.Main;
-import de.haevn.ui.utils.Creator;
 import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.elements.html.H2;
+import de.haevn.ui.utils.Creator;
 import de.haevn.utils.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -68,6 +67,12 @@ public class CrashReport extends AbstractWindow {
         super.initialize(root);
     }
 
+    public static void show(Throwable throwable) {
+        CrashReport widget = new CrashReport(throwable);
+        widget.showAndWait();
+        Platform.exit();
+    }
+
     public void setOnClose(EventHandler<ActionEvent> event) {
         btClose.setOnAction(event);
         bottom.getChildren().add(btClose);
@@ -87,13 +92,6 @@ public class CrashReport extends AbstractWindow {
 
         root.setVisible(true);
     }
-
-    public static void show(Throwable throwable) {
-        CrashReport widget = new CrashReport(throwable);
-        widget.showAndWait();
-        Platform.exit();
-    }
-
 
     private void copy() {
         json.userMessage = lbMessage.getText();

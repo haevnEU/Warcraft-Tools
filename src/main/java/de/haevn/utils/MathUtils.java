@@ -23,30 +23,32 @@ public final class MathUtils {
             return fallbackNumber;
         }
     }
+
     public static Integer stringToInteger(String string) {
         return stringToInteger(string, 0);
     }
 
-    public static Double stringToDouble(String string, double fallbackNumber){
+    public static Double stringToDouble(String string, double fallbackNumber) {
         try {
             return Double.parseDouble(string);
         } catch (NumberFormatException e) {
             return fallbackNumber;
         }
     }
+
     public static Double stringToDouble(String string) {
         return stringToDouble(string, 0.0);
     }
 
 
-    public static String numberToShortValue(int number){
+    public static String numberToShortValue(int number) {
         if (number < 1000) return Integer.toString(number);
         if (number < 1000000) return getDecimalFormat().format(number / 1000.0) + "K";
         if (number < 1000000000) return getDecimalFormat().format(number / 1000000.0) + "M";
         return getDecimalFormat().format(number / 1000000000.0) + "B";
     }
 
-    public static String numberToShortValue(double number){
+    public static String numberToShortValue(double number) {
         return numberToShortValue((int) number);
     }
 

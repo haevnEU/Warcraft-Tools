@@ -14,6 +14,7 @@ import javafx.scene.web.WebView;
 class ResourcesView extends BorderPane implements IView {
 
     final TabPane tabs = new TabPane();
+
     public ResourcesView() {
 
 
@@ -30,20 +31,20 @@ class ResourcesView extends BorderPane implements IView {
     }
 
 
-    private void goback(){
-        if(tabs.getSelectionModel().selectedItemProperty().get().getContent() instanceof WebView webView){
+    private void goback() {
+        if (tabs.getSelectionModel().selectedItemProperty().get().getContent() instanceof WebView webView) {
             Platform.runLater(() -> webView.getEngine().executeScript("history.back()"));
         }
     }
 
-    private void goforward(){
-        if(tabs.getSelectionModel().selectedItemProperty().get().getContent() instanceof WebView webView){
+    private void goforward() {
+        if (tabs.getSelectionModel().selectedItemProperty().get().getContent() instanceof WebView webView) {
             Platform.runLater(() -> webView.getEngine().executeScript("history.forward()"));
         }
     }
 
-    private void reload(){
-        if(tabs.getSelectionModel().selectedItemProperty().get().getContent() instanceof WebView webView){
+    private void reload() {
+        if (tabs.getSelectionModel().selectedItemProperty().get().getContent() instanceof WebView webView) {
             Platform.runLater(() -> webView.getEngine().reload());
         }
     }

@@ -4,10 +4,9 @@ import de.haevn.abstraction.IViewWidget;
 
 public class CurrentWeekWidget implements IViewWidget {
     private final CurrentWeekView view = new CurrentWeekView();
-    private final CurrentWeekController controller = new CurrentWeekController();
 
-    public CurrentWeekWidget(){
-        controller.link(view, null);
+    public CurrentWeekWidget() {
+        new CurrentWeekController().link(view, null);
     }
 
     @Override

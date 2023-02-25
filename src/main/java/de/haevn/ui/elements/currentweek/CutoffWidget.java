@@ -18,7 +18,7 @@ public class CutoffWidget extends GridPane {
     }
 
 
-    public void setData(String score, String totalPlayer){
+    public void setData(String score, String totalPlayer) {
         Platform.runLater(() -> {
             lbScore.setText(score);
             lbTotalAchieved.setText(totalPlayer);

@@ -2,7 +2,7 @@ package de.haevn.enumeration;
 
 public enum RatingEnum {
 
-    POSITIVE(""), NEGATIVE(""), NEUTRAL("");
+    POSITIVE("▲"), NEGATIVE("▼"), NEUTRAL("▶");
 
     public final String label;
 

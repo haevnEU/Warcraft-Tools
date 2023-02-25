@@ -34,7 +34,7 @@ class PlayerSearchController implements IController {
         view.showSearching();
         final Consumer<PlayerLookupModel> errorAbsentConsumer = playerLookupModel -> {
             view.showPlayerDetails(playerLookupModel);
-            calculateScore();
+            // Calculate the player rating here
         };
         final Consumer<Throwable> errorConsumer = exception -> view.showError(exception);
 
@@ -45,9 +45,4 @@ class PlayerSearchController implements IController {
                     return player;
                 });
     }
-
-    private void calculateScore() {
-        // This method is called when the player is found and the view is updated
-    }
-
 }

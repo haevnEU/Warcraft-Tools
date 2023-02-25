@@ -5,14 +5,9 @@ import java.util.Map;
 
 public class Scaling {
     private static final Scaling INSTANCE = new Scaling();
-
-    public static Scaling getInstance() {
-        return INSTANCE;
-    }
-
     private final Map<Integer, Double> scalingMap = new HashMap<>();
 
-    private Scaling(){
+    private Scaling() {
         scalingMap.put(2, 1.0);
         scalingMap.put(3, 1.08);
         scalingMap.put(4, 1.17);
@@ -45,8 +40,11 @@ public class Scaling {
 
     }
 
+    public static Scaling getInstance() {
+        return INSTANCE;
+    }
 
-    public double getScalarFor(int level){
+    public double getScalarFor(int level) {
         return scalingMap.getOrDefault(level, 1.0);
     }
 }

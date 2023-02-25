@@ -102,7 +102,7 @@ public class NewRecordWidget extends Stage {
         return Optional.of(instance.getData());
     }
 
-    public static void update(RecordEntry entry){
+    public static void update(RecordEntry entry) {
         instance.textFieldName.setText(entry.getName());
         instance.textFieldRecordDate.setValue(entry.getRecordDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         instance.textFieldWarcraftLogsLink.setText(entry.getLogLink());
@@ -132,15 +132,15 @@ public class NewRecordWidget extends Stage {
     private void save() {
         dialogResult = true;
 
-        if(textFieldName.getText().isEmpty()){
+        if (textFieldName.getText().isEmpty()) {
             AlertUtils.showNormal("Name is empty", "Enter a valid name for the recording");
-        } else if(textFieldRecordingLocation.getText().isEmpty()){
+        } else if (textFieldRecordingLocation.getText().isEmpty()) {
             AlertUtils.showNormal("Recording location is empty", "Please choose the location of the recording");
-        }else if(textFieldWarcraftLogsLink.getText().isEmpty()){
-            if(AlertUtils.showConfirmation("Warcaftlogs link is empty", "Do you want to continue without a link to any logfile?")){
+        } else if (textFieldWarcraftLogsLink.getText().isEmpty()) {
+            if (AlertUtils.showConfirmation("Warcaftlogs link is empty", "Do you want to continue without a link to any logfile?")) {
                 this.close();
             }
-        }else{
+        } else {
             this.close();
         }
     }

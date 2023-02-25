@@ -2,12 +2,12 @@ package de.haevn.ui.widgets.pgf;
 
 import de.haevn.abstraction.IView;
 import de.haevn.api.GitHubApi;
-import de.haevn.ui.utils.CheckBoxGroup;
-import de.haevn.ui.utils.Creator;
 import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.ClearInput;
 import de.haevn.ui.elements.html.ErrorLabel;
 import de.haevn.ui.elements.html.H1;
+import de.haevn.ui.utils.CheckBoxGroup;
+import de.haevn.ui.utils.Creator;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;

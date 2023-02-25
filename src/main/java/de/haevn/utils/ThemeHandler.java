@@ -6,7 +6,6 @@ import de.haevn.logging.LoggerHandler;
 import de.haevn.ui.widgets.recordarchive.NewRecordWidget;
 import javafx.beans.property.SimpleObjectProperty;
 
-
 import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public final class ThemeHandler {
                 name = name.substring(0, name.lastIndexOf("."));
                 themes.add(name);
             }
-        }else {
+        } else {
             LOGGER.atWarning("Could not find any themes");
         }
     }

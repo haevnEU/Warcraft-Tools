@@ -19,7 +19,7 @@ public class NetworkData<T> {
     }
 
     public T getData() {
-        return data.get();
+        return data.orElse(null);
     }
 
     public Throwable getException() {
@@ -54,8 +54,8 @@ public class NetworkData<T> {
     }
 
     public static class NetworkDataChain<T> {
-        private boolean done = false;
         private final T data;
+        private boolean done = false;
 
         NetworkDataChain(T data) {
             this.data = data;

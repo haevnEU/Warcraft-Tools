@@ -10,6 +10,7 @@ import java.util.List;
 public class TitleBar extends VBox {
     private final H1 header = new H1();
     private final List<Label> lbSubtext = new ArrayList<>();
+
     public TitleBar() {
         this("");
     }
@@ -32,10 +33,10 @@ public class TitleBar extends VBox {
         header.setText(text);
     }
 
-    public void addSubtext(Label ... labels) {
+    public void addSubtext(Label... labels) {
 
         for (Label label : labels) {
-            if(lbSubtext.contains(label)) {
+            if (lbSubtext.contains(label)) {
                 continue;
             }
 

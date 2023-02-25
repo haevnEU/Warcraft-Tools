@@ -7,7 +7,7 @@ public class LoggerHandler {
 
     private static final Map<String, Logger> loggers = new HashMap<>();
 
-    public static Logger get(){
+    public static Logger get() {
         return get(AnonymousLogger.class);
     }
 
@@ -30,5 +30,6 @@ public class LoggerHandler {
         DEBUG
     }
 
-    private interface AnonymousLogger{}
+    private interface AnonymousLogger {
+    }
 }

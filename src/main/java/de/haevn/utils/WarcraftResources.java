@@ -12,7 +12,7 @@ public class WarcraftResources {
     private List<Resource> other = new ArrayList<>();
 
     @Data
-    public static class Resource{
+    public static class Resource {
         private String name;
         private String url;
     }

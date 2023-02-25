@@ -9,11 +9,7 @@ public abstract class AbstractWindow {
     private final Stage stage = new Stage();
 
     protected void initialize(Pane root) {
-        initialize(root, 800, 600);
-    }
-
-    protected void initialize(Pane root, double width, double height) {
-        Scene scene = new Scene(root, width, height);
+        Scene scene = new Scene(root, 800, 600);
         stage.setResizable(false);
         stage.setScene(scene);
     }
@@ -26,7 +22,6 @@ public abstract class AbstractWindow {
     public void showAndWait() {
         stage.showAndWait();
     }
-
 
 
     public void hide() {

@@ -30,12 +30,11 @@ class RecordArchiveView extends BorderPane implements IView {
     private final ListView<RecordEntry> lvRecordArchive = new ListView<>();
 
 
+    // Add a date filter
     private final Predicate<RecordEntry> nameFilter = recordEntry -> recordEntry.getName().toLowerCase().contains(tfQuery.getText().toLowerCase());
-    //private final Predicate<RecordEntry> dateFilter = recordEntry -> recordEntry.getRecordDate().contains(tfQuery.getText().toLowerCase());
-    private final Predicate<RecordEntry> dateFilter = recordEntry -> false;
     private final Predicate<RecordEntry> tagFilter = recordEntry ->
             Arrays.stream(recordEntry.getTags().toLowerCase().split(";"))
-            .toList()
+                    .toList()
                     .stream()
                     .anyMatch(s -> s.contains(tfQuery.getText().toLowerCase()));
 
@@ -76,10 +75,10 @@ class RecordArchiveView extends BorderPane implements IView {
         lvRecordArchive.setItems(filteredData);
 
         tfQuery.textProperty().addListener((observable, old, entry) -> {
-            if(entry.isEmpty()){
+            if (entry.isEmpty()) {
                 filteredData.setPredicate(p -> true);
-            }else{
-                filteredData.setPredicate(nameFilter.or(tagFilter).or(dateFilter));
+            } else {
+                filteredData.setPredicate(nameFilter.or(tagFilter));
             }
         });
 

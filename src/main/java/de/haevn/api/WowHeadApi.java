@@ -11,11 +11,11 @@ public class WowHeadApi extends AbstractApi {
     private static final Logger LOGGER = LoggerHandler.get(WowHeadApi.class);
     private static final WowHeadApi INSTANCE = new WowHeadApi();
 
-    public static WowHeadApi getInstance() {
-        return INSTANCE;
+    private WowHeadApi() {
     }
 
-    private WowHeadApi() {
+    public static WowHeadApi getInstance() {
+        return INSTANCE;
     }
 
     public CompletableFuture<String> getNameForSpell(int spellID) {

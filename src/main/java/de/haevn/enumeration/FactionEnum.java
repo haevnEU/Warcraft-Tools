@@ -7,18 +7,13 @@ public enum FactionEnum {
     ALLIANCE("Alliance");
 
     private final String label;
+
     FactionEnum(String label) {
         this.label = label;
     }
 
-    @Override
-    public String toString() {
-        return label;
-    }
-
-
-    public static FactionEnum getFactionByName(String name){
-        return switch(name.toLowerCase()){
+    public static FactionEnum getFactionByName(String name) {
+        return switch (name.toLowerCase()) {
             case "alliance":
                 yield ALLIANCE;
             case "horde":
@@ -26,5 +21,10 @@ public enum FactionEnum {
             default:
                 yield ALL;
         };
+    }
+
+    @Override
+    public String toString() {
+        return label;
     }
 }

@@ -13,15 +13,17 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class Creator {
-    private Creator(){}
+    private Creator() {
+    }
 
     public static Button createButton(String title, EventHandler<ActionEvent> event) {
         return createButton(title, 0, event);
     }
-        public static Button createButton(String title, double width, EventHandler<ActionEvent> event){
+
+    public static Button createButton(String title, double width, EventHandler<ActionEvent> event) {
         Button button = new Button(title);
         button.setOnAction(event);
-        if(width > 0){
+        if (width > 0) {
             button.setPrefWidth(width);
             button.setMaxWidth(width);
             button.setMinWidth(width);
@@ -29,14 +31,14 @@ public class Creator {
         return button;
     }
 
-    public static Tab createTab(String title, Node node){
+    public static Tab createTab(String title, Node node) {
         Tab tab = new Tab(title);
         tab.setContent(node);
         tab.setClosable(false);
         return tab;
     }
 
-    public static GridPane createForm(Map<String, Node> entries){
+    public static GridPane createForm(Map<String, Node> entries) {
         GridPane pane = new GridPane();
         pane.setHgap(10);
         pane.setVgap(10);

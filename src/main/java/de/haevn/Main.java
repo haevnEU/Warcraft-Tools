@@ -43,7 +43,7 @@ public class Main extends Application {
         LOGGER.atInfo("Loading %s %s (%s)", NAME, VERSION, BUILD);
         var result = FileIO.validate();
 
-        if (!result.getFirst().booleanValue()) {
+        if (!result.getFirst()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Self check failed");

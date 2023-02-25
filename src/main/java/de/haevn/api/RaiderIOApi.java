@@ -11,8 +11,8 @@ import de.haevn.logging.LoggerHandler;
 import de.haevn.model.lookup.PlayerLookupModel;
 import de.haevn.model.seasonal.SeasonCutoff;
 import de.haevn.model.weekly.Affix;
-import de.haevn.utils.SerializationUtils;
 import de.haevn.utils.NetworkUtils;
+import de.haevn.utils.SerializationUtils;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 

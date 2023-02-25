@@ -1,10 +1,10 @@
 package de.haevn.ui.elements.lookup;
 
 import de.haevn.model.lookup.RaidProgression;
-import de.haevn.utils.MathUtils;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.elements.html.H2;
 import de.haevn.ui.elements.html.H3;
+import de.haevn.utils.MathUtils;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
@@ -20,6 +20,7 @@ public class RaidView extends BorderPane {
     private final Label lbNormal = new Label();
     private final Label lbHeroic = new Label();
     private final Label lbMythic = new Label();
+
     public RaidView(String title) {
         setLeft(lvRaids);
         setTop(new H1(title));

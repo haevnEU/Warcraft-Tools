@@ -8,8 +8,9 @@ public class RefreshButton extends Label {
     public RefreshButton() {
         this(null);
     }
+
     public RefreshButton(EventHandler<MouseEvent> e) {
-        if(null != e){
+        if (null != e) {
             setOnAction(e);
         }
         setText("⟳");

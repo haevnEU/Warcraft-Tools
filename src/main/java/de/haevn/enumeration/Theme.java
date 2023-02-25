@@ -20,7 +20,8 @@ public enum Theme {
     WARRIOR("warrior");
 
     public final String label;
-    Theme(String label){
+
+    Theme(String label) {
         this.label = label;
     }
 

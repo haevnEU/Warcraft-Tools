@@ -4,10 +4,9 @@ import de.haevn.abstraction.IViewWidget;
 
 public class PlayerSearchWidget implements IViewWidget {
     private final PlayerSearchView view = new PlayerSearchView();
-    private final PlayerSearchController controller = new PlayerSearchController();
 
-    public PlayerSearchWidget(){
-        controller.link(view, null);
+    public PlayerSearchWidget() {
+        new PlayerSearchController().link(view, null);
     }
 
     @Override

@@ -1,6 +1,5 @@
 package de.haevn.ui.widgets.recordarchive;
 
-import de.haevn.Main;
 import de.haevn.abstraction.IController;
 import de.haevn.abstraction.IModel;
 import de.haevn.abstraction.IView;

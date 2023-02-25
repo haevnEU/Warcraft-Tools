@@ -32,10 +32,9 @@ class DungeonView extends BorderPane implements IView {
         enemies.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> internalShowEnemy(newValue));
 
 
-
         tfEnemySearch.textProperty().addListener((observable, oldValue, newValue) ->
                 filteredData.setPredicate(enemy -> enemy.getName().toLowerCase().contains(newValue.toLowerCase())
-                || String.valueOf(enemy.getId()).contains(newValue)));
+                        || String.valueOf(enemy.getId()).contains(newValue)));
 
     }
 

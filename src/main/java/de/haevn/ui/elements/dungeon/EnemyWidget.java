@@ -82,7 +82,7 @@ public class EnemyWidget extends GridPane {
 
     }
 
-    private double multiplyHealth(int keystoneLevel){
+    private double multiplyHealth(int keystoneLevel) {
         double result = enemy.getHealth();
         double multiplier = 1.2;
         if (enemy.isBoss() && WeeklyAffix.isTyrannical()) {
@@ -114,17 +114,17 @@ public class EnemyWidget extends GridPane {
 
         spellPane.getChildren().clear();
         enemy.getSpells().forEach(spell ->
-            WowHeadApi.getInstance().getNameForSpell(spell).thenApply(name -> {
-                Platform.runLater(() -> {
-                    if (!name.isEmpty() && !name.contains("error occurred")) {
-                        final A label = new A();
-                        label.setText(name);
-                        label.setLink("https://www.wowhead.com/spell=" + spell);
-                        spellPane.getChildren().add(label);
-                    }
-                });
-                return null;
-            })
+                WowHeadApi.getInstance().getNameForSpell(spell).thenApply(name -> {
+                    Platform.runLater(() -> {
+                        if (!name.isEmpty() && !name.contains("error occurred")) {
+                            final A label = new A();
+                            label.setText(name);
+                            label.setLink("https://www.wowhead.com/spell=" + spell);
+                            spellPane.getChildren().add(label);
+                        }
+                    });
+                    return null;
+                })
         );
 
         isBoss.setText(String.valueOf(enemy.isBoss()));

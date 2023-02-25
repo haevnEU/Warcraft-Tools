@@ -2,9 +2,9 @@ package de.haevn.ui.elements.lookup;
 
 import de.haevn.model.lookup.MythicPlusDungeon;
 import de.haevn.model.weekly.WeeklyAffix;
-import de.haevn.utils.MathUtils;
 import de.haevn.ui.elements.html.AH2;
 import de.haevn.ui.elements.html.H1;
+import de.haevn.utils.MathUtils;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;

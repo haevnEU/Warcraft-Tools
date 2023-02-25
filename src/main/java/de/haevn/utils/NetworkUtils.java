@@ -17,12 +17,12 @@ public final class NetworkUtils {
 
     private NetworkUtils() {
     }
-    
-    
+
+
     //----------------------------------------------------------------------------------------------------------------------
     //  Downloader
     //----------------------------------------------------------------------------------------------------------------------
-    
+
     public static HttpResponse<String> download(String url) throws NetworkException {
         try {
             final HttpRequest request = HttpRequest.newBuilder()
@@ -52,8 +52,7 @@ public final class NetworkUtils {
         });
     }
 
-    
-    
+
     //----------------------------------------------------------------------------------------------------------------------
     // Helper methods
     //----------------------------------------------------------------------------------------------------------------------
@@ -75,7 +74,7 @@ public final class NetworkUtils {
         return code >= 500 && code < 600;
     }
 
-    public static boolean isUrl(String url){
+    public static boolean isUrl(String url) {
         return url.startsWith("http://") || url.startsWith("https://");
     }
 
@@ -83,7 +82,7 @@ public final class NetworkUtils {
         if (isUrl(url)) {
             try {
                 Desktop.getDesktop().browse(java.net.URI.create(url));
-            } catch (IOException e) {
+            } catch (IOException ignored) {
             }
         }
     }

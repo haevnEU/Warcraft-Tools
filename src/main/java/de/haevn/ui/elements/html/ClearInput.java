@@ -62,12 +62,12 @@ public class ClearInput extends GridPane {
         textField.textProperty().addListener(event);
     }
 
-    public void setText(String text) {
-        textField.setText(text);
-    }
-
     public String getText() {
         return textField.getText();
+    }
+
+    public void setText(String text) {
+        textField.setText(text);
     }
 
     public StringProperty getTextProperty() {
