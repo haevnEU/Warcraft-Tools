@@ -40,6 +40,7 @@ public final class ThemeHandler {
         return INSTANCE;
     }
 
+
     public String[] getThemes() {
         return themes.toArray(new String[0]);
     }

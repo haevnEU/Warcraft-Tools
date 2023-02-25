@@ -6,7 +6,6 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +16,10 @@ public final class FileIO {
     private FileIO() {
     }
 
+
+    //----------------------------------------------------------------------------------------------------------------------
+    //  Meta information
+    //----------------------------------------------------------------------------------------------------------------------
 
     public static String getFileName(String path) {
         return path.substring(path.lastIndexOf("\\") + 1);
@@ -34,13 +37,73 @@ public final class FileIO {
         return path.substring(0, path.lastIndexOf("\\"));
     }
 
+
+    //----------------------------------------------------------------------------------------------------------------------
+    //  File access methods
+    //----------------------------------------------------------------------------------------------------------------------
+
+    public static String readFile(String path) {
+        try {
+            String target = getRootPath() + path;
+            var lines = Files.readAllLines(Paths.get(target));
+            return String.join("\n", lines);
+        } catch (IOException e) {
+            return "";
+        }
+    }
+
+    public static void store(String path, String data) {
+        try {
+            String target = getRootPath() + path;
+            createFile(new File(target));
+            Files.write(Paths.get(target), data.getBytes());
+        } catch (IOException ignored) {
+        }
+    }
+
+    public static void append(String filename, String data) {
+        append(new File(filename), data);
+    }
+
+    public static void append(File file, String data) {
+        try {
+            createFile(file);
+            Files.write(file.toPath(), data.getBytes(), StandardOpenOption.APPEND);
+        } catch (IOException ignored) {
+        }
+    }
+
+
+    public static void createFile(File file) {
+        if (file.exists()) {
+            return;
+        }
+        try {
+            createDirectory(file.getParentFile());
+            file.createNewFile();
+        } catch (IOException ignored) {
+        }
+    }
+
+    public static void createDirectory(File directory) {
+        if (directory.exists()) {
+            return;
+        }
+        directory.mkdirs();
+    }
+
+
+    //----------------------------------------------------------------------------------------------------------------------
+    // Utils methods
+    //----------------------------------------------------------------------------------------------------------------------
+
     public static URL getURI(String path) {
         return getURL(new File(path));
     }
 
     public static URL getURL(File file) {
         try {
-            return file.toURL();
+            return file.toURI().toURL();
         } catch (MalformedURLException e) {
             return null;
         }
@@ -71,57 +134,7 @@ public final class FileIO {
         return new Tuple<>(true, "All files exist");
     }
 
-    public static void append(String filename, String data) {
-        append(new File(filename), data);
-    }
-
-    public static void append(File file, String data) {
-        try {
-            createFile(file);
-            Files.write(file.toPath(), data.getBytes(), StandardOpenOption.APPEND);
-        } catch (IOException ignored) {
-        }
-    }
-
-    public static void createFile(File file) {
-        if (file.exists()) {
-            return;
-        }
-        try {
-            createDirectory(file.getParentFile());
-            file.createNewFile();
-        } catch (IOException ignored) {
-        }
-    }
-
-    public static void createDirectory(File directory) {
-        if (directory.exists()) {
-            return;
-        }
-        directory.mkdirs();
-    }
-
-    public static String readFile(String path) {
-        try {
-            String target = getRootPath() + path;
-            var lines = Files.readAllLines(Paths.get(target));
-            return String.join("\n", lines);
-        } catch (IOException e) {
-            return "";
-        }
-    }
-
-    public static void store(String path, String data) {
-        try {
-            String target = getRootPath() + path;
-            createFile(new File(target));
-            Files.write(Paths.get(target), data.getBytes());
-        } catch (IOException ignored) {
-        }
-    }
-
-
-    public static void openDefaultApplication(File file){
+    public static void openDefaultApplication(File file) {
         try {
             Desktop.getDesktop().open(file);
         } catch (IOException ignored) {
