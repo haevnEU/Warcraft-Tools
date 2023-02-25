@@ -163,7 +163,7 @@ public final class RaiderIOApi extends AbstractApi {
 
                 final HttpResponse<String> download = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", download.statusCode(), download.body().length());
-                if (!NetworkUtils.is2xx(download.statusCode())) {
+                if (NetworkUtils.isNot2xx(download.statusCode())) {
                     throw new NetworkException(download);
                 }
 

@@ -62,6 +62,11 @@ public final class NetworkUtils {
         return code >= 200 && code < 300;
     }
 
+    public static boolean isNot2xx(int code) {
+        return !is2xx(code);
+    }
+
+
     public static boolean is3xx(int code) {
         return code >= 300 && code < 400;
     }

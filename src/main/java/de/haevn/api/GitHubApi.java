@@ -79,7 +79,7 @@ public final class GitHubApi extends AbstractApi {
                 final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
 
-                if (!NetworkUtils.is2xx(result.statusCode())) {
+                if (NetworkUtils.isNot2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
@@ -106,7 +106,7 @@ public final class GitHubApi extends AbstractApi {
                 LOGGER.atInfo("Fetching rating definition from %s.", url);
                 final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
-                if (!NetworkUtils.is2xx(result.statusCode())) {
+                if (NetworkUtils.isNot2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
@@ -133,7 +133,7 @@ public final class GitHubApi extends AbstractApi {
                 final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result:  %s %s bytes", result.statusCode(), result.body().length());
 
-                if (!NetworkUtils.is2xx(result.statusCode())) {
+                if (NetworkUtils.isNot2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
@@ -160,7 +160,7 @@ public final class GitHubApi extends AbstractApi {
                 final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
 
-                if (!NetworkUtils.is2xx(result.statusCode())) {
+                if (NetworkUtils.isNot2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 
@@ -198,7 +198,7 @@ public final class GitHubApi extends AbstractApi {
                 final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
 
-                if (!NetworkUtils.is2xx(result.statusCode())) {
+                if (NetworkUtils.isNot2xx(result.statusCode())) {
                     throw new NetworkException(result);
                 }
 

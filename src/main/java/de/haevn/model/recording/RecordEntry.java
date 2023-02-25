@@ -2,7 +2,8 @@ package de.haevn.model.recording;
 
 import lombok.Data;
 
-import java.util.Calendar;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Data
@@ -15,7 +16,8 @@ public class RecordEntry {
 
     @Override
     public String toString() {
-        final String date = recordDate.getDay() + "/" + recordDate.getMonth() + "/" + recordDate.getYear();
-        return name + " " + date;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        df.format(recordDate);
+        return name + " " + df.format(recordDate);
     }
 }

@@ -24,7 +24,7 @@ public class WowHeadApi extends AbstractApi {
         return NetworkUtils.downloadAsync(url).thenApply(responseOpt -> {
             if (responseOpt.isEmpty()) return "";
             var response = responseOpt.get();
-            if (!NetworkUtils.is2xx(response.statusCode())) {
+            if (NetworkUtils.isNot2xx(response.statusCode())) {
                 LOGGER.atInfo("Got response for spell %s, Code %s", spellID, response.statusCode());
                 return "";
             }

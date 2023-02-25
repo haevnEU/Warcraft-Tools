@@ -5,7 +5,6 @@ import de.haevn.model.recording.RecordEntry;
 import de.haevn.ui.elements.html.AH2;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.utils.CustomStringUtils;
-import de.haevn.utils.FileIO;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;

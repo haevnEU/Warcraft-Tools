@@ -41,7 +41,7 @@ class PremadeGroupFilterView extends BorderPane implements IView {
         root.getChildren().addAll(
                 new H1("Premade Group Filter"),
                 tfQuery,
-                Creator.generateTitledPane("Filter for these dungeons", selectedDungeonPane, true),
+                Creator.generateTitledPane("Include following dungeons", selectedDungeonPane, true),
                 Creator.generateTitledPane("Remove following dungeons", unselectedDungeonPane, true),
                 Creator.generateTitledPane("Max age in minutes", new FlowPane(tfMaxTime, lbTimeError), true),
                 Creator.generateTitledPane("Other", new FlowPane(cbDeclined, new HBox(new A("Custom Query(click for doc)", "https://github.com/0xbs/premade-groups-filter/wiki/Keywords#difficulty"), customQuery)), true),
