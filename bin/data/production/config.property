@@ -1,7 +1,7 @@
-#Updated app.theme to PALADIN
-#Thu Feb 23 18:51:15 CET 2023
+#Updated app.theme to DEATHKNIGHT
+#Sat Feb 25 02:22:59 CET 2023
 preview=true
-app.theme=PALADIN
+app.theme=DEATHKNIGHT
 license=true
 api.refresh=300
 app.build=2.0.0.1

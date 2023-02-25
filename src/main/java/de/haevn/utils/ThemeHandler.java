@@ -3,6 +3,7 @@ package de.haevn.utils;
 import de.haevn.Main;
 import de.haevn.logging.Logger;
 import de.haevn.logging.LoggerHandler;
+import de.haevn.ui.widgets.recordarchive.NewRecordWidget;
 import javafx.beans.property.SimpleObjectProperty;
 import lombok.SneakyThrows;
 
@@ -68,5 +69,6 @@ public final class ThemeHandler {
             LOGGER.atWarning("Could not find stylesheet: %s use fallback", uri);
         }
         Main.loadStylesheet(uri);
+        NewRecordWidget.loadStylesheet(uri);
     }
 }

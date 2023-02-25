@@ -99,10 +99,21 @@ public final class FileIO {
 
     public static String readFile(String path) {
         try {
-            var lines = Files.readAllLines(Paths.get(path));
+            String target = getRootPath() + path;
+            var lines = Files.readAllLines(Paths.get(target));
             return String.join("\n", lines);
         } catch (IOException e) {
             return "";
+        }
+    }
+
+    public static void store(String path, String data) {
+        try {
+            String target = getRootPath() + path;
+            createFile(new File(target));
+            Files.write(Paths.get(target), data.getBytes());
+        } catch (IOException e) {
+
         }
     }
 }

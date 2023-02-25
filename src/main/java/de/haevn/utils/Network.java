@@ -63,4 +63,8 @@ public final class Network {
     public static boolean is5xx(int code) {
         return code >= 500 && code < 600;
     }
+
+    public static boolean isUrl(String url){
+        return url.startsWith("http://") || url.startsWith("https://");
+    }
 }
