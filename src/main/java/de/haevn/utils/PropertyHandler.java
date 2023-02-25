@@ -48,7 +48,7 @@ public final class PropertyHandler {
 
     public void load() {
 
-        String property = "production" + "/" + name;
+        String property = "config/" + name;
         if (!property.endsWith(EXTENSION)) {
             property += EXTENSION;
         }
@@ -87,7 +87,7 @@ public final class PropertyHandler {
 
     public void set(String k, String value) {
         properties.setProperty(k, value);
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPath() + "production" + "/" + name + EXTENSION)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPath() + "config/" + name + EXTENSION)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
             CrashReport.show(e);

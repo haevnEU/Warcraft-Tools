@@ -13,6 +13,12 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
 public final class FileIO {
+
+    public static final File DATA_ROOT = new File(FileIO.getRootPath());
+    public static final File JSON_DIRECTORY = new File(DATA_ROOT, "json");
+    public static final File CONFIG_DIRECTORY = new File(DATA_ROOT, "config");
+    public static final File STYLES_DIRECTORY = new File(DATA_ROOT, "styles");
+
     private FileIO() {
     }
 
@@ -55,7 +61,7 @@ public final class FileIO {
     public static void store(String path, String data) {
         try {
             String target = getRootPath() + path;
-            createFile(new File(target));
+            createFileIfNotExists(new File(target));
             Files.write(Paths.get(target), data.getBytes());
         } catch (IOException ignored) {
         }
@@ -67,25 +73,25 @@ public final class FileIO {
 
     public static void append(File file, String data) {
         try {
-            createFile(file);
+            createFileIfNotExists(file);
             Files.write(file.toPath(), data.getBytes(), StandardOpenOption.APPEND);
         } catch (IOException ignored) {
         }
     }
 
 
-    public static void createFile(File file) {
+    public static void createFileIfNotExists(File file) {
         if (file.exists()) {
             return;
         }
         try {
-            createDirectory(file.getParentFile());
+            createDirectoryIfNotExists(file.getParentFile());
             file.createNewFile();
         } catch (IOException ignored) {
         }
     }
 
-    public static void createDirectory(File directory) {
+    public static void createDirectoryIfNotExists(File directory) {
         if (directory.exists()) {
             return;
         }
@@ -124,10 +130,10 @@ public final class FileIO {
         if (!Files.exists(Path.of(root + "json/dungeons_df_1.json")))
             return new Tuple<>(false, "Dungeons file does not exist");
 
-        if (!Files.exists(Path.of(root + "production"))) return new Tuple<>(false, "Production path does not exist");
-        if (!Files.exists(Path.of(root + "production/config.property")))
+        if (!Files.exists(Path.of(root + "config"))) return new Tuple<>(false, "Configuration path does not exist");
+        if (!Files.exists(Path.of(root + "config/config.property")))
             return new Tuple<>(false, "Config file does not exist");
-        if (!Files.exists(Path.of(root + "production/urls.property")))
+        if (!Files.exists(Path.of(root + "config/urls.property")))
             return new Tuple<>(false, "Urls file does not exist");
         return new Tuple<>(true, "All files exist");
     }

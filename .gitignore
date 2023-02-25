@@ -3,7 +3,7 @@
 other/**
 logs/**
 build/**
-bin/data/production/**
+bin/data/config/**
 
 
 target/
