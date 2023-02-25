@@ -30,5 +30,5 @@ public class LoggerHandler {
         DEBUG
     }
 
-    private static final class AnonymousLogger{}
+    private interface AnonymousLogger{}
 }
