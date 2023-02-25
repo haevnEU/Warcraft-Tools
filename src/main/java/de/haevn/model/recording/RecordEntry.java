@@ -2,6 +2,7 @@ package de.haevn.model.recording;
 
 import lombok.Data;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @Data
@@ -14,6 +15,7 @@ public class RecordEntry {
 
     @Override
     public String toString() {
-        return name + " " + recordDate;
+        final String date = recordDate.getDay() + "/" + recordDate.getMonth() + "/" + recordDate.getYear();
+        return name + " " + date;
     }
 }

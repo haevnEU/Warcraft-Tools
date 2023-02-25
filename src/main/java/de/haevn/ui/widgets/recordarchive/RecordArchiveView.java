@@ -4,6 +4,8 @@ import de.haevn.abstraction.IView;
 import de.haevn.model.recording.RecordEntry;
 import de.haevn.ui.elements.html.AH2;
 import de.haevn.ui.elements.html.H1;
+import de.haevn.utils.CustomStringUtils;
+import de.haevn.utils.FileIO;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -12,6 +14,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.*;
 
 import java.util.Arrays;
@@ -47,6 +50,8 @@ class RecordArchiveView extends BorderPane implements IView {
 
         tfQuery.setPromptText("Enter a name or tag to filter");
         final VBox leftBox = new VBox(btAddNewEntry, tfQuery, lvRecordArchive);
+        leftBox.setSpacing(10);
+        VBox.setVgrow(lvRecordArchive, Priority.ALWAYS);
         final GridPane centerPane = new GridPane();
         final ColumnConstraints column1 = new ColumnConstraints();
         final ColumnConstraints column2 = new ColumnConstraints();
@@ -84,6 +89,17 @@ class RecordArchiveView extends BorderPane implements IView {
 
         GridPane.setValignment(lbTags, VPos.TOP);
         taTags.setEditable(false);
+
+        btViewLog.setOnMouseClicked(e -> {
+            if (e.getButton().equals(MouseButton.SECONDARY)) {
+                CustomStringUtils.copy(getSelectedEntry().getLogLink());
+            }
+        });
+        btViewRecording.setOnMouseClicked(e -> {
+            if (e.getButton().equals(MouseButton.SECONDARY)) {
+                CustomStringUtils.copy(getSelectedEntry().getVideoLink());
+            }
+        });
     }
 
     public void setOnAddNewEntry(Runnable runnable) {
