@@ -110,9 +110,7 @@ public final class FileIO {
     }
 
     public static String getRootPath() {
-        if (SystemUtils.IS_OS_WINDOWS) {
-            return "./bin/data/";
-        } else if (SystemUtils.IS_OS_MAC) {
+        if (SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_MAC) {
             return "./bin/data/";
         }
         return "";
