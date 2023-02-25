@@ -11,7 +11,7 @@ import de.haevn.ui.widgets.search.PlayerSearchWidget;
 import de.haevn.ui.widgets.settings.SettingsWidget;
 import de.haevn.utils.FileIO;
 import de.haevn.utils.SerializationUtils;
-import de.haevn.utils.WarcraftResources;
+import de.haevn.model.WarcraftResources;
 import javafx.geometry.Orientation;
 import javafx.scene.layout.BorderPane;
 

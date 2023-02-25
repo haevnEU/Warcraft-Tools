@@ -1,7 +1,7 @@
 package de.haevn.ui.widgets.resources;
 
 import de.haevn.abstraction.IViewWidget;
-import de.haevn.utils.WarcraftResources;
+import de.haevn.model.WarcraftResources;
 
 import java.util.List;
 

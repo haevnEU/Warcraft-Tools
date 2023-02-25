@@ -4,7 +4,7 @@ package de.haevn.ui.widgets.resources;
 import de.haevn.abstraction.IController;
 import de.haevn.abstraction.IModel;
 import de.haevn.abstraction.IView;
-import de.haevn.utils.WarcraftResources;
+import de.haevn.model.WarcraftResources;
 
 import java.util.ArrayList;
 import java.util.List;
