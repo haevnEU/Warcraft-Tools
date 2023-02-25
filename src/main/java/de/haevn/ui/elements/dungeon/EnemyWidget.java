@@ -10,7 +10,7 @@ import de.haevn.ui.elements.html.ErrorLabel;
 import de.haevn.utils.MathUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+import javafx.geometry.VPos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
@@ -25,38 +25,53 @@ public class EnemyWidget extends GridPane {
     private final Label creatureType = new Label();
     private final Label level = new Label();
 
-    private final FlowPane spellPane = new FlowPane();
     private final Label isBoss = new Label();
 
     private final TextField tfLevel = new TextField();
 
 
+    private final FlowPane spellPane = new FlowPane();
     private final FlowPane activeCharacteristics = new FlowPane();
     private final FlowPane inactiveCharacteristics = new FlowPane();
     private Enemy enemy = null;
 
     public EnemyWidget() {
+        final Label lbHealth = new Label("Health: ");
+        final Label lbCreature = new Label("Creature Type: ");
+        final Label lbLevel = new Label("Level: ");
+        final Label lbBoss = new Label("Is Boss: ");
+        final Label spells = new Label("Spells: ");
+        final Label lbActives = new Label("Active");
+        final Label lbInactives = new Label("Inactive");
+
+        GridPane.setValignment(lbHealth, VPos.TOP);
+        GridPane.setValignment(lbCreature, VPos.TOP);
+        GridPane.setValignment(lbLevel, VPos.TOP);
+        GridPane.setValignment(lbBoss, VPos.TOP);
+        GridPane.setValignment(spells, VPos.TOP);
+        GridPane.setValignment(lbActives, VPos.TOP);
+        GridPane.setValignment(lbInactives, VPos.TOP);
+
+
         add(header, 0, 0, 2, 1);
-        add(new Label("Health: "), 0, 1);
+        add(lbHealth, 0, 1);
         add(health, 1, 1);
-        add(new Label("Creature Type: "), 0, 2);
+        add(lbCreature, 0, 2);
         add(creatureType, 1, 2);
-        add(new Label("Level: "), 0, 3);
+        add(lbLevel, 0, 3);
         add(level, 1, 3);
-        add(new Label("Is Boss: "), 0, 4);
+        add(lbBoss, 0, 4);
         add(isBoss, 1, 4);
 
         add(new Label("Level: "), 0, 5);
         add(tfLevel, 1, 5);
 
-        final Label spells = new Label("Spells: ");
-        spells.setAlignment(Pos.TOP_LEFT);
         add(spells, 0, 8);
         add(spellPane, 1, 8);
 
-        add(new Label("active"), 0, 9);
+        add(lbActives, 0, 9);
         add(activeCharacteristics, 1, 9);
-        add(new Label("inactive"), 0, 10);
+        add(lbInactives, 0, 10);
         add(inactiveCharacteristics, 1, 10);
 
         tfLevel.textProperty().addListener((observable, old, value) -> keystoneLevelChanged(value));
