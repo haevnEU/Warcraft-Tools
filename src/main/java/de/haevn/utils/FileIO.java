@@ -1,7 +1,5 @@
 package de.haevn.utils;
 
-import de.haevn.logging.Logger;
-import de.haevn.logging.LoggerHandler;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.io.File;
@@ -37,14 +35,14 @@ public final class FileIO {
         return getURI(new File(path));
     }
 
-    public static URI getURI(File file){
+    public static URI getURI(File file) {
         return file.toURI();
     }
 
-    public static String getRootPath(){
-        if(SystemUtils.IS_OS_WINDOWS){
+    public static String getRootPath() {
+        if (SystemUtils.IS_OS_WINDOWS) {
             return "./bin/data/";
-        }else if(SystemUtils.IS_OS_MAC){
+        } else if (SystemUtils.IS_OS_MAC) {
             return "./bin/data/";
         }
         return "";
@@ -52,14 +50,17 @@ public final class FileIO {
 
     public static Tuple<Boolean, String> validate() {
         final String root = getRootPath();
-        if(!Files.exists(Path.of(root))) return new Tuple<>(false, "Root path does not exist");
+        if (!Files.exists(Path.of(root))) return new Tuple<>(false, "Root path does not exist");
 
-        if(!Files.exists(Path.of(root + "json"))) return new Tuple<>(false, "Json path does not exist");
-        if(!Files.exists(Path.of(root + "json/dungeons_df_1.json"))) return new Tuple<>(false, "Dungeons file does not exist");
+        if (!Files.exists(Path.of(root + "json"))) return new Tuple<>(false, "Json path does not exist");
+        if (!Files.exists(Path.of(root + "json/dungeons_df_1.json")))
+            return new Tuple<>(false, "Dungeons file does not exist");
 
-        if(!Files.exists(Path.of(root + "production"))) return new Tuple<>(false, "Production path does not exist");
-        if(!Files.exists(Path.of(root + "production/config.property"))) return new Tuple<>(false, "Config file does not exist");
-        if(!Files.exists(Path.of(root + "production/urls.property"))) return new Tuple<>(false, "Urls file does not exist");
+        if (!Files.exists(Path.of(root + "production"))) return new Tuple<>(false, "Production path does not exist");
+        if (!Files.exists(Path.of(root + "production/config.property")))
+            return new Tuple<>(false, "Config file does not exist");
+        if (!Files.exists(Path.of(root + "production/urls.property")))
+            return new Tuple<>(false, "Urls file does not exist");
         return new Tuple<>(true, "All files exist");
     }
 
@@ -71,30 +72,26 @@ public final class FileIO {
         try {
             createFile(file);
             Files.write(file.toPath(), data.getBytes(), StandardOpenOption.APPEND);
-        } catch (IOException ex) {}
+        } catch (IOException ignored) {
+        }
     }
 
     public static void createFile(File file) {
-        if(file.exists()){
+        if (file.exists()) {
             return;
         }
         try {
             createDirectory(file.getParentFile());
-            if(file.createNewFile()){
-            }else{
-            }
-        } catch (IOException e) {
+            file.createNewFile();
+        } catch (IOException ignored) {
         }
     }
 
-    public static void createDirectory(File directory){
-        if(directory.exists()){
-           return;
+    public static void createDirectory(File directory) {
+        if (directory.exists()) {
+            return;
         }
-        if(directory.mkdirs()){
-        }else{
-       }
-
+        directory.mkdirs();
     }
 
     public static String readFile(String path) {
@@ -112,8 +109,7 @@ public final class FileIO {
             String target = getRootPath() + path;
             createFile(new File(target));
             Files.write(Paths.get(target), data.getBytes());
-        } catch (IOException e) {
-
+        } catch (IOException ignored) {
         }
     }
 }

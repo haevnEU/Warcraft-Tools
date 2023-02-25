@@ -74,7 +74,6 @@ class SettingsView extends BorderPane implements IView {
         final String repositoryUrl = PropertyHandler.getInstance("urls").get("settings.repo");
         final String issueUrl = PropertyHandler.getInstance("urls").get("settings.support.issue");
         final String featureUrl = PropertyHandler.getInstance("urls").get("settings.support.feature");
-        final String crashUrl = PropertyHandler.getInstance("urls").get("settings.support.crash");
 
         GridPane pane = new GridPane();
         pane.setHgap(10);

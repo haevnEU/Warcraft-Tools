@@ -2,17 +2,10 @@ package de.haevn.ui.widgets.recordarchive;
 
 import de.haevn.Main;
 import de.haevn.abstraction.IView;
-import de.haevn.model.dungeons.Enemy;
 import de.haevn.model.recording.RecordEntry;
-import de.haevn.ui.elements.ReadOnlyTextField;
-import de.haevn.ui.elements.html.AH1;
 import de.haevn.ui.elements.html.AH2;
 import de.haevn.ui.elements.html.H1;
-import de.haevn.ui.utils.Creator;
 import de.haevn.utils.Network;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
@@ -20,9 +13,9 @@ import javafx.event.EventHandler;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 import java.awt.*;
@@ -55,8 +48,8 @@ class RecordArchiveView extends BorderPane implements IView {
 
     RecordArchiveView() {
         setTop(new H1("Gameplay recording vault"));
-        //tfQuery.sethint("Enter query here");
 
+        tfQuery.setPromptText("Enter a name or tag to filter");
         final VBox leftBox = new VBox(btAddNewEntry, tfQuery, lvRecordArchive);
         final GridPane centerPane = new GridPane();
         final ColumnConstraints column1 = new ColumnConstraints();
@@ -84,47 +77,44 @@ class RecordArchiveView extends BorderPane implements IView {
         setLeft(leftBox);
 
         lvRecordArchive.setItems(filteredData);
-        tfQuery.textProperty().addListener((observable, oldValue, newValue) -> {
-            filteredData.setPredicate(nameFilter.or(tagFilter).or(dateFilter));
-        });
+        tfQuery.textProperty().addListener((observable, oldValue, newValue) -> filteredData.setPredicate(nameFilter.or(tagFilter).or(dateFilter)));
 
-GridPane.setValignment(lbTags, VPos.TOP);
+        GridPane.setValignment(lbTags, VPos.TOP);
         taTags.setEditable(false);
 
-        lvRecordArchive.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<RecordEntry>() {
-            @Override
-            public void changed(ObservableValue<? extends RecordEntry> observable, RecordEntry oldValue, RecordEntry newValue) {
-                if (newValue != null) {
-                    centerPane.setVisible(true);
-                    title.setText(newValue.getName());
-                    title.setLink(newValue.getLogLink());
+        lvRecordArchive.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                centerPane.setVisible(true);
+                title.setText(newValue.getName());
+                title.setLink(newValue.getLogLink());
 
-                    lbDate.setText(newValue.getRecordDate().toString());
-                    taTags.setText(newValue.getTags().replace(";", "\n"));
-                    EventHandler<ActionEvent> openVideo = e -> {};
-                    if(null != newValue.getVideoLink() && !newValue.getVideoLink().isEmpty()) {
-                        btViewRecording.setDisable(false);
-                        openVideo = (e -> {
-                            openVideo(newValue.getVideoLink());
-                        });
-                    } else {
-                        btViewRecording.setDisable(true);
-                    }
-                    btViewRecording.setOnAction(openVideo);
-
-                    EventHandler<ActionEvent> openLog = e -> {};
-                    if(null != newValue.getLogLink() && Network.isUrl(newValue.getLogLink())) {
-                        btViewLog.setDisable(false);
-                        openLog = (e -> {
-                            Main.openWebsite(newValue.getLogLink());
-                        });
-                    } else {
-                        btViewLog.setDisable(true);
-                    }
-                    btViewLog.setOnAction(openLog);
-                }else {
-                    centerPane.setVisible(false);
+                lbDate.setText(newValue.getRecordDate().toString());
+                taTags.setText(newValue.getTags().replace(";", "\n"));
+                EventHandler<ActionEvent> openVideo = e -> {
+                };
+                if (null != newValue.getVideoLink() && !newValue.getVideoLink().isEmpty()) {
+                    btViewRecording.setDisable(false);
+                    openVideo = (e -> {
+                        openVideo(newValue.getVideoLink());
+                    });
+                } else {
+                    btViewRecording.setDisable(true);
                 }
+                btViewRecording.setOnAction(openVideo);
+
+                EventHandler<ActionEvent> openLog = e -> {
+                };
+                if (null != newValue.getLogLink() && Network.isUrl(newValue.getLogLink())) {
+                    btViewLog.setDisable(false);
+                    openLog = (e -> {
+                        Main.openWebsite(newValue.getLogLink());
+                    });
+                } else {
+                    btViewLog.setDisable(true);
+                }
+                btViewLog.setOnAction(openLog);
+            } else {
+                centerPane.setVisible(false);
             }
         });
     }
@@ -138,8 +128,8 @@ GridPane.setValignment(lbTags, VPos.TOP);
         lvRecordArchive.setItems(filteredData);
     }
 
-    private void openVideo(String url){
-        if(Network.isUrl(url)) {
+    private void openVideo(String url) {
+        if (Network.isUrl(url)) {
             Main.openWebsite(url);
         } else {
             try {
@@ -149,7 +139,6 @@ GridPane.setValignment(lbTags, VPos.TOP);
             }
         }
     }
-
 
 
     public void setOnDeleteEntry(Runnable runnable) {

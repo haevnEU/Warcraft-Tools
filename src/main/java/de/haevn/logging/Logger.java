@@ -1,6 +1,5 @@
 package de.haevn.logging;
 
-import de.haevn.Main;
 import de.haevn.utils.ExceptionUtils;
 import de.haevn.utils.FileIO;
 
@@ -20,7 +19,7 @@ public class Logger {
     <T> Logger(Class<T> cl) {
         this.name = cl.getCanonicalName();
         this.filename = cl.getSimpleName();
-        log(LoggerHandler.Level.NONE,"==========BEGIN LOGGING (%s)==========", LocalDateTime.now());
+        log(LoggerHandler.Level.NONE, "==========BEGIN LOGGING (%s)==========", LocalDateTime.now());
         log(LoggerHandler.Level.INFO, "Logger initialized for %s", name);
     }
 
@@ -33,30 +32,30 @@ public class Logger {
         Logger.output = output;
     }
 
-    public static void redirectToFile(boolean redirect){
+    public static void redirectToFile(boolean redirect) {
         Logger.redirect = redirect;
     }
 
     private void log(LoggerHandler.Level level, String message, Object... args) {
         String result = "";
-        if(level == LoggerHandler.Level.NONE){
-            result = String.format(message, args)+"\n";
-        }else {
+        if (level == LoggerHandler.Level.NONE) {
+            result = String.format(message, args) + "\n";
+        } else {
             final String time = LocalDateTime.now().toString();
             final String outMessage = String.format(message, args);
             result = String.format("[%s] [%s] %s: %s%n", level, time, name, outMessage);
 
         }
         entries.add(result);
-        if(null != output){
+        if (null != output) {
             output.print(result);
         }
-        if(!buffered){
+        if (!buffered) {
             flush();
         }
     }
 
-    public String getLog(){
+    public String getLog() {
         return String.join("", entries);
     }
 
@@ -71,7 +70,8 @@ public class Logger {
     public void atError(String message, Object... args) {
         log(LoggerHandler.Level.ERROR, message, args);
     }
-    public void atError(String message, Exception ex, Object ... args) {
+
+    public void atError(String message, Exception ex, Object... args) {
 
         log(LoggerHandler.Level.ERROR, message + "\n%s", args, ExceptionUtils.getStackTrace(ex));
     }
@@ -80,8 +80,8 @@ public class Logger {
         log(LoggerHandler.Level.DEBUG, message, args);
     }
 
-    public void flush(){
-        if(redirect){
+    public void flush() {
+        if (redirect) {
             FileIO.append("./logs/" + filename + ".log", getLog());
         }
         entries.clear();
