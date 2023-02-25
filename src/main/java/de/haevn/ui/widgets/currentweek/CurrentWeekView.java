@@ -7,6 +7,7 @@ import de.haevn.ui.elements.currentweek.CutoffWidget;
 import de.haevn.ui.elements.html.*;
 
 import de.haevn.utils.PropertyHandler;
+import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
@@ -61,11 +62,11 @@ class CurrentWeekView extends BorderPane implements IView {
     }
 
     public void setCurrentAffix(String affix) {
-        lbCurrentAffix.setText(affix);
+        Platform.runLater(() -> lbCurrentAffix.setText(affix));
     }
 
     public void setNextAffix(String affix) {
-        lbNextAffix.setText(affix);
+        Platform.runLater(() -> lbNextAffix.setText(affix));
     }
 
     public void setTop001(String score, String achieved) {

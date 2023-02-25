@@ -1,5 +1,6 @@
 package de.haevn.ui.elements.currentweek;
 
+import javafx.application.Platform;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
@@ -18,7 +19,9 @@ public class CutoffWidget extends GridPane {
 
 
     public void setData(String score, String totalPlayer){
-        lbScore.setText(score);
-        lbTotalAchieved.setText(totalPlayer);
+        Platform.runLater(() -> {
+            lbScore.setText(score);
+            lbTotalAchieved.setText(totalPlayer);
+        });
     }
 }
