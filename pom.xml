@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>WarcraftTools</artifactId>
-    <version>0.5.0.4</version>
+    <version>2.1.0.3</version>
 
     <properties>
         <!--Versions for maven-->
@@ -21,6 +21,7 @@
         <version.commons-io>2.11.0</version.commons-io>
         <version.commons-lang3>3.12.0</version.commons-lang3>
         <version.flogger>0.7.4</version.flogger>
+        <version.zip4j>2.11.5</version.zip4j>
 
         <!--Versions for testing-->
         <version.junit-jupiter>5.9.2</version.junit-jupiter>
@@ -28,6 +29,13 @@
 
     </properties>
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/net.lingala.zip4j/zip4j -->
+        <dependency>
+            <groupId>net.lingala.zip4j</groupId>
+            <artifactId>zip4j</artifactId>
+            <version>${version.zip4j}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
@@ -75,20 +83,6 @@
             <version>${version.commons-lang3}</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger -->
-        <dependency>
-            <groupId>com.google.flogger</groupId>
-            <artifactId>flogger</artifactId>
-            <version>${version.flogger}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.google.flogger/flogger-system-backend -->
-        <dependency>
-            <groupId>com.google.flogger</groupId>
-            <artifactId>flogger-system-backend</artifactId>
-            <version>${version.flogger}</version>
-            <scope>runtime</scope>
-        </dependency>
         <!--Dependencies for testing-->
         <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
         <dependency>
@@ -176,15 +170,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>16</source>
-                    <target>16</target>
-                </configuration>
-            </plugin>
-
         </plugins>
     </build>
 </project>

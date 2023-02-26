@@ -1,9 +1,10 @@
 package de.haevn.utils;
 
-import com.google.common.flogger.FluentLogger;
 import de.haevn.Main;
+import de.haevn.logging.Logger;
+import de.haevn.logging.LoggerHandler;
+import de.haevn.ui.widgets.recordvault.NewRecordWidget;
 import javafx.beans.property.SimpleObjectProperty;
-import lombok.SneakyThrows;
 
 import java.io.File;
 import java.net.URL;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class ThemeHandler {
-    private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
+    private static final Logger LOGGER = LoggerHandler.get(ThemeHandler.class);
     private static final ThemeHandler INSTANCE = new ThemeHandler();
 
     private final List<String> themes = new ArrayList<>();
@@ -29,14 +30,15 @@ public final class ThemeHandler {
                 name = name.substring(0, name.lastIndexOf("."));
                 themes.add(name);
             }
-        }else {
-            LOGGER.atSevere().log("Could not find any themes");
+        } else {
+            LOGGER.atWarning("Could not find any themes");
         }
     }
 
     public static ThemeHandler getInstance() {
         return INSTANCE;
     }
+
 
     public String[] getThemes() {
         return themes.toArray(new String[0]);
@@ -47,9 +49,9 @@ public final class ThemeHandler {
     }
 
     private void setCurrentTheme(String currentTheme) {
-        LOGGER.atFine().log("Setting theme to: %s", currentTheme);
+        LOGGER.atInfo("Setting theme to: %s", currentTheme);
         if (null == currentTheme) {
-            LOGGER.atWarning().log("Theme is null, setting to default");
+            LOGGER.atWarning("Theme is null, setting to default");
             currentTheme = "";
         }
         this.currentTheme.set(currentTheme);
@@ -57,15 +59,15 @@ public final class ThemeHandler {
         reload();
     }
 
-    @SneakyThrows
     public void reload() {
-        LOGGER.atFine().log("Reloading theme");
-        URL uri = FileIO.getURI(FileIO.getRootPath() + "styles/" + currentTheme.get() + ".css").toURL();
+        LOGGER.atInfo("Reloading theme");
+        URL uri = FileIO.getURI(FileIO.getRootPath() + "styles/" + currentTheme.get() + ".css");
 
-        LOGGER.atInfo().log("Loading stylesheet: %s", uri);
+        LOGGER.atInfo("Loading stylesheet: %s", uri);
         if (!new File(uri.getPath()).exists()) {
-            LOGGER.atSevere().log("Could not find stylesheet: %s use fallback", uri);
+            LOGGER.atWarning("Could not find stylesheet: %s use fallback", uri);
         }
         Main.loadStylesheet(uri);
+        NewRecordWidget.loadStylesheet(uri);
     }
 }

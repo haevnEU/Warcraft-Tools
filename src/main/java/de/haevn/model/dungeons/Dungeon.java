@@ -7,14 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dungeon {
-    private SimpleObjectProperty<List<Enemy>> enemies = new SimpleObjectProperty<>();
-    private String name;
-    private String shortName;
-
-    @Override
-    public String toString() {
-        return name + " (" + shortName + ")";
-    }
+    private final SimpleObjectProperty<List<Enemy>> enemies = new SimpleObjectProperty<>();
+    private final String name;
+    private final String shortName;
 
     public Dungeon(String name, String shortName) {
         this.name = name;
@@ -22,11 +17,16 @@ public class Dungeon {
         enemies.set(new ArrayList<>());
     }
 
-    public void setEnemies(List<Enemy> enemies) {
-        this.enemies.set(enemies);
+    @Override
+    public String toString() {
+        return name + " (" + shortName + ")";
     }
 
     public ReadOnlyObjectProperty<List<Enemy>> getEnemies() {
         return enemies;
+    }
+
+    public void setEnemies(List<Enemy> enemies) {
+        this.enemies.set(enemies);
     }
 }

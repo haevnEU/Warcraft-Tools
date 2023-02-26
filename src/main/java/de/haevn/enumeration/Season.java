@@ -2,15 +2,21 @@ package de.haevn.enumeration;
 
 public enum Season {
 
-    DF_SEASON_1("season-df-1"),
-    SL_SEASON_4("season-sl-4"),
-    SL_SEASON_3("season-sl-3"),
-    NONE("");
+    DF_SEASON_1("season-df-1", "DF Season 1"),
+    SL_SEASON_4("season-sl-4", "SL Season 4"),
+    SL_SEASON_3("season-sl-3", "SL Season 3"),
+    NONE();
 
     public final String label;
+    public final String slug;
 
-    Season(String label) {
+    Season() {
+        this("", "");
+    }
+
+    Season(String label, String slug) {
         this.label = label;
+        this.slug = slug;
     }
 
     public static Season getCurrentSeasonKey() {
@@ -19,6 +25,10 @@ public enum Season {
 
     public static Season getPreviousSeasonKey() {
         return SL_SEASON_4;
+    }
+
+    public static Season getPreviousPreviousSeasonKey() {
+        return SL_SEASON_3;
     }
 
     public static Season getSeasonByName(String name) {
@@ -36,6 +46,6 @@ public enum Season {
 
     @Override
     public String toString() {
-        return label;
+        return slug;
     }
 }

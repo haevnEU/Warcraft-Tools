@@ -23,6 +23,14 @@ public final class WeeklyAffix {
         return String.join(", ", affixes.stream().map(Affix::getName).toArray(String[]::new));
     }
 
+    public static boolean isFortified() {
+        return getInstance().getCurrentAffix().get().stream().anyMatch(affix -> affix.getId().equalsIgnoreCase("10"));
+    }
+
+    public static boolean isTyrannical() {
+        return !isFortified();
+    }
+
     public String getCurrentAffixAsString() {
         if (getCurrentAffix().get() == null) return "Cannot load affixes";
         return String.join(", ", getCurrentAffix().get().stream().map(Affix::getName).toArray(String[]::new));
@@ -49,14 +57,6 @@ public final class WeeklyAffix {
         });
 
         return nextWeekRotation;
-    }
-
-    public static boolean isFortified(){
-        return getInstance().getCurrentAffix().get().stream().anyMatch(affix -> affix.getId().equalsIgnoreCase("10"));
-    }
-
-    public static boolean isTyrannical(){
-        return !isFortified();
     }
 
 

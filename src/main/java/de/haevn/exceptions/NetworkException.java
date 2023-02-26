@@ -2,12 +2,12 @@ package de.haevn.exceptions;
 
 import java.net.http.HttpResponse;
 
-public class NetworkException extends Exception{
+public class NetworkException extends Exception {
     private final String url;
     private final int statusCode;
     private final String content;
 
-    public NetworkException(Throwable other){
+    public NetworkException(Throwable other) {
         super(other);
         this.url = "";
         this.statusCode = 0;

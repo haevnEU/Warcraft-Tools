@@ -1,22 +1,25 @@
 package de.haevn;
 
-import com.google.common.flogger.FluentLogger;
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
-import de.haevn.ui.views.MainView;
+import de.haevn.logging.Logger;
+import de.haevn.logging.LoggerHandler;
+import de.haevn.ui.widgets.MainView;
 import de.haevn.utils.FileIO;
 import de.haevn.utils.PropertyHandler;
 import de.haevn.utils.ThemeHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import java.io.InputStream;
 import java.net.URL;
 
 public class Main extends Application {
-    private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
+    private static final Logger LOGGER = LoggerHandler.get(Main.class);
     private static final String CONFIG_FILE = "config";
     public static final String VERSION = PropertyHandler.getInstance(CONFIG_FILE).get("app.version");
     public static final String BUILD = PropertyHandler.getInstance(CONFIG_FILE).get("app.build");
@@ -28,14 +31,6 @@ public class Main extends Application {
         launch(args);
     }
 
-    public static void openWebsite(String url) {
-        LOGGER.atInfo().log("Opening website: %s", url);
-        if (null != instance && null != instance.getHostServices()) {
-            instance.getHostServices().showDocument(url);
-        } else {
-            LOGGER.atWarning().log("Could not open website: %s", url);
-        }
-    }
 
     public static void loadStylesheet(URL url) {
         if (null == instance || null == instance.scene) {
@@ -46,12 +41,11 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        LOGGER.atInfo().log("Loading %s %s (%s)", NAME, VERSION, BUILD);
-
+    public void start(Stage primaryStage) {
+        LOGGER.atInfo("Loading %s %s (%s)", NAME, VERSION, BUILD);
         var result = FileIO.validate();
 
-        if (!result.getFirst().booleanValue()) {
+        if (!result.getFirst()) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("Self check failed");
@@ -62,13 +56,16 @@ public class Main extends Application {
         }
 
         primaryStage.setTitle(NAME + " " + VERSION + " (" + BUILD + ")");
-
+        InputStream iconSource = getClass().getResourceAsStream("/werkzeugkasten.png");
+        if(null != iconSource){
+            primaryStage.getIcons().add(new Image(iconSource));
+        }
         Main.instance = this;
         MainView mainView = new MainView();
 
         final double width = 1024;
         final double height = 840;
-        LOGGER.atInfo().log("With dimensions: %s x %s", width, height);
+        LOGGER.atInfo("With dimensions: %s x %s", width, height);
         scene = new Scene(mainView, width, height);
         scene.setFill(Paint.valueOf("#1e1e1e"));
 
@@ -79,11 +76,11 @@ public class Main extends Application {
     }
 
     private void setup() {
-        LOGGER.atInfo().log("Refreshing data");
+        LOGGER.atInfo("Refreshing data");
         RaiderIOApi.getInstance().update();
         GitHubApi.getInstance().update();
         ThemeHandler.getInstance().reload();
-        LOGGER.atInfo().log("Setup complete");
+        LOGGER.atInfo("Setup complete");
     }
 
 }

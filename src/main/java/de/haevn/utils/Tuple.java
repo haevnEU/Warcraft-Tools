@@ -1,6 +1,6 @@
 package de.haevn.utils;
 
-public class Tuple <K, V>{
+public class Tuple<K, V> {
     private final K key;
     private final V value;
 

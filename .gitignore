@@ -1,3 +1,12 @@
+## Custom ##
+
+dataold/**
+other/**
+logs/**
+data/**
+bin/data/config/**
+
+
 target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
@@ -12,7 +21,6 @@ target/
 *.iml
 *.ipr
 .idea/**
-other/**
 ### Eclipse ###
 .apt_generated
 .classpath
@@ -28,7 +36,7 @@ other/**
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
+data/
 !**/src/main/**/build/
 !**/src/test/**/build/
 

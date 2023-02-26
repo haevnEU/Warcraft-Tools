@@ -1,9 +1,8 @@
 package de.haevn.utils;
 
-import com.google.common.flogger.FluentLogger;
-import de.haevn.debug.ExceptionWidget;
-import de.haevn.ui.widgets.ErrorWidget;
-import javafx.scene.control.Alert;
+import de.haevn.logging.Logger;
+import de.haevn.logging.LoggerHandler;
+import de.haevn.ui.windows.CrashReport;
 
 import java.io.*;
 import java.util.HashMap;
@@ -12,11 +11,12 @@ import java.util.Map;
 import java.util.Properties;
 
 public final class PropertyHandler {
-    private static final FluentLogger LOGGER = FluentLogger.forEnclosingClass();
+    private static final Logger LOGGER = LoggerHandler.get(PropertyHandler.class);
     private static final String EXTENSION = ".property";
     private static final Map<String, PropertyHandler> STRING_PROPERTY_HANDLER_HASH_MAP = new HashMap<>();
     private final Properties properties;
     private final String name;
+
 
     private PropertyHandler(String propertyName) {
         properties = new Properties();
@@ -48,16 +48,21 @@ public final class PropertyHandler {
 
     public void load() {
 
-        String property = "production" + "/" + name;
+        String property = "config/" + name;
         if (!property.endsWith(EXTENSION)) {
             property += EXTENSION;
         }
         try (InputStream inputStream = new FileInputStream(FileIO.getRootPath() + property)) {
             properties.load(inputStream);
         } catch (IOException e) {
-            LOGGER.atSevere().withCause(e).log("Could not load property file: %s", property);
+            LOGGER.atError("Could not load property file: %s", property);
         }
     }
+
+
+    //----------------------------------------------------------------------------------------------------------------------
+    //  Getter
+    //----------------------------------------------------------------------------------------------------------------------
 
     public String get(String key) {
         return properties.getProperty(key, "");
@@ -75,18 +80,18 @@ public final class PropertyHandler {
         return Double.parseDouble(properties.getProperty(key, "0"));
     }
 
-
     public List<String> getAllProperties() {
         return properties.keySet().stream().map(Object::toString).toList();
     }
 
+
     public void set(String k, String value) {
         properties.setProperty(k, value);
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPath() + "production" + "/" + name + EXTENSION)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPath() + "config/" + name + EXTENSION)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
-            ExceptionWidget.show(e);
-            LOGGER.atSevere().withCause(e).log("Could not save property file: %s", name);
+            CrashReport.show(e);
+            LOGGER.atError("Could not save property file: %s", name);
         }
     }
 }
