@@ -3,7 +3,7 @@ package de.haevn.utils;
 import de.haevn.Main;
 import de.haevn.logging.Logger;
 import de.haevn.logging.LoggerHandler;
-import de.haevn.ui.widgets.recordarchive.NewRecordWidget;
+import de.haevn.ui.widgets.recordvault.NewRecordWidget;
 import javafx.beans.property.SimpleObjectProperty;
 
 import java.io.File;

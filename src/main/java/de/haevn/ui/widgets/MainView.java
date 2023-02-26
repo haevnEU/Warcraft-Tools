@@ -5,7 +5,7 @@ import de.haevn.ui.elements.ButtonBar;
 import de.haevn.ui.widgets.currentweek.CurrentWeekWidget;
 import de.haevn.ui.widgets.dungeon.DungeonWidget;
 import de.haevn.ui.widgets.pgf.PremadeGroupFilterWidget;
-import de.haevn.ui.widgets.recordarchive.RecordArchiveWidget;
+import de.haevn.ui.widgets.recordvault.RecordVaultWidget;
 import de.haevn.ui.widgets.resources.ResourcesWidget;
 import de.haevn.ui.widgets.search.PlayerSearchWidget;
 import de.haevn.ui.widgets.settings.SettingsWidget;
@@ -25,7 +25,7 @@ public class MainView extends BorderPane implements IView {
     private final PlayerSearchWidget playerSearchView = new PlayerSearchWidget();
     private final PremadeGroupFilterWidget premadeGroupFilterView = new PremadeGroupFilterWidget();
     private final DungeonWidget dungeonWidget = new DungeonWidget();
-    private final RecordArchiveWidget recordArchiveWidget = new RecordArchiveWidget();
+    private final RecordVaultWidget recordArchiveWidget = new RecordVaultWidget();
     private final ResourcesWidget mythicPlusResourcesWidget;
     private final ResourcesWidget raidResourcesWidget;
     private final ResourcesWidget otherResourcesWidget;
@@ -42,7 +42,7 @@ public class MainView extends BorderPane implements IView {
         ButtonBar buttonBox = new ButtonBar(Orientation.VERTICAL);
         buttonBox.add(createButton("Current Week", e -> setCenter(currentWeekWidget.getView())));
         buttonBox.add(createButton("Search player", e -> setCenter(playerSearchView.getView())));
-        buttonBox.add(createButton("Record Archive", e -> setCenter(recordArchiveWidget.getView())));
+        buttonBox.add(createButton("Record Vault", e -> setCenter(recordArchiveWidget.getView())));
         buttonBox.add(createButton("Dungeon Enemies", e -> setCenter(dungeonWidget.getView())));
 
         buttonBox.add(createButton("Premade Group Filter", e -> setCenter(premadeGroupFilterView.getView())));

@@ -1,4 +1,4 @@
-package de.haevn.ui.widgets.recordarchive;
+package de.haevn.ui.widgets.recordvault;
 
 import de.haevn.model.recording.RecordEntry;
 import de.haevn.ui.elements.html.H1;
@@ -33,6 +33,7 @@ public class NewRecordWidget extends Stage {
 
 
     private NewRecordWidget() {
+        setTitle("Add new record");
         final GridPane root = new GridPane();
         final HBox buttonBox = new HBox();
 

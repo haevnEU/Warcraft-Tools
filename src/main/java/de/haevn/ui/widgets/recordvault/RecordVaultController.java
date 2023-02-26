@@ -1,4 +1,4 @@
-package de.haevn.ui.widgets.recordarchive;
+package de.haevn.ui.widgets.recordvault;
 
 import de.haevn.abstraction.IController;
 import de.haevn.abstraction.IModel;
@@ -12,18 +12,18 @@ import javafx.collections.ObservableList;
 
 import java.io.File;
 
-class RecordArchiveController implements IController {
+class RecordVaultController implements IController {
 
     private final ObservableList<RecordEntry> entries = FXCollections.observableArrayList();
     int cnt = 0;
-    private RecordArchiveView view;
+    private RecordVaultView view;
 
     @Override
     public void link(IView view, IModel model) {
-        if (!(view instanceof RecordArchiveView)) {
+        if (!(view instanceof RecordVaultView)) {
             throw new IllegalArgumentException("View is not of type DungeonView");
         }
-        this.view = (RecordArchiveView) view;
+        this.view = (RecordVaultView) view;
 
         this.view.setOnAddNewEntry(this::addNewEntry);
         this.view.bindRecordArchiveList(entries);

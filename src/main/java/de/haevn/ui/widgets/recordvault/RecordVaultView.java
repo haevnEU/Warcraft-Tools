@@ -1,4 +1,4 @@
-package de.haevn.ui.widgets.recordarchive;
+package de.haevn.ui.widgets.recordvault;
 
 import de.haevn.abstraction.IView;
 import de.haevn.model.recording.RecordEntry;
@@ -19,7 +19,7 @@ import javafx.scene.layout.*;
 import java.util.Arrays;
 import java.util.function.Predicate;
 
-class RecordArchiveView extends BorderPane implements IView {
+class RecordVaultView extends BorderPane implements IView {
 
     public final TextField tfQuery = new TextField();
     private final Button btViewLog = new Button("Warcraftlogs");
@@ -44,7 +44,7 @@ class RecordArchiveView extends BorderPane implements IView {
     private FilteredList<RecordEntry> filteredData;
 
 
-    RecordArchiveView() {
+    RecordVaultView() {
         setTop(new H1("Gameplay recording vault"));
 
         tfQuery.setPromptText("Enter a name or tag to filter");
