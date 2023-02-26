@@ -11,9 +11,11 @@ import de.haevn.utils.ThemeHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
+import java.io.InputStream;
 import java.net.URL;
 
 public class Main extends Application {
@@ -54,7 +56,10 @@ public class Main extends Application {
         }
 
         primaryStage.setTitle(NAME + " " + VERSION + " (" + BUILD + ")");
-
+        InputStream iconSource = getClass().getResourceAsStream("/werkzeugkasten.png");
+        if(null != iconSource){
+            primaryStage.getIcons().add(new Image(iconSource));
+        }
         Main.instance = this;
         MainView mainView = new MainView();
 

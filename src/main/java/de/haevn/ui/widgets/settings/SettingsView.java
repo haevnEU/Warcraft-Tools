@@ -109,11 +109,13 @@ class SettingsView extends BorderPane implements IView {
     private VBox createDataSources() {
         final String pgfRepositoryUrl = "https://github.com/0xbs/premade-groups-filter/wiki/Keywords";
         final String raiderIOUrl = "https://raider.io/";
+        final String iconUrl = "https://www.flaticon.com/de/kostenlose-icons/werkzeuge";
         final VBox pane = new VBox();
         pane.setSpacing(10);
         pane.getChildren().add(new Label("The following datasource were used."));
         pane.getChildren().add(new A("Premade Group Filter Keywords", pgfRepositoryUrl));
         pane.getChildren().add(new A("raider.io", raiderIOUrl));
+        pane.getChildren().add(new A("Werkzeuge Icons erstellt von juicy_fish", iconUrl));
         return pane;
     }
 

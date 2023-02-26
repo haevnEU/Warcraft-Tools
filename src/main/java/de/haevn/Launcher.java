@@ -19,7 +19,10 @@ public class Launcher {
             Main.main(args);
         } else if (update) {
             update();
-        } else {
+        } else if(!new File(FileIO.DATA_ROOT, "firstrun").exists()){
+            update();
+            Main.main(args);
+        }else {
             Main.main(args);
         }
     }
@@ -48,9 +51,9 @@ public class Launcher {
 
             // Move the extracted files to the correct location and delete the temp directory
             final File dlRoot = new File(FileIO.DATA_ROOT, "WarcraftToolsResources-master");
-            FileUtils.moveDirectoryToDirectory(new File(dlRoot, "json"), FileIO.DATA_ROOT, true);
-            FileUtils.moveDirectoryToDirectory(new File(dlRoot, "config"), FileIO.DATA_ROOT, true);
-            FileUtils.moveDirectoryToDirectory(new File(dlRoot, "styles"), FileIO.DATA_ROOT, true);
+            if(!new File(FileIO.DATA_ROOT, "json").exists())   FileUtils.moveDirectoryToDirectory(new File(dlRoot, "json"), FileIO.DATA_ROOT, true);
+            if(!new File(FileIO.DATA_ROOT, "config").exists()) FileUtils.moveDirectoryToDirectory(new File(dlRoot, "config"), FileIO.DATA_ROOT, true);
+            if(!new File(FileIO.DATA_ROOT, "styles").exists()) FileUtils.moveDirectoryToDirectory(new File(dlRoot, "styles"), FileIO.DATA_ROOT, true);
 
             FileUtils.deleteDirectory(new File(FileIO.DATA_ROOT, "WarcraftToolsResources-master"));
         } catch (ZipException e) {
