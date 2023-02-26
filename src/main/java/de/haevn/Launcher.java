@@ -14,15 +14,12 @@ public class Launcher {
     public static void main(String[] args) {
         boolean scan = Arrays.stream(args).anyMatch(arg -> arg.equalsIgnoreCase("--repair"));
         boolean update = Arrays.stream(args).anyMatch(arg -> arg.equalsIgnoreCase("--update"));
-        if (scan) {
+        if (scan || !new File(FileIO.DATA_ROOT, "firstrun").exists()) {
             update();
             Main.main(args);
         } else if (update) {
             update();
-        } else if(!new File(FileIO.DATA_ROOT, "firstrun").exists()){
-            update();
-            Main.main(args);
-        }else {
+        } else {
             Main.main(args);
         }
     }
