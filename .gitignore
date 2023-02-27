@@ -1,6 +1,8 @@
 ## Custom ##
 
-build/**
+build/icons/**
+build/release/**
+build/tmp/**
 data/**
 logs/**
 other/**
@@ -46,13 +48,11 @@ data/
 .DS_Store
 /.idea/sonarlint/issuestore/index.pb
 
-/build/**
 /data/**
 /icons/**
 /logs/**
 /target/**
 
-/build/
 /data/
 /icons/
 /logs/
