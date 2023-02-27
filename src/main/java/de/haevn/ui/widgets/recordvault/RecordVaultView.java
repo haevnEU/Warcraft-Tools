@@ -7,6 +7,7 @@ import de.haevn.ui.elements.html.AH2;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.utils.CustomStringUtils;
 import de.haevn.utils.NetworkUtils;
+import de.haevn.utils.PropertyHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -16,6 +17,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.util.Arrays;
@@ -24,12 +26,15 @@ import java.util.function.Predicate;
 class RecordVaultView extends BorderPane implements IView {
 
     public final TextField tfQuery = new TextField();
+
+    private final ImageButton btDelete = ImageButton.createCrossButton();
+
     private final Button btViewLog = new Button("Warcraftlogs");
     private final Button btViewRecording = new Button("Recording");
     private final ImageButton btSendLog = ImageButton.createDiscordButton();
     private final ImageButton btSendRecording = ImageButton.createDiscordButton();
+
     private final Button btAddNewEntry = new Button("Add new record");
-    private final Button btDelete = new Button("Delete");
     private final AH2 title = new AH2();
     private final Label lbDate = new Label();
     private final TextArea taTags = new TextArea();
@@ -124,12 +129,12 @@ class RecordVaultView extends BorderPane implements IView {
         lvRecordArchive.getSelectionModel().selectedItemProperty().addListener(event);
     }
 
-    public void setOnButtonViewVideoClicked(EventHandler<ActionEvent> event) {
-        btViewRecording.setOnAction(event);
+    public void setOnButtonViewVideoClicked(Runnable runnable) {
+        btViewRecording.setOnAction(e -> runnable.run());
     }
 
-    public void setOnButtonViewLogsClicked(EventHandler<ActionEvent> event) {
-        btViewLog.setOnAction(event);
+    public void setOnButtonViewLogsClicked(Runnable runnable) {
+        btViewLog.setOnAction(e -> runnable.run());
     }
 
     public void displayRecord(RecordEntry recordEntry) {
@@ -145,10 +150,16 @@ class RecordVaultView extends BorderPane implements IView {
         taTags.setText(recordEntry.getTags().replace(";", "\n"));
 
         btViewRecording.setDisable(recordEntry.getVideoLink().isEmpty());
-        btSendRecording.setDisable(!NetworkUtils.isUrl(recordEntry.getVideoLink()));
 
         btViewLog.setDisable(recordEntry.getLogLink().isEmpty());
-        btSendLog.setDisable(!NetworkUtils.isUrl(recordEntry.getLogLink()));
+
+        btSendRecording.setDisable(true);
+        btSendLog.setDisable(true);
+
+        PropertyHandler.getInstance("config").getOptional("urls.webhook.log").ifPresent(e->{
+            btSendRecording.setDisable(!NetworkUtils.isUrl(recordEntry.getVideoLink()));
+            btSendLog.setDisable(!NetworkUtils.isUrl(recordEntry.getLogLink()));
+        });
 
     }
 

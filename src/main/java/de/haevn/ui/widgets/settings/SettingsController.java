@@ -26,7 +26,7 @@ public class SettingsController implements IController {
     }
 
     private void onWebhookLogUpdate() {
-        if (NetworkUtils.isUrl(webhookLog.get())) {
+        if (NetworkUtils.isUrl(webhookLog.get()) || webhookLog.get().isEmpty()) {
             PropertyHandler.getInstance("config").set("urls.webhook.log", webhookLog.get());
         } else {
             AlertUtils.showError("Invalid URL", "The URL you entered is not valid.");

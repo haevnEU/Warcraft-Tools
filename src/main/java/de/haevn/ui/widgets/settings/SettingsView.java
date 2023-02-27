@@ -17,6 +17,7 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -40,9 +41,11 @@ class SettingsView extends BorderPane implements IView {
         VBox root = new VBox();
         root.setSpacing(10);
         root.getChildren().add(Creator.generateTitledPane("Webhooks", createWebhooks(), true));
+        root.getChildren().add(Creator.generateTitledPane("General", createGeneral(), true));
         root.getChildren().add(Creator.generateTitledPane("Help", createHelp(), true));
-        root.getChildren().add(Creator.generateTitledPane("Datasources", createDataSources(), true));
-        root.getChildren().add(Creator.generateTitledPane("Updates", createRefresh(), true));
+        root.getChildren().add(Creator.generateTitledPane("Updates", createRefresh(), false));
+        root.getChildren().add(Creator.generateTitledPane("Datasources", createDataSources(), false));
+        root.getChildren().add(Creator.generateTitledPane("Image sources", createIconResource(), false));
         scrollPane.setContent(root);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
@@ -55,6 +58,20 @@ class SettingsView extends BorderPane implements IView {
         RaiderIOApi.getInstance().getLastUpdate().addListener((e, ignore, date) -> onRaiderIOUpdate(date));
         onGitHubApiUpdate(GitHubApi.getInstance().getLastUpdate().getValue());
         onRaiderIOUpdate(RaiderIOApi.getInstance().getLastUpdate().getValue());
+    }
+
+    private GridPane createGeneral() {
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(10));
+        grid.add(new Label("Theme"), 0, 0);
+
+        final ComboBox<String> cbRegion = new ComboBox<>(FXCollections.observableArrayList(ThemeHandler.getInstance().getThemes()));
+        cbRegion.valueProperty().bindBidirectional(ThemeHandler.getInstance().getCurrentTheme());
+
+        grid.add(cbRegion, 1, 0);
+        return grid;
     }
 
     private void onRaiderIOUpdate(Date date) {
@@ -127,13 +144,27 @@ class SettingsView extends BorderPane implements IView {
     private VBox createDataSources() {
         final String pgfRepositoryUrl = "https://github.com/0xbs/premade-groups-filter/wiki/Keywords";
         final String raiderIOUrl = "https://raider.io/";
-        final String iconUrl = "https://www.flaticon.com/de/kostenlose-icons/werkzeuge";
         final VBox pane = new VBox();
         pane.setSpacing(10);
         pane.getChildren().add(new Label("The following datasource were used."));
         pane.getChildren().add(new A("Premade Group Filter Keywords", pgfRepositoryUrl));
         pane.getChildren().add(new A("raider.io", raiderIOUrl));
-        pane.getChildren().add(new A("Werkzeuge Icons erstellt von juicy_fish", iconUrl));
+        return pane;
+    }
+
+    private VBox createIconResource(){
+        final VBox pane = new VBox();
+        pane.setSpacing(10);
+
+        final String toolIcon = "https://www.flaticon.com/de/kostenlose-icons/werkzeuge";
+        final String crossIcon = "https://www.flaticon.com/free-icons/trash";
+        final String recordingIcon = "https://www.flaticon.com/free-icons/record";
+        final String newsPaperIcon = "https://www.flaticon.com/free-icons/paper";
+
+        pane.getChildren().add(new A("Werkzeuge Icons erstellt von juicy_fish", toolIcon));
+        pane.getChildren().add(new A("Trash icons created by Freepik", crossIcon));
+        pane.getChildren().add(new A("Record icons created by Hilmy Abiyyu A.", recordingIcon));
+        pane.getChildren().add(new A("Paper icons created by Freepik", newsPaperIcon));
         return pane;
     }
 
@@ -141,12 +172,6 @@ class SettingsView extends BorderPane implements IView {
         GridPane pane = new GridPane();
         pane.setHgap(10);
         pane.setVgap(5);
-
-        pane.add(new Label("Style"), 0, 0);
-        final ComboBox<String> cbRegion = new ComboBox<>(FXCollections.observableArrayList(ThemeHandler.getInstance().getThemes()));
-        cbRegion.valueProperty().bindBidirectional(ThemeHandler.getInstance().getCurrentTheme());
-
-        pane.add(cbRegion, 1, 0);
 
         pane.add(new Label("RaiderIO"), 0, 1);
         pane.add(lbLastRaiderIOUpdate, 1, 1);

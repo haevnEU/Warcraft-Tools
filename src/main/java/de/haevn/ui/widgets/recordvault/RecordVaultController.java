@@ -51,12 +51,12 @@ class RecordVaultController implements IController {
         recordProperty.set(entry);
         view.displayRecord(entry);
         if (null != entry.getVideoLink() && !entry.getVideoLink().isEmpty()) {
-            view.setOnButtonViewVideoClicked(e -> openVideo(entry.getVideoLink()));
+            view.setOnButtonViewVideoClicked(() -> openVideo(entry.getVideoLink()));
         } else {
             view.setOnButtonViewVideoClicked(null);
         }
         if (null != entry.getLogLink() && NetworkUtils.isUrl(entry.getLogLink())) {
-            view.setOnButtonViewLogsClicked(e -> NetworkUtils.openWebsite(entry.getLogLink()));
+            view.setOnButtonViewLogsClicked(() -> NetworkUtils.openWebsite(entry.getLogLink()));
         } else {
             view.setOnButtonViewLogsClicked(null);
         }

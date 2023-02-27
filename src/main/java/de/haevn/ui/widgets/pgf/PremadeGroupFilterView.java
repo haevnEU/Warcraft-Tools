@@ -10,10 +10,7 @@ import de.haevn.ui.utils.CheckBoxGroup;
 import de.haevn.ui.utils.Creator;
 import javafx.collections.FXCollections;
 import javafx.scene.control.*;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +45,9 @@ class PremadeGroupFilterView extends BorderPane implements IView {
                 Creator.generateTitledPane("Mode", modePane, false),
                 Creator.generateTitledPane("Difficulty", difficultyPane, false)
         );
+
+        HBox.setHgrow(tfQuery, Priority.ALWAYS);
+
 
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.setContent(root);

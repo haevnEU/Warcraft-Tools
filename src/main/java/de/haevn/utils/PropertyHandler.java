@@ -84,7 +84,10 @@ public final class PropertyHandler {
 
     public Optional<String> getOptional(String key) {
         final String value = properties.getProperty(key, null);
-        return null == value ? Optional.empty() : Optional.of(value);
+        if(value.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(value);
     }
 
     public void set(String k, String value) {
