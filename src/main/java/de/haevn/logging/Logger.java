@@ -82,7 +82,7 @@ public class Logger {
 
     public void flush() {
         if (redirect) {
-            FileIO.append("./logs/" + filename + ".log", getLog());
+            FileIO.append(FileIO.getRootPathWithSeparator() + "logs/" + filename + ".log", getLog());
         }
         entries.clear();
     }

@@ -1,10 +1,11 @@
 ## Custom ##
 
-dataold/**
-other/**
-logs/**
+build/icons/**
+build/release/**
+build/tmp/**
 data/**
-bin/data/config/**
+logs/**
+other/**
 
 
 target/
@@ -46,3 +47,13 @@ data/
 ### Mac OS ###
 .DS_Store
 /.idea/sonarlint/issuestore/index.pb
+
+/data/**
+/icons/**
+/logs/**
+/target/**
+
+/data/
+/icons/
+/logs/
+/target/

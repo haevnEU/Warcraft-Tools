@@ -1,7 +1,5 @@
 package de.haevn.utils;
 
-import org.apache.commons.lang3.SystemUtils;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +12,7 @@ import java.nio.file.StandardOpenOption;
 
 public final class FileIO {
 
-    public static final File DATA_ROOT = new File(FileIO.getRootPath());
+    public static final File DATA_ROOT = new File(FileIO.getRootPathWithSeparator());
     public static final File JSON_DIRECTORY = new File(DATA_ROOT, "json");
     public static final File CONFIG_DIRECTORY = new File(DATA_ROOT, "config");
     public static final File STYLES_DIRECTORY = new File(DATA_ROOT, "styles");
@@ -50,7 +48,7 @@ public final class FileIO {
 
     public static String readFile(String path) {
         try {
-            String target = getRootPath() + path;
+            String target = getRootPathWithSeparator() + path;
             var lines = Files.readAllLines(Paths.get(target));
             return String.join("\n", lines);
         } catch (IOException e) {
@@ -60,7 +58,7 @@ public final class FileIO {
 
     public static void store(String path, String data) {
         try {
-            String target = getRootPath() + path;
+            String target = getRootPathWithSeparator() + path;
             createFileIfNotExists(new File(target));
             Files.write(Paths.get(target), data.getBytes());
         } catch (IOException ignored) {
@@ -114,16 +112,15 @@ public final class FileIO {
             return null;
         }
     }
-
     public static String getRootPath() {
-        if (SystemUtils.IS_OS_WINDOWS || SystemUtils.IS_OS_MAC) {
-            return "./data/";
-        }
-        return "";
+        return System.getProperty("user.home") + File.separator + "WarcraftTools";
+    }
+    public static String getRootPathWithSeparator() {
+        return getRootPath() + File.separator;
     }
 
     public static Tuple<Boolean, String> validate() {
-        final String root = getRootPath();
+        final String root = getRootPathWithSeparator();
         if (!Files.exists(Path.of(root))) return new Tuple<>(false, "Root path does not exist");
 
         if (!Files.exists(Path.of(root + "json"))) return new Tuple<>(false, "Json path does not exist");
