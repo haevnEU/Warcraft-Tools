@@ -52,7 +52,7 @@ public final class PropertyHandler {
         if (!property.endsWith(EXTENSION)) {
             property += EXTENSION;
         }
-        try (InputStream inputStream = new FileInputStream(FileIO.getRootPath() + property)) {
+        try (InputStream inputStream = new FileInputStream(FileIO.getRootPathWithSeparator() + property)) {
             properties.load(inputStream);
         } catch (IOException e) {
             LOGGER.atError("Could not load property file: %s", property);
@@ -87,7 +87,7 @@ public final class PropertyHandler {
 
     public void set(String k, String value) {
         properties.setProperty(k, value);
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPath() + "config/" + name + EXTENSION)) {
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator() + "config/" + name + EXTENSION)) {
             properties.store(os, "Updated " + k + " to " + value);
         } catch (IOException e) {
             CrashReport.show(e);

@@ -45,7 +45,7 @@ class DungeonController implements IController {
 
     public void reload() {
         try {
-            final List<String> data = Files.readAllLines(Path.of(FileIO.getRootPath() + "json/dungeons_df_1.json"));
+            final List<String> data = Files.readAllLines(Path.of(FileIO.getRootPathWithSeparator() + "json/dungeons_df_1.json"));
             final String json = String.join("\n", data);
             final JsonNode root = SerializationUtils.parseJson(json, JsonNode.class);
             final Dungeons dungeons = new Dungeons();

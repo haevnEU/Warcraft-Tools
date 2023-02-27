@@ -23,7 +23,7 @@ public final class ThemeHandler {
         String theme = PropertyHandler.getInstance("config").get("app.theme");
         setCurrentTheme(theme.toUpperCase());
 
-        var found = new File(FileIO.getRootPath() + "styles").listFiles((dir, name) -> name.endsWith(".css"));
+        var found = new File(FileIO.getRootPathWithSeparator() + "styles").listFiles((dir, name) -> name.endsWith(".css"));
         if (null != found && found.length > 0) {
             for (File file : found) {
                 String name = file.getName();
@@ -61,7 +61,7 @@ public final class ThemeHandler {
 
     public void reload() {
         LOGGER.atInfo("Reloading theme");
-        URL uri = FileIO.getURI(FileIO.getRootPath() + "styles/" + currentTheme.get() + ".css");
+        URL uri = FileIO.getURI(FileIO.getRootPathWithSeparator() + "//styles/" + currentTheme.get() + ".css");
 
         LOGGER.atInfo("Loading stylesheet: %s", uri);
         if (!new File(uri.getPath()).exists()) {
