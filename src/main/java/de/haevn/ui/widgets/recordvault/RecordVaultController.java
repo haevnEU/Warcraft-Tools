@@ -3,19 +3,20 @@ package de.haevn.ui.widgets.recordvault;
 import de.haevn.abstraction.IController;
 import de.haevn.abstraction.IModel;
 import de.haevn.abstraction.IView;
+import de.haevn.api.DiscordApi;
 import de.haevn.model.recording.RecordEntry;
 import de.haevn.utils.FileIO;
 import de.haevn.utils.NetworkUtils;
 import de.haevn.utils.SerializationUtils;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.io.File;
 
 class RecordVaultController implements IController {
-
+    private final SimpleObjectProperty<RecordEntry> recordProperty = new SimpleObjectProperty<>();
     private final ObservableList<RecordEntry> entries = FXCollections.observableArrayList();
-    int cnt = 0;
     private RecordVaultView view;
 
     @Override
@@ -28,14 +29,26 @@ class RecordVaultController implements IController {
         this.view.setOnAddNewEntry(this::addNewEntry);
         this.view.bindRecordArchiveList(entries);
         this.view.setOnDeleteEntry(this::deleteEntry);
+        this.view.setOnSendLog(this::sendLog);
+        this.view.setOnSendRecording(this::sendRecord);
         this.view.setOnSelectionChanged(((observable, oldValue, newValue) -> onSelectionChanged(newValue)));
 
         load();
         Runtime.getRuntime().addShutdownHook(new Thread(this::store));
     }
 
+    private void sendRecord() {
+        DiscordApi.getInstance().sendRecordWebhook(recordProperty.get().getVideoLink());
+    }
+
+    private void sendLog() {
+        DiscordApi.getInstance().sendLogWebhook(recordProperty.get().getLogLink());
+
+    }
+
     private void onSelectionChanged(RecordEntry entry) {
 
+        recordProperty.set(entry);
         view.displayRecord(entry);
         if (null != entry.getVideoLink() && !entry.getVideoLink().isEmpty()) {
             view.setOnButtonViewVideoClicked(e -> openVideo(entry.getVideoLink()));

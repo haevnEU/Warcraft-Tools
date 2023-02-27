@@ -12,11 +12,15 @@ import de.haevn.ui.utils.Creator;
 import de.haevn.utils.PropertyHandler;
 import de.haevn.utils.ThemeHandler;
 import javafx.application.Platform;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -28,11 +32,14 @@ class SettingsView extends BorderPane implements IView {
     private final Label lbLastRaiderIOUpdate = new Label();
     private final Label lbLastGitHubUpdate = new Label();
 
+    private final TextField tfWebhookLogs = new TextField();
+
     public SettingsView() {
         setPadding(new Insets(10));
         ScrollPane scrollPane = new ScrollPane();
         VBox root = new VBox();
         root.setSpacing(10);
+        root.getChildren().add(Creator.generateTitledPane("Webhooks", createWebhooks(), true));
         root.getChildren().add(Creator.generateTitledPane("Help", createHelp(), true));
         root.getChildren().add(Creator.generateTitledPane("Datasources", createDataSources(), true));
         root.getChildren().add(Creator.generateTitledPane("Updates", createRefresh(), true));
@@ -106,6 +113,17 @@ class SettingsView extends BorderPane implements IView {
         return pane;
     }
 
+    private GridPane createWebhooks() {
+        final GridPane pane = new GridPane();
+        GridPane.setHgrow(tfWebhookLogs, javafx.scene.layout.Priority.ALWAYS);
+        pane.setHgap(10);
+        pane.setVgap(5);
+        pane.add(new Label("Webhook url"), 0, 0);
+        pane.add(tfWebhookLogs, 1, 0);
+
+        return pane;
+    }
+
     private VBox createDataSources() {
         final String pgfRepositoryUrl = "https://github.com/0xbs/premade-groups-filter/wiki/Keywords";
         final String raiderIOUrl = "https://raider.io/";
@@ -140,5 +158,13 @@ class SettingsView extends BorderPane implements IView {
 
         pane.add(Creator.createButton("Flush logs", e -> LoggerHandler.flush()), 0, 3);
         return pane;
+    }
+
+    public void addOnWebhookLogAction(EventHandler<ActionEvent> event) {
+        tfWebhookLogs.setOnAction(event);
+    }
+
+    public StringProperty getWebhookLogProperty() {
+        return tfWebhookLogs.textProperty();
     }
 }

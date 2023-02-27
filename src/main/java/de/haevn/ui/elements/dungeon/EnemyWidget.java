@@ -99,11 +99,14 @@ public class EnemyWidget extends GridPane {
 
     private double multiplyHealth(int keystoneLevel) {
         double result = enemy.getHealth();
-        double multiplier = 1.2;
-        if (enemy.isBoss() && WeeklyAffix.isTyrannical()) {
-            multiplier = 1.3;
+        double multiplier = 1;
+        if(keystoneLevel > 10) {
+            if (enemy.isBoss() && WeeklyAffix.isTyrannical()) {
+                multiplier = 1.3;
+            }else{
+                multiplier = 1.2;
+            }
         }
-
         result *= Scaling.getInstance().getScalarFor(keystoneLevel);
         result *= multiplier;
         result = Math.round(result);

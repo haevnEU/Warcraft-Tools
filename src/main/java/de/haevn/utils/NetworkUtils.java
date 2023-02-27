@@ -91,4 +91,24 @@ public final class NetworkUtils {
             }
         }
     }
+
+    public static void sendPostRequest(String webhook, String message) throws NetworkException {
+        try {
+            final HttpRequest request = HttpRequest.newBuilder()
+                    .uri(new URI(webhook))
+                    .POST(HttpRequest.BodyPublishers.ofString(message))
+                    .timeout(java.time.Duration.ofSeconds(propertyHandler.getLong("network.timeout")))
+                    .setHeader("Content-Type", "application/json")
+                    .build();
+            HttpClient.newBuilder()
+                    .followRedirects(HttpClient.Redirect.NORMAL)
+                    .build()
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (URISyntaxException | IOException ex) {
+            throw new NetworkException(ex);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new NetworkException(e);
+        }
+    }
 }

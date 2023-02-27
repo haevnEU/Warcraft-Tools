@@ -1,5 +1,6 @@
 package de.haevn.ui.widgets.recordvault;
 
+import de.haevn.api.DiscordApi;
 import de.haevn.model.recording.RecordEntry;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.utils.Creator;
@@ -143,6 +144,9 @@ public class NewRecordWidget extends Stage {
             }
         } else {
             this.close();
+            if(!textFieldWarcraftLogsLink.getText().isEmpty()){
+                DiscordApi.getInstance().sendLogWebhook(textFieldWarcraftLogsLink.getText());
+            }
         }
     }
 

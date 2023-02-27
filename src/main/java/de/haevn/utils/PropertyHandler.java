@@ -5,10 +5,7 @@ import de.haevn.logging.LoggerHandler;
 import de.haevn.ui.windows.CrashReport;
 
 import java.io.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Properties;
+import java.util.*;
 
 public final class PropertyHandler {
     private static final Logger LOGGER = LoggerHandler.get(PropertyHandler.class);
@@ -84,6 +81,11 @@ public final class PropertyHandler {
         return properties.keySet().stream().map(Object::toString).toList();
     }
 
+
+    public Optional<String> getOptional(String key) {
+        final String value = properties.getProperty(key, null);
+        return null == value ? Optional.empty() : Optional.of(value);
+    }
 
     public void set(String k, String value) {
         properties.setProperty(k, value);

@@ -2,9 +2,11 @@ package de.haevn.ui.widgets.recordvault;
 
 import de.haevn.abstraction.IView;
 import de.haevn.model.recording.RecordEntry;
+import de.haevn.ui.elements.ImageButton;
 import de.haevn.ui.elements.html.AH2;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.utils.CustomStringUtils;
+import de.haevn.utils.NetworkUtils;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -24,6 +26,8 @@ class RecordVaultView extends BorderPane implements IView {
     public final TextField tfQuery = new TextField();
     private final Button btViewLog = new Button("Warcraftlogs");
     private final Button btViewRecording = new Button("Recording");
+    private final ImageButton btSendLog = ImageButton.createDiscordButton();
+    private final ImageButton btSendRecording = ImageButton.createDiscordButton();
     private final Button btAddNewEntry = new Button("Add new record");
     private final Button btDelete = new Button("Delete");
     private final AH2 title = new AH2();
@@ -59,18 +63,24 @@ class RecordVaultView extends BorderPane implements IView {
         centerPane.getColumnConstraints().addAll(column1, column2);
 
         final Label lbTags = new Label("Tags");
-        final HBox buttonBox = new HBox();
+
+        final HBox viewButtonBox = new HBox();
+        final HBox sendButtonBox = new HBox();
+        final VBox buttonBox = new VBox(viewButtonBox, sendButtonBox);
+        buttonBox.setSpacing(5);
 
         centerPane.add(title, 0, 0, 2, 1);
-        centerPane.add(new Label("Date"), 0, 3);
-        centerPane.add(lbTags, 0, 4);
 
+        centerPane.add(buttonBox, 0, 1, 2, 1);
+
+        centerPane.add(new Label("Date"), 0, 3);
         centerPane.add(lbDate, 1, 3);
+
+        centerPane.add(lbTags, 0, 4);
         centerPane.add(taTags, 1, 4);
 
-        buttonBox.getChildren().addAll(btViewRecording, btViewLog, btDelete);
-        buttonBox.setSpacing(10);
-        centerPane.add(buttonBox, 0, 1, 2, 1);
+        viewButtonBox.getChildren().addAll(btViewRecording, btSendRecording, btViewLog, btSendLog, btDelete);
+        viewButtonBox.setSpacing(10);
 
         centerPane.setVisible(false);
         setCenter(centerPane);
@@ -115,20 +125,10 @@ class RecordVaultView extends BorderPane implements IView {
     }
 
     public void setOnButtonViewVideoClicked(EventHandler<ActionEvent> event) {
-        if (null == event) {
-            btViewRecording.setDisable(true);
-            return;
-        }
-        btViewRecording.setDisable(false);
         btViewRecording.setOnAction(event);
     }
 
     public void setOnButtonViewLogsClicked(EventHandler<ActionEvent> event) {
-        if (null == event) {
-            btViewLog.setDisable(true);
-            return;
-        }
-        btViewLog.setDisable(false);
         btViewLog.setOnAction(event);
     }
 
@@ -143,8 +143,22 @@ class RecordVaultView extends BorderPane implements IView {
 
         lbDate.setText(recordEntry.getRecordDate().toString());
         taTags.setText(recordEntry.getTags().replace(";", "\n"));
+
+        btViewRecording.setDisable(recordEntry.getVideoLink().isEmpty());
+        btSendRecording.setDisable(!NetworkUtils.isUrl(recordEntry.getVideoLink()));
+
+        btViewLog.setDisable(recordEntry.getLogLink().isEmpty());
+        btSendLog.setDisable(!NetworkUtils.isUrl(recordEntry.getLogLink()));
+
     }
 
+    public void setOnSendLog(Runnable runnable) {
+        btSendLog.setOnAction(e -> runnable.run());
+    }
+
+    public void setOnSendRecording(Runnable runnable) {
+        btSendRecording.setOnAction(e -> runnable.run());
+    }
 
     public void setOnDeleteEntry(Runnable runnable) {
         btDelete.setOnAction(e -> runnable.run());
