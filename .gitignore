@@ -1,10 +1,9 @@
 ## Custom ##
 
-dataold/**
-other/**
-logs/**
+build/**
 data/**
-bin/data/config/**
+logs/**
+other/**
 
 
 target/
