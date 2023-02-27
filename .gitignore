@@ -45,3 +45,4 @@ data/
 ### Mac OS ###
 .DS_Store
 /.idea/sonarlint/issuestore/index.pb
+/build/
