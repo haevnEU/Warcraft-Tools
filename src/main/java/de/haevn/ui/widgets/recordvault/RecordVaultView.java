@@ -11,13 +11,10 @@ import de.haevn.utils.PropertyHandler;
 import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 import java.util.Arrays;
@@ -156,7 +153,7 @@ class RecordVaultView extends BorderPane implements IView {
         btSendRecording.setDisable(true);
         btSendLog.setDisable(true);
 
-        PropertyHandler.getInstance("config").getOptional("urls.webhook.log").ifPresent(e->{
+        PropertyHandler.getInstance("config").getOptional("urls.webhook.log").ifPresent(e -> {
             btSendRecording.setDisable(!NetworkUtils.isUrl(recordEntry.getVideoLink()));
             btSendLog.setDisable(!NetworkUtils.isUrl(recordEntry.getLogLink()));
         });

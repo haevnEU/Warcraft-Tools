@@ -17,7 +17,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -152,7 +151,7 @@ class SettingsView extends BorderPane implements IView {
         return pane;
     }
 
-    private VBox createIconResource(){
+    private VBox createIconResource() {
         final VBox pane = new VBox();
         pane.setSpacing(10);
 
