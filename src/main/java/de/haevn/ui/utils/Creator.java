@@ -17,7 +17,7 @@ public class Creator {
     }
 
     public static Button createButton(String title, EventHandler<ActionEvent> event) {
-        return createButton(title, 0, event);
+        return createButton(title, 150, event);
     }
 
     public static Button createButton(String title, double width, EventHandler<ActionEvent> event) {

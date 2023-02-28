@@ -1,5 +1,6 @@
 package de.haevn.ui.elements.lookup;
 
+import de.haevn.ui.elements.ImageButton;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -7,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import org.apache.commons.lang3.StringUtils;
 
@@ -14,11 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchBox extends GridPane {
-    private final List<EventHandler<ActionEvent>> onActionEventHandler = new ArrayList<>();
+    private final List<EventHandler<ActionEvent>> onSearchAction = new ArrayList<>();
     private final TextField searchField = new TextField();
     private final TextField nameBox = new TextField();
     private final TextField realmBox = new TextField();
 
+
+    private final ImageButton btDiscord = ImageButton.createDiscordButton();
 
     public SearchBox() {
 
@@ -31,25 +35,30 @@ public class SearchBox extends GridPane {
         add(realmBox, 3, 1);
 
         Button btSearch = new Button("Search");
-        add(btSearch, 1, 2, 3, 1);
 
+
+        add(new HBox(btSearch, btDiscord), 1, 2, 3, 1);
         GridPane.setHgrow(searchField, Priority.ALWAYS);
         GridPane.setHgrow(nameBox, Priority.ALWAYS);
         GridPane.setHgrow(realmBox, Priority.ALWAYS);
         GridPane.setHgrow(btSearch, Priority.ALWAYS);
         btSearch.setMaxWidth(Double.MAX_VALUE);
-
+        HBox.setHgrow(btSearch, Priority.ALWAYS);
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> searchBoxUpdate());
         btSearch.setOnAction(this::onSearchClicked);
     }
 
     private void onSearchClicked(ActionEvent event) {
-        onActionEventHandler.forEach(actionEventEventHandler -> actionEventEventHandler.handle(event));
+        onSearchAction.forEach(actionEventEventHandler -> actionEventEventHandler.handle(event));
     }
 
     public void addOnSearchClicked(EventHandler<ActionEvent> event) {
-        onActionEventHandler.add(event);
+        onSearchAction.add(event);
+    }
+
+    public void addOnDiscordSendClicked(Runnable event) {
+        btDiscord.setOnMouseClicked(e -> event.run());
     }
 
     public void bindTextFieldNameContent(StringProperty property) {
@@ -91,5 +100,9 @@ public class SearchBox extends GridPane {
         var character = size >= 1 ? splitQuery[splitQuery.length - 1] : "";
         nameBox.setText(character);
         realmBox.setText(realm);
+    }
+
+    public void setDiscordEnabled(boolean enabled) {
+        btDiscord.setDisable(!enabled);
     }
 }

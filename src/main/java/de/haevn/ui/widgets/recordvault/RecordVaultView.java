@@ -1,6 +1,7 @@
 package de.haevn.ui.widgets.recordvault;
 
 import de.haevn.abstraction.IView;
+import de.haevn.api.DiscordApi;
 import de.haevn.model.recording.RecordEntry;
 import de.haevn.ui.elements.ImageButton;
 import de.haevn.ui.elements.html.AH2;
@@ -30,6 +31,7 @@ class RecordVaultView extends BorderPane implements IView {
     private final Button btViewRecording = new Button("Recording");
     private final ImageButton btSendLog = ImageButton.createDiscordButton();
     private final ImageButton btSendRecording = ImageButton.createDiscordButton();
+    private final ImageButton btEdit = ImageButton.createEditButton();
 
     private final Button btAddNewEntry = new Button("Add new record");
     private final AH2 title = new AH2();
@@ -66,10 +68,7 @@ class RecordVaultView extends BorderPane implements IView {
 
         final Label lbTags = new Label("Tags");
 
-        final HBox viewButtonBox = new HBox();
-        final HBox sendButtonBox = new HBox();
-        final VBox buttonBox = new VBox(viewButtonBox, sendButtonBox);
-        buttonBox.setSpacing(5);
+        final HBox buttonBox = new HBox();
 
         centerPane.add(title, 0, 0, 2, 1);
 
@@ -81,8 +80,8 @@ class RecordVaultView extends BorderPane implements IView {
         centerPane.add(lbTags, 0, 4);
         centerPane.add(taTags, 1, 4);
 
-        viewButtonBox.getChildren().addAll(btViewRecording, btSendRecording, btViewLog, btSendLog, btDelete);
-        viewButtonBox.setSpacing(10);
+        buttonBox.getChildren().addAll(btViewRecording, btSendRecording, btViewLog, btSendLog, btEdit, btDelete);
+        buttonBox.setSpacing(10);
 
         centerPane.setVisible(false);
         setCenter(centerPane);
@@ -134,6 +133,10 @@ class RecordVaultView extends BorderPane implements IView {
         btViewLog.setOnAction(e -> runnable.run());
     }
 
+    public void setOnButtonEditClicked(Runnable runnable) {
+        btEdit.setOnAction(e -> runnable.run());
+    }
+
     public void displayRecord(RecordEntry recordEntry) {
         if (null == recordEntry) {
             getCenter().setVisible(false);
@@ -153,7 +156,7 @@ class RecordVaultView extends BorderPane implements IView {
         btSendRecording.setDisable(true);
         btSendLog.setDisable(true);
 
-        PropertyHandler.getInstance("config").getOptional("urls.webhook.log").ifPresent(e -> {
+        PropertyHandler.getInstance("config").getOptional(DiscordApi.LOG_KEY).ifPresent(e -> {
             btSendRecording.setDisable(!NetworkUtils.isUrl(recordEntry.getVideoLink()));
             btSendLog.setDisable(!NetworkUtils.isUrl(recordEntry.getLogLink()));
         });

@@ -1,6 +1,7 @@
 package de.haevn.ui.elements;
 
 import javafx.geometry.Orientation;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -23,10 +24,10 @@ public class ButtonBar {
         add(buttons);
     }
 
-    public void add(Button... buttons) {
-        for (Button button : buttons) {
-            button.setMaxWidth(Double.MAX_VALUE);
-            root.getChildren().add(button);
+    public void add(Node... buttons) {
+        for (Node node : buttons) {
+            node.resize(Double.MAX_VALUE, 50);
+            root.getChildren().add(node);
         }
     }
 

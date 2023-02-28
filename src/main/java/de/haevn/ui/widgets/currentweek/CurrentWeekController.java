@@ -10,6 +10,7 @@ import de.haevn.model.seasonal.Faction;
 import de.haevn.model.seasonal.KeystoneAchievement;
 import de.haevn.model.seasonal.Percentile;
 import de.haevn.model.seasonal.SeasonCutoff;
+import de.haevn.model.weekly.Affix;
 import de.haevn.model.weekly.WeeklyAffix;
 import de.haevn.utils.MathUtils;
 import javafx.beans.property.ObjectProperty;
@@ -20,13 +21,20 @@ class CurrentWeekController implements IController {
     private CurrentWeekView view;
 
     CurrentWeekController() {
+        RaiderIOApi.getInstance().getCurrentAffix().addListener((observable, oldValue, newValue) -> updateAffixes());
+        GitHubApi.getInstance().getAffixRotation().addListener((observable, oldValue, newValue) -> updateAffixes());
     }
 
+    private void updateAffixes() {
+        var currentRotation = WeeklyAffix.getInstance().getCurrentAffix().get();
+        final String currentAffix = String.join(", ", currentRotation.stream().map(Affix::getName).toArray(String[]::new));
+        view.setCurrentAffix(currentAffix);
 
-    private void onWeeklyAffixChanged() {
-        view.setCurrentAffix(WeeklyAffix.getInstance().getCurrentAffixAsString());
-        view.setNextAffix(WeeklyAffix.getInstance().getNextAffixAsString());
+        var nextRotation = WeeklyAffix.getInstance().getNextWeekRotation();
+        final String nextAffix = String.join(", ", nextRotation.stream().map(Affix::getName).toArray(String[]::new));
+        view.setNextAffix(nextAffix);
     }
+
 
     private void onCurrentCutOffChanged() {
 
@@ -71,7 +79,6 @@ class CurrentWeekController implements IController {
 
         this.view = (CurrentWeekView) view;
 
-        GitHubApi.getInstance().getAffixRotation().addListener(e -> onWeeklyAffixChanged());
         RaiderIOApi.getInstance().getCurrentCutoff().addListener(e -> onCurrentCutOffChanged());
 
 

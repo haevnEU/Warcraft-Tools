@@ -32,13 +32,22 @@ class RecordVaultController implements IController {
         this.view.setOnSendLog(this::sendLog);
         this.view.setOnSendRecording(this::sendRecord);
         this.view.setOnSelectionChanged(((observable, oldValue, newValue) -> onSelectionChanged(newValue)));
-
+        this.view.setOnButtonEditClicked(this::editEntry);
         load();
         Runtime.getRuntime().addShutdownHook(new Thread(this::store));
     }
 
+    private void editEntry() {
+        final RecordEntry selectedEntry = view.getSelectedEntry();
+        if (null == selectedEntry) {
+            return;
+        }
+        NewRecordWidget.edit(selectedEntry);
+        view.displayRecord(selectedEntry);
+    }
+
     private void sendRecord() {
-        DiscordApi.getInstance().sendRecordWebhook(recordProperty.get().getVideoLink(), "Recording " + recordProperty.get().getName() + " is now available on " + recordProperty.get().getVideoLink());
+        DiscordApi.getInstance().sendRecordWebhook(recordProperty.get().getVideoLink(), recordProperty.get().getName());
     }
 
     private void sendLog() {
@@ -46,9 +55,11 @@ class RecordVaultController implements IController {
     }
 
     private void onSelectionChanged(RecordEntry entry) {
-
         recordProperty.set(entry);
         view.displayRecord(entry);
+        if (null == entry) {
+            return;
+        }
         if (null != entry.getVideoLink() && !entry.getVideoLink().isEmpty()) {
             view.setOnButtonViewVideoClicked(() -> openVideo(entry.getVideoLink()));
         } else {

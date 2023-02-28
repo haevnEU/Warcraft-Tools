@@ -115,7 +115,7 @@ class SettingsView extends BorderPane implements IView {
         pane.add(new Label("Haevn"), 1, 4);
 
         pane.add(new Label("Discord"), 0, 5);
-        pane.add(new A("Discord server", "https://discord.gg/NwpAb8Tcgk"), 1, 5);
+        pane.add(new A("Discord server", "https://discord.gg/pTnNVYv4Wd"), 1, 5);
 
         pane.add(new Label("Twitter"), 0, 6);
         pane.add(new A("@haevneu", "https://twitter.com/haevneu"), 1, 6);
@@ -159,11 +159,13 @@ class SettingsView extends BorderPane implements IView {
         final String crossIcon = "https://www.flaticon.com/free-icons/trash";
         final String recordingIcon = "https://www.flaticon.com/free-icons/record";
         final String newsPaperIcon = "https://www.flaticon.com/free-icons/paper";
+        final String editIcon = "https://www.flaticon.com/free-icons/edit";
 
         pane.getChildren().add(new A("Werkzeuge Icons erstellt von juicy_fish", toolIcon));
         pane.getChildren().add(new A("Trash icons created by Freepik", crossIcon));
         pane.getChildren().add(new A("Record icons created by Hilmy Abiyyu A.", recordingIcon));
         pane.getChildren().add(new A("Paper icons created by Freepik", newsPaperIcon));
+        pane.getChildren().add(new A("Edit icons created by Kiranshastry", editIcon));
         return pane;
     }
 

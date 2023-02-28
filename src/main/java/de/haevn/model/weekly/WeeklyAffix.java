@@ -60,4 +60,17 @@ public final class WeeklyAffix {
     }
 
 
+    public List<Affix> getRotationAfter(List<Affix> currentAffixRotation) {
+        List<Affix> nextWeekRotation = new ArrayList<>();
+        GitHubApi.getInstance().getAffixRotation().get().forEach((s, affixes) -> {
+            if (ListOperation.isContentEqual(affixes, currentAffixRotation, Affix.COMPARE)) {
+                int id = (Integer.parseInt(s) + 1) % 10;
+                nextWeekRotation.clear();
+                var t = GitHubApi.getInstance().getAffixRotation().get().get(String.valueOf(id));
+                nextWeekRotation.addAll(t);
+            }
+        });
+
+        return nextWeekRotation;
+    }
 }

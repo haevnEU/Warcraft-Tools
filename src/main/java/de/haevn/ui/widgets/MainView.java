@@ -1,7 +1,9 @@
 package de.haevn.ui.widgets;
 
 import de.haevn.abstraction.IView;
+import de.haevn.model.WarcraftResources;
 import de.haevn.ui.elements.ButtonBar;
+import de.haevn.ui.utils.Creator;
 import de.haevn.ui.widgets.currentweek.CurrentWeekWidget;
 import de.haevn.ui.widgets.dungeon.DungeonWidget;
 import de.haevn.ui.widgets.pgf.PremadeGroupFilterWidget;
@@ -11,9 +13,9 @@ import de.haevn.ui.widgets.search.PlayerSearchWidget;
 import de.haevn.ui.widgets.settings.SettingsWidget;
 import de.haevn.utils.FileIO;
 import de.haevn.utils.SerializationUtils;
-import de.haevn.model.WarcraftResources;
 import javafx.geometry.Orientation;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 
 import java.util.Optional;
 
@@ -33,11 +35,12 @@ public class MainView extends BorderPane implements IView {
     private final SettingsWidget settingsView = new SettingsWidget();
 
     public MainView() {
-        final String json = FileIO.readFile("./bin/data/json/resources.json");
+        final String json = FileIO.readFile("json/resources.json");
         Optional<WarcraftResources> resources = SerializationUtils.parseJsonSecure(json, WarcraftResources.class);
         mythicPlusResourcesWidget = resources.map(warcraftResources -> new ResourcesWidget(warcraftResources.getMythicplus())).orElse(null);
         raidResourcesWidget = resources.map(warcraftResources -> new ResourcesWidget(warcraftResources.getRaid())).orElse(null);
         otherResourcesWidget = resources.map(warcraftResources -> new ResourcesWidget(warcraftResources.getOther())).orElse(null);
+
 
         ButtonBar buttonBox = new ButtonBar(Orientation.VERTICAL);
         buttonBox.add(createButton("Current Week", e -> setCenter(currentWeekWidget.getView())));
@@ -47,21 +50,23 @@ public class MainView extends BorderPane implements IView {
 
         buttonBox.add(createButton("Premade Group Filter", e -> setCenter(premadeGroupFilterView.getView())));
 
+        final VBox resourceBox = new VBox();
+        resourceBox.setSpacing(10);
         if (null != mythicPlusResourcesWidget && mythicPlusResourcesWidget.isResourceAvailable()) {
-            buttonBox.add(createButton("M+ Resources", e -> setCenter(mythicPlusResourcesWidget.getView())));
+            resourceBox.getChildren().add(createButton("Mythic+", 130, e -> setCenter(mythicPlusResourcesWidget.getView())));
         }
-
         if (null != raidResourcesWidget && raidResourcesWidget.isResourceAvailable()) {
-            buttonBox.add(createButton("Raid Resources", e -> setCenter(raidResourcesWidget.getView())));
+            resourceBox.getChildren().add(createButton("Raid", 130, e -> setCenter(raidResourcesWidget.getView())));
         }
         if (null != otherResourcesWidget && otherResourcesWidget.isResourceAvailable()) {
-            buttonBox.add(createButton("Other Resources", e -> setCenter(otherResourcesWidget.getView())));
+            resourceBox.getChildren().add(createButton("Other", 130, e -> setCenter(otherResourcesWidget.getView())));
         }
 
+        buttonBox.add(Creator.generateTitledPane("Resources", resourceBox, false));
 
         buttonBox.add(createButton("Settings", e -> setCenter(settingsView.getView())));
 
         setLeft(buttonBox.getPane());
-
+        setCenter(currentWeekWidget.getView());
     }
 }

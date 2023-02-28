@@ -30,6 +30,7 @@ class PlayerSearchController implements IController {
         nameProperty.bind(this.view.getName());
     }
 
+
     public void onButtonSearchClicked() {
         view.showSearching();
         final Consumer<PlayerLookupModel> errorAbsentConsumer = playerLookupModel -> {

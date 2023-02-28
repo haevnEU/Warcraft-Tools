@@ -48,6 +48,21 @@ public class NewRecordWidget extends Stage {
         final Button btSave = Creator.createButton("Save", e -> save());
         final Button btCancel = Creator.createButton("Cancel", e -> cancel());
 
+        modeGroup.selectedToggleProperty().addListener((observable, oldValue, newValue) -> {
+            if (modeGroup.getSelectedToggle() != null) {
+                String tags;
+                final RadioButton selected = (RadioButton) modeGroup.getSelectedToggle();
+                if (selected.getText().equals("Raid")) {
+                    tags = textAreaTags.getText().replace("\nmythic+", "");
+                    tags += "\nraid";
+                } else {
+                    tags = textAreaTags.getText().replace("\nraid", "");
+                    textAreaTags.setText(tags);
+                    tags += "\nmythic+";
+                }
+                textAreaTags.setText(tags);
+            }
+        });
         rbRaid.setToggleGroup(modeGroup);
         rbMythicplus.setToggleGroup(modeGroup);
         rbRaid.setSelected(true);
@@ -117,13 +132,27 @@ public class NewRecordWidget extends Stage {
         return Optional.of(instance.getData());
     }
 
-    public static void update(RecordEntry entry) {
+    public static void edit(RecordEntry entry) {
         instance.textFieldName.setText(entry.getName());
         instance.textFieldRecordDate.setValue(entry.getRecordDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
         instance.textFieldWarcraftLogsLink.setText(entry.getLogLink());
         instance.textFieldRecordingLocation.setText(entry.getVideoLink());
-        instance.textAreaTags.setText(entry.getTags());
+        instance.textAreaTags.setText(entry.getTags().replace(";", "\n"));
 
+        if (entry.getTags().contains("raid")) {
+            instance.rbRaid.setSelected(true);
+        } else if (entry.getTags().contains("mythic+")) {
+            instance.rbMythicplus.setSelected(true);
+        }
+        instance.showAndWait();
+
+        if (instance.dialogResult) {
+            entry.setName(instance.textFieldName.getText());
+            entry.setRecordDate(Date.from(instance.textFieldRecordDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+            entry.setLogLink(instance.textFieldWarcraftLogsLink.getText());
+            entry.setVideoLink(instance.textFieldRecordingLocation.getText());
+            entry.setTags(instance.textAreaTags.getText().replace("\n", ";"));
+        }
     }
 
     public static void loadStylesheet(URL url) {
@@ -146,23 +175,28 @@ public class NewRecordWidget extends Stage {
 
     private void save() {
         dialogResult = true;
-
         if (textFieldName.getText().isEmpty()) {
             AlertUtils.showNormal("Name is empty", "Enter a valid name for the recording");
-        } else if (textFieldRecordingLocation.getText().isEmpty()) {
-            AlertUtils.showNormal("Recording location is empty", "Please choose the location of the recording");
-        } else if (textFieldWarcraftLogsLink.getText().isEmpty()) {
-            if (AlertUtils.showConfirmation("Warcaftlogs link is empty", "Do you want to continue without a link to any logfile?")) {
-                this.close();
+            return;
+        }
+
+        final boolean isRecordingLinkEmpty = textFieldRecordingLocation.getText().isEmpty();
+        final boolean isLogLinkEmpty = textFieldWarcraftLogsLink.getText().isEmpty();
+
+        if (isRecordingLinkEmpty || isLogLinkEmpty) {
+            String message = "Do you want to continue without these fields?\n"
+                    + (isRecordingLinkEmpty ? "• Recording is missing\n" : "")
+                    + (isLogLinkEmpty ? "• Link to a log site is missing" : "");
+            if (!AlertUtils.showConfirmation("Some optional  fields are empty", message)) {
+                return;
             }
-        } else {
-            this.close();
-            if (!textFieldWarcraftLogsLink.getText().isEmpty() && cbSendLog.isSelected()) {
-                DiscordApi.getInstance().sendLogWebhook(textFieldWarcraftLogsLink.getText());
-            }
-            if (!textFieldRecordingLocation.getText().isEmpty() && cbSendRecording.isSelected()) {
-                DiscordApi.getInstance().sendRecordWebhook(textFieldRecordingLocation.getText());
-            }
+        }
+        this.close();
+        if (!textFieldWarcraftLogsLink.getText().isEmpty() && cbSendLog.isSelected()) {
+            DiscordApi.getInstance().sendLogWebhook(textFieldWarcraftLogsLink.getText());
+        }
+        if (!textFieldRecordingLocation.getText().isEmpty() && cbSendRecording.isSelected()) {
+            DiscordApi.getInstance().sendRecordWebhook(textFieldRecordingLocation.getText(), textFieldName.getText());
         }
     }
 

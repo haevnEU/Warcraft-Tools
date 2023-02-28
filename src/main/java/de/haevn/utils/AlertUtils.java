@@ -26,9 +26,8 @@ public final class AlertUtils {
 
     public static ButtonType show(String title, String text, Alert.AlertType type) {
         Alert alert = new Alert(type);
-        alert.setTitle(type.name());
-        alert.setHeaderText(title);
-        alert.setContentText(text);
+        alert.setTitle(title);
+        alert.setHeaderText(text);
         alert.showAndWait();
         return alert.getResult();
     }
