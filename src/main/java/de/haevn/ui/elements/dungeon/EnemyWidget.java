@@ -7,6 +7,7 @@ import de.haevn.model.weekly.WeeklyAffix;
 import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.AH3;
 import de.haevn.ui.elements.html.ErrorLabel;
+import de.haevn.ui.utils.Creator;
 import de.haevn.utils.MathUtils;
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -16,9 +17,10 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 
 
-public class EnemyWidget extends GridPane {
+public class EnemyWidget extends VBox {
     private final ErrorLabel errorLabel = new ErrorLabel();
     private final AH3 header = new AH3();
     private final Label health = new Label();
@@ -36,54 +38,47 @@ public class EnemyWidget extends GridPane {
     private Enemy enemy = null;
 
     public EnemyWidget() {
+
+        final GridPane generalPane = new GridPane();
         final Label lbHealth = new Label("Health: ");
         final Label lbCreature = new Label("Creature Type: ");
         final Label lbLevel = new Label("Level: ");
         final Label lbBoss = new Label("Is Boss: ");
-        final Label spells = new Label("Spells: ");
-        final Label lbActives = new Label("Active");
-        final Label lbInactives = new Label("Inactive");
+
+        generalPane.add(lbHealth, 0, 1);
+        generalPane.add(health, 1, 1);
+        generalPane.add(lbCreature, 0, 2);
+        generalPane.add(creatureType, 1, 2);
+        generalPane.add(lbLevel, 0, 3);
+        generalPane.add(level, 1, 3);
+        generalPane.add(lbBoss, 0, 4);
+        generalPane.add(isBoss, 1, 4);
+
+        generalPane.add(new Label("Level: "), 0, 5);
+        generalPane.add(tfLevel, 1, 5);
 
         GridPane.setValignment(lbHealth, VPos.TOP);
         GridPane.setValignment(lbCreature, VPos.TOP);
         GridPane.setValignment(lbLevel, VPos.TOP);
         GridPane.setValignment(lbBoss, VPos.TOP);
-        GridPane.setValignment(spells, VPos.TOP);
-        GridPane.setValignment(lbActives, VPos.TOP);
-        GridPane.setValignment(lbInactives, VPos.TOP);
 
+        getChildren().add(header);
+        getChildren().add(Creator.generateTitledPane("General", generalPane, true));
+        getChildren().add(Creator.generateTitledPane("Spells", spellPane, true));
+        getChildren().add(Creator.generateTitledPane("Active Characteristics", activeCharacteristics, true));
+        getChildren().add(Creator.generateTitledPane("Inactive Characteristics", inactiveCharacteristics, false));
 
-        add(header, 0, 0, 2, 1);
-        add(lbHealth, 0, 1);
-        add(health, 1, 1);
-        add(lbCreature, 0, 2);
-        add(creatureType, 1, 2);
-        add(lbLevel, 0, 3);
-        add(level, 1, 3);
-        add(lbBoss, 0, 4);
-        add(isBoss, 1, 4);
-
-        add(new Label("Level: "), 0, 5);
-        add(tfLevel, 1, 5);
-
-        add(spells, 0, 8);
-        add(spellPane, 1, 8);
-
-        add(lbActives, 0, 9);
-        add(activeCharacteristics, 1, 9);
-        add(lbInactives, 0, 10);
-        add(inactiveCharacteristics, 1, 10);
+        setSpacing(10);
 
         tfLevel.textProperty().addListener((observable, old, value) -> keystoneLevelChanged(value));
 
-        setHgap(10);
-        setVgap(10);
+
         setPadding(new Insets(10));
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setPercentWidth(30);
         ColumnConstraints column2 = new ColumnConstraints();
         column2.setPercentWidth(70);
-        getColumnConstraints().addAll(column1, column2);
+        generalPane.getColumnConstraints().addAll(column1, column2);
     }
 
     private void keystoneLevelChanged(String value) {
@@ -100,10 +95,10 @@ public class EnemyWidget extends GridPane {
     private double multiplyHealth(int keystoneLevel) {
         double result = enemy.getHealth();
         double multiplier = 1;
-        if(keystoneLevel > 10) {
+        if (keystoneLevel > 10) {
             if (enemy.isBoss() && WeeklyAffix.isTyrannical()) {
                 multiplier = 1.3;
-            }else{
+            } else {
                 multiplier = 1.2;
             }
         }

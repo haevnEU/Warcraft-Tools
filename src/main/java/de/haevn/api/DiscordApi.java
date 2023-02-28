@@ -10,6 +10,7 @@ import de.haevn.utils.SerializationUtils;
 
 import java.util.List;
 
+
 public class DiscordApi extends AbstractApi {
     private static final Logger LOGGER = LoggerHandler.get(DiscordApi.class);
     private static final DiscordApi INSTANCE = new DiscordApi();
@@ -23,6 +24,10 @@ public class DiscordApi extends AbstractApi {
     }
 
     public void sendLogWebhook(String url) {
+        sendLogWebhook(url, "You can view the newly published log via " + url);
+    }
+
+    public void sendLogWebhook(String url, String message) {
         final String webhook = PropertyHandler.getInstance("config").get("urls.webhook.log");
 
         DiscordWebhook data = new DiscordWebhook();
@@ -30,17 +35,20 @@ public class DiscordApi extends AbstractApi {
         data.setUsername("Log uploader");
         data.setContent("");
         embed.setUrl(url);
-        embed.setTitle("New Log is published");
-        embed.setDescription("You can view the newly published log via " + url);
-        embed.setColor(12390624);
+        embed.setTitle("Log is published");
+        embed.setDescription(message);
+        embed.setColor(7482272);
         data.setEmbeds(List.of(embed));
-
-        SerializationUtils.exportJson(data).ifPresent(message -> sendWebhook(webhook, message));
+        SerializationUtils.exportJson(data).ifPresent(msg -> sendWebhook(webhook, msg));
 
     }
 
 
     public void sendRecordWebhook(String url) {
+        sendRecordWebhook(url, "You can view the newly published video via " + url);
+    }
+
+    public void sendRecordWebhook(String url, String message) {
         final String webhook = PropertyHandler.getInstance("config").get("urls.webhook.log");
 
         DiscordWebhook data = new DiscordWebhook();
@@ -48,12 +56,12 @@ public class DiscordApi extends AbstractApi {
         data.setUsername("Video record uploader");
         data.setContent("");
         embed.setUrl(url);
-        embed.setTitle("New video is published");
-        embed.setDescription("You can view the newly published video via " + url);
-        embed.setColor(12390624);
+        embed.setTitle("Video is published");
+        embed.setDescription(message);
+        embed.setColor(2841248);
         data.setEmbeds(List.of(embed));
 
-        SerializationUtils.exportJson(data).ifPresent(message -> sendWebhook(webhook, message));
+        SerializationUtils.exportJson(data).ifPresent(msg -> sendWebhook(webhook, msg));
 
     }
 

@@ -40,13 +40,14 @@ class PremadeGroupFilterView extends BorderPane implements IView {
                 tfQuery,
                 Creator.generateTitledPane("Include following dungeons", selectedDungeonPane, true),
                 Creator.generateTitledPane("Remove following dungeons", unselectedDungeonPane, true),
-                Creator.generateTitledPane("Max age in minutes", new FlowPane(tfMaxTime, lbTimeError), true),
-                Creator.generateTitledPane("Other", new FlowPane(cbDeclined, new HBox(new A("Custom Query(click for doc)", "https://github.com/0xbs/premade-groups-filter/wiki/Keywords#difficulty"), customQuery)), true),
+                Creator.generateTitledPane("Max age in minutes", new HBox(tfMaxTime, lbTimeError), true),
+                Creator.generateTitledPane("Other", new HBox(cbDeclined, new A("Custom Query", "https://github.com/0xbs/premade-groups-filter/wiki/Keywords#difficulty"), customQuery), true),
                 Creator.generateTitledPane("Mode", modePane, false),
                 Creator.generateTitledPane("Difficulty", difficultyPane, false)
         );
 
-        HBox.setHgrow(tfQuery, Priority.ALWAYS);
+        HBox.setHgrow(customQuery, Priority.ALWAYS);
+        HBox.setHgrow(tfMaxTime, Priority.ALWAYS);
 
 
         ScrollPane scrollPane = new ScrollPane();

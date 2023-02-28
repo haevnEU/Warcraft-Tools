@@ -38,12 +38,11 @@ class RecordVaultController implements IController {
     }
 
     private void sendRecord() {
-        DiscordApi.getInstance().sendRecordWebhook(recordProperty.get().getVideoLink());
+        DiscordApi.getInstance().sendRecordWebhook(recordProperty.get().getVideoLink(), "Recording " + recordProperty.get().getName() + " is now available on " + recordProperty.get().getVideoLink());
     }
 
     private void sendLog() {
-        DiscordApi.getInstance().sendLogWebhook(recordProperty.get().getLogLink());
-
+        DiscordApi.getInstance().sendLogWebhook(recordProperty.get().getLogLink(), "Log " + recordProperty.get().getName() + " is now available on " + recordProperty.get().getLogLink());
     }
 
     private void onSelectionChanged(RecordEntry entry) {

@@ -8,10 +8,7 @@ import de.haevn.utils.AlertUtils;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
+import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -29,9 +26,12 @@ public class NewRecordWidget extends Stage {
     private final TextField textFieldWarcraftLogsLink = new TextField();
     private final TextField textFieldRecordingLocation = new TextField();
     private final TextArea textAreaTags = new TextArea();
-
+    private final RadioButton rbRaid = new RadioButton("Raid");
+    private final RadioButton rbMythicplus = new RadioButton("mythic+");
+    private final CheckBox cbSendLog = new CheckBox("Warcraft Logs link");
+    private final CheckBox cbSendRecording = new CheckBox("Recording link");
+    private final ToggleGroup modeGroup = new ToggleGroup();
     private boolean dialogResult = false;
-
 
     private NewRecordWidget() {
         setTitle("Add new record");
@@ -47,6 +47,10 @@ public class NewRecordWidget extends Stage {
         final Button btSelectFile = Creator.createButton("Select file", e -> selectRecordingFile());
         final Button btSave = Creator.createButton("Save", e -> save());
         final Button btCancel = Creator.createButton("Cancel", e -> cancel());
+
+        rbRaid.setToggleGroup(modeGroup);
+        rbMythicplus.setToggleGroup(modeGroup);
+        rbRaid.setSelected(true);
 
         root.add(title, 0, 0, 3, 1);
 
@@ -66,7 +70,16 @@ public class NewRecordWidget extends Stage {
         root.add(lbTags, 0, 5);
         root.add(textAreaTags, 1, 5, 2, 1);
 
-        root.add(buttonBox, 0, 6, 3, 1);
+        final FlowPane checkBoxes = new FlowPane();
+        checkBoxes.getChildren().addAll(rbMythicplus, rbRaid);
+        root.add(new Label("Mode"), 0, 6);
+        root.add(checkBoxes, 1, 6, 2, 1);
+
+        root.add(new Label("Send to Discord"), 0, 7);
+        root.add(new FlowPane(cbSendLog, cbSendRecording), 1, 7, 2, 1);
+
+
+        root.add(buttonBox, 0, 8, 3, 1);
 
         GridPane.setValignment(lbTags, VPos.TOP);
         GridPane.setVgrow(textAreaTags, Priority.ALWAYS);
@@ -85,9 +98,9 @@ public class NewRecordWidget extends Stage {
         setScene(scene);
         setResizable(false);
 
-        textFieldRecordingLocation.setEditable(false);
         textFieldName.setOnAction(e -> prefill());
         textFieldName.setPromptText("Type prefill to add some basic tags");
+
     }
 
     public static Optional<RecordEntry> getResult() {
@@ -144,8 +157,11 @@ public class NewRecordWidget extends Stage {
             }
         } else {
             this.close();
-            if(!textFieldWarcraftLogsLink.getText().isEmpty()){
+            if (!textFieldWarcraftLogsLink.getText().isEmpty() && cbSendLog.isSelected()) {
                 DiscordApi.getInstance().sendLogWebhook(textFieldWarcraftLogsLink.getText());
+            }
+            if (!textFieldRecordingLocation.getText().isEmpty() && cbSendRecording.isSelected()) {
+                DiscordApi.getInstance().sendRecordWebhook(textFieldRecordingLocation.getText());
             }
         }
     }
@@ -161,16 +177,12 @@ public class NewRecordWidget extends Stage {
     }
 
     private void prefill() {
+        boolean isRaid = modeGroup.getSelectedToggle() == rbRaid;
         if (textFieldName.getText().equalsIgnoreCase("prefill")) {
             textFieldRecordDate.setValue(LocalDate.now());
             final LocalDate date = textFieldRecordDate.getValue();
             textAreaTags.setText(date
-                    + "\n" + date.getYear()
-                    + "\n" + date.getMonth()
-                    + "\n" + date.getDayOfMonth()
-                    + "\n" + date.getDayOfWeek()
-                    + "\nrecording"
-                    + "\nraid"
+                    + "\n" + (isRaid ? "raid" : "mythic+")
                     + "\n" + System.currentTimeMillis());
             textFieldName.setText(date.toString());
 

@@ -23,19 +23,24 @@ class DungeonView extends BorderPane implements IView {
     private final EnemyWidget enemyWidget = new EnemyWidget();
 
     DungeonView() {
-        setTop(new H1("Dungeon Enemies (WIP)"));
+        setTop(new H1("Dungeon Enemies"));
         TextField tfEnemySearch = new TextField();
         setLeft(new VBox(dungeonsComboBox, tfEnemySearch, enemies));
         VBox.setVgrow(enemies, javafx.scene.layout.Priority.ALWAYS);
-        setCenter(enemyWidget);
+
 
         enemies.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> internalShowEnemy(newValue));
 
         tfEnemySearch.setPromptText("Enter enemy name or id");
         tfEnemySearch.textProperty().addListener((observable, oldValue, newValue) ->
-                filteredData.setPredicate(enemy -> enemy.getName().toLowerCase().contains(newValue.toLowerCase())
-                        || String.valueOf(enemy.getId()).contains(newValue)));
+                filteredData.setPredicate(enemy -> isSearchMatch(enemy, newValue)));
 
+    }
+
+    private boolean isSearchMatch(Enemy enemy, String search) {
+        return enemy.getName().toLowerCase().contains(search.toLowerCase())
+                || String.valueOf(enemy.getId()).contains(search)
+                || (enemy.isBoss() && search.toLowerCase().contains("boss"));
     }
 
     public void bindDungeons(ObservableList<Dungeon> dungeons) {
@@ -56,6 +61,7 @@ class DungeonView extends BorderPane implements IView {
     }
 
     private void internalShowEnemy(Enemy enemy) {
+        setCenter(enemyWidget);
         enemyWidget.setEnemy(enemy);
     }
 }

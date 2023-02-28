@@ -12,6 +12,10 @@ public final class MathUtils {
     }
 
 
+    public static int hexToInteger(String hex) {
+        return Integer.parseInt(hex, 16);
+    }
+
     public static String numberToRoundText(double number) {
         return Integer.toString((int) Math.round(number));
     }

@@ -16,7 +16,7 @@ public class DiscordWebhook {
         private String url;
         private String title;
         private String description;
-        private int color;
+        private long color;
     }
 
 }
