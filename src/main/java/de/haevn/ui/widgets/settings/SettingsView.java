@@ -11,9 +11,11 @@ import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.elements.html.H3;
 import de.haevn.ui.utils.Creator;
+import de.haevn.ui.widgets.settings.panes.BackupPane;
 import de.haevn.utils.PropertyHandler;
 import de.haevn.utils.ThemeHandler;
 import javafx.application.Platform;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -33,8 +35,9 @@ import java.util.Date;
 class SettingsView extends BorderPane implements IView {
     private final Label lbLastRaiderIOUpdate = new Label();
     private final Label lbLastGitHubUpdate = new Label();
-
     private final TextField tfWebhookLogs = new TextField();
+
+    private final BackupPane backupPane = new BackupPane();
 
     public SettingsView() {
         setPadding(new Insets(10));
@@ -43,6 +46,7 @@ class SettingsView extends BorderPane implements IView {
         root.setSpacing(10);
         root.getChildren().add(Creator.generateTitledPane("Webhooks", createWebhooks(), true));
         root.getChildren().add(Creator.generateTitledPane("General", createGeneral(), true));
+        root.getChildren().add(Creator.generateTitledPane("World of Warcraft Backup", backupPane, true));
         root.getChildren().add(Creator.generateTitledPane("Help", createHelp(), true));
         root.getChildren().add(Creator.generateTitledPane("Updates", createRefresh(), false));
         root.getChildren().add(Creator.generateTitledPane("Datasources", createDataSources(), false));
@@ -86,6 +90,7 @@ class SettingsView extends BorderPane implements IView {
 
         return grid;
     }
+
 
     private void onRaiderIOUpdate(Date date) {
         Platform.runLater(() -> {
@@ -183,6 +188,7 @@ class SettingsView extends BorderPane implements IView {
         return pane;
     }
 
+
     private GridPane createRefresh() {
         GridPane pane = new GridPane();
         pane.setHgap(10);
@@ -206,5 +212,26 @@ class SettingsView extends BorderPane implements IView {
 
     public StringProperty getWebhookLogProperty() {
         return tfWebhookLogs.textProperty();
+    }
+
+
+    //----------------------------------------------------------------------------------------------------------------------
+    // Backup interaction
+    //----------------------------------------------------------------------------------------------------------------------
+
+    public BooleanProperty getAutoBackupProperty() {
+        return backupPane.getAutoBackup();
+    }
+
+    public StringProperty getBackupPathProperty() {
+        return backupPane.getRootPath();
+    }
+
+    public void addOnBackupClicked(Runnable runnable) {
+        backupPane.setOnButtonBackupClicked(runnable);
+    }
+
+    public void addOnRestoreClicked(Runnable runnable) {
+        backupPane.setOnButtonRestoreClicked(runnable);
     }
 }

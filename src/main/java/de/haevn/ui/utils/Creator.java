@@ -1,13 +1,12 @@
 package de.haevn.ui.utils;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -57,5 +56,12 @@ public class Creator {
         tp.getStyleClass().add("fx-haevn-titledpane");
         tp.setExpanded(expanded);
         return tp;
+    }
+
+    public static HBox createCheckBox(String text, BooleanProperty property, boolean isLeft) {
+        CheckBox checkBox = new CheckBox();
+        checkBox.selectedProperty().bindBidirectional(property);
+
+        return isLeft ? new HBox(checkBox, new Label(text)) : new HBox(new Label(text), checkBox);
     }
 }
