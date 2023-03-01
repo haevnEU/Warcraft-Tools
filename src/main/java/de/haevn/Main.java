@@ -5,8 +5,8 @@ import de.haevn.api.RaiderIOApi;
 import de.haevn.logging.Logger;
 import de.haevn.logging.LoggerHandler;
 import de.haevn.ui.widgets.MainView;
+import de.haevn.utils.AppData;
 import de.haevn.utils.FileIO;
-import de.haevn.utils.PropertyHandler;
 import de.haevn.utils.ThemeHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -20,10 +20,9 @@ import java.net.URL;
 
 public class Main extends Application {
     private static final Logger LOGGER = LoggerHandler.get(Main.class);
-    private static final String CONFIG_FILE = "config";
-    public static final String VERSION = PropertyHandler.getInstance(CONFIG_FILE).get("app.version");
-    public static final String BUILD = PropertyHandler.getInstance(CONFIG_FILE).get("app.build");
-    public static final String NAME = PropertyHandler.getInstance(CONFIG_FILE).get("app.name");
+    public static final String VERSION = AppData.getInstance().getVersion();
+    public static final String BUILD = AppData.getInstance().getBuild();
+    public static final String NAME = AppData.getInstance().getName();
     private static Main instance;
     private Scene scene;
 
@@ -42,7 +41,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        LOGGER.atInfo("Loading %s %s (%s)", NAME, VERSION, BUILD);
         var result = FileIO.validate();
 
         if (!result.getFirst()) {
@@ -57,7 +55,7 @@ public class Main extends Application {
 
         primaryStage.setTitle(NAME + " " + VERSION + " (" + BUILD + ")");
         InputStream iconSource = getClass().getResourceAsStream("/werkzeugkasten.png");
-        if(null != iconSource){
+        if (null != iconSource) {
             primaryStage.getIcons().add(new Image(iconSource));
         }
         Main.instance = this;

@@ -4,11 +4,16 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>WarcraftTools</artifactId>
-    <version>2.1.0.3</version>
+    <groupId>de.haevn</groupId>
+    <artifactId>${app.name}</artifactId>
+    <version>${app.version}</version>
 
     <properties>
+        <!-- app.data -->
+        <app.name>WarcraftTools</app.name>
+        <app.version>3.0.1.4</app.version>
+        <app.build>BETA</app.build>
+
         <!--Versions for maven-->
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -90,26 +95,17 @@
             <version>${version.commons-lang3}</version>
         </dependency>
 
-        <!--Dependencies for testing-->
-        <!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.9.2</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>5.1.1</version>
-            <scope>test</scope>
-        </dependency>
-
     </dependencies>
 
     <build>
+            <resources>
+                <resource>
+                    <directory>src/main/resources</directory>
+                    <filtering>true</filtering>
+                </resource>
+            </resources>
+
+
         <plugins>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
