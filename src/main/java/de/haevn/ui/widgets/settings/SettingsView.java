@@ -3,7 +3,9 @@ package de.haevn.ui.widgets.settings;
 import de.haevn.abstraction.IView;
 import de.haevn.api.GitHubApi;
 import de.haevn.api.RaiderIOApi;
+import de.haevn.enumeration.RegionEnum;
 import de.haevn.logging.LoggerHandler;
+import de.haevn.model.Settings;
 import de.haevn.ui.elements.RefreshButton;
 import de.haevn.ui.elements.html.A;
 import de.haevn.ui.elements.html.H1;
@@ -66,10 +68,22 @@ class SettingsView extends BorderPane implements IView {
         grid.setPadding(new Insets(10));
         grid.add(new Label("Theme"), 0, 0);
 
-        final ComboBox<String> cbRegion = new ComboBox<>(FXCollections.observableArrayList(ThemeHandler.getInstance().getThemes()));
-        cbRegion.valueProperty().bindBidirectional(ThemeHandler.getInstance().getCurrentTheme());
+        final ComboBox<String> cbTheme = new ComboBox<>(FXCollections.observableArrayList(ThemeHandler.getInstance().getThemes()));
+        cbTheme.valueProperty().bindBidirectional(ThemeHandler.getInstance().getCurrentTheme());
+        grid.add(cbTheme, 1, 0);
 
-        grid.add(cbRegion, 1, 0);
+
+        grid.add(new Label("Region"), 0, 1);
+        final ComboBox<RegionEnum> cbRegion = new ComboBox<>(FXCollections.observableArrayList(RegionEnum.values()));
+        PropertyHandler.getInstance("config").getOptional("app.region").ifPresent(region -> cbRegion.getSelectionModel().select(RegionEnum.getRegionByName(region)));
+        cbRegion.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (newValue != null) {
+                PropertyHandler.getInstance("config").set("app.region", newValue.regionCode);
+                Settings.getInstance().regionPropertyProperty().set(newValue);
+            }
+        });
+        grid.add(cbRegion, 1, 1);
+
         return grid;
     }
 

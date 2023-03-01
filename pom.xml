@@ -13,6 +13,8 @@
         <app.name>WarcraftTools</app.name>
         <app.version>3.0.1.4</app.version>
         <app.build>BETA</app.build>
+        <app.preview>false</app.preview>
+
 
         <!--Versions for maven-->
         <maven.compiler.source>17</maven.compiler.source>
@@ -98,12 +100,12 @@
     </dependencies>
 
     <build>
-            <resources>
-                <resource>
-                    <directory>src/main/resources</directory>
-                    <filtering>true</filtering>
-                </resource>
-            </resources>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
 
 
         <plugins>

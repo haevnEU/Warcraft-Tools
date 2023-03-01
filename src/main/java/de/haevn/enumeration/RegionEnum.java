@@ -2,9 +2,8 @@ package de.haevn.enumeration;
 
 public enum RegionEnum {
 
-    EU("eu", "europe"),
-    US("us", "united states"),
-    NONE("", "");
+    EU("eu", "Europe"),
+    US("us", "United States");
     public final String regionCode;
     public final String regionName;
 
@@ -20,12 +19,12 @@ public enum RegionEnum {
             case "us", "united states":
                 yield US;
             default:
-                yield NONE;
+                yield EU;
         };
     }
 
     @Override
     public String toString() {
-        return regionCode;
+        return regionName;
     }
 }

@@ -44,7 +44,6 @@ public final class PropertyHandler {
     }
 
     public void load() {
-
         String property = "config/" + name;
         if (!property.endsWith(EXTENSION)) {
             property += EXTENSION;
@@ -56,9 +55,18 @@ public final class PropertyHandler {
         }
     }
 
+    public void store(){
+        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator() + "config/" + name + EXTENSION)) {
+            properties.store(os, "");
+        } catch (IOException e) {
+            CrashReport.show(e);
+            LOGGER.atError("Could not save property file: %s", name);
+        }
+    }
 
     //----------------------------------------------------------------------------------------------------------------------
     //  Getter
+
     //----------------------------------------------------------------------------------------------------------------------
 
     public String get(String key) {
@@ -82,9 +90,34 @@ public final class PropertyHandler {
     }
 
 
+    public Optional<Double> getOptionalDouble(String key) {
+        final String value = properties.getProperty(key, null);
+        if (value.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(Double.parseDouble(value));
+    }
+
+    public Optional<Long> getOptionalLong(String key) {
+        final String value = properties.getProperty(key, null);
+        if (value.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(Long.parseLong(value));
+    }
+
+    public Optional<Boolean> getOptionalBoolean(String key) {
+        final String value = properties.getProperty(key, null);
+        if (value.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(Boolean.parseBoolean(value));
+    }
+
+
     public Optional<String> getOptional(String key) {
         final String value = properties.getProperty(key, null);
-        if(value.isEmpty()) {
+        if (value.isEmpty()) {
             return Optional.empty();
         }
         return Optional.of(value);
@@ -92,11 +125,6 @@ public final class PropertyHandler {
 
     public void set(String k, String value) {
         properties.setProperty(k, value);
-        try (OutputStream os = new FileOutputStream(FileIO.getRootPathWithSeparator() + "config/" + name + EXTENSION)) {
-            properties.store(os, "Updated " + k + " to " + value);
-        } catch (IOException e) {
-            CrashReport.show(e);
-            LOGGER.atError("Could not save property file: %s", name);
-        }
+        store();
     }
 }

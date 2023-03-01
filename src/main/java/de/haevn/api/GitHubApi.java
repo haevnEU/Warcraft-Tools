@@ -55,7 +55,7 @@ public final class GitHubApi extends AbstractApi {
 
     public void update() {
         LOGGER.atInfo("Updating GitHubApi.");
-        if ((lastUpdate.get() + refreshDuration) < System.currentTimeMillis()) {
+        if ((lastUpdate.get() + refreshDuration.get()) < System.currentTimeMillis()) {
             lastUpdate.set(System.currentTimeMillis());
             lastUpdateDate.set(Date.from(Instant.now()));
             fetchSeasonalDungeons().thenAccept(resultConsumer);
