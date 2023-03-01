@@ -6,6 +6,7 @@ import de.haevn.utils.NetworkUtils;
 import de.haevn.utils.PropertyHandler;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
@@ -23,6 +24,7 @@ public class WebhookPane extends GridPane {
 
         setHgap(10);
         setVgap(5);
+        setPadding(new Insets(10));
 
         final TextField tfWebhookLogs = new TextField();
         GridPane.setHgrow(tfWebhookLogs, javafx.scene.layout.Priority.ALWAYS);
