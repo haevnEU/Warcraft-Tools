@@ -64,20 +64,24 @@ public final class PropertyHandler {
     //  Getter
     //----------------------------------------------------------------------------------------------------------------------
 
-    public String get(String key) {
-        return properties.getProperty(key, "");
+    public String get(PropertyKeys key) {
+        return get(key, "");
     }
 
-    public boolean getBoolean(String key) {
-        return Boolean.parseBoolean(properties.getProperty(key, "false"));
+    public String get(PropertyKeys key, String defaultValue) {
+        return properties.getProperty(key.value, defaultValue);
     }
 
-    public long getLong(String key) {
-        return Long.parseLong(properties.getProperty(key, "0"));
+    public boolean getBoolean(PropertyKeys key) {
+        return Boolean.parseBoolean(get(key, "false"));
     }
 
-    public double getDouble(String key) {
-        return Double.parseDouble(properties.getProperty(key, "0"));
+    public long getLong(PropertyKeys key) {
+        return Long.parseLong(get(key, "0"));
+    }
+
+    public double getDouble(PropertyKeys key) {
+        return Double.parseDouble(get(key, "0"));
     }
 
     public List<String> getAllProperties() {

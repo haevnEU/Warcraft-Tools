@@ -10,6 +10,7 @@ import de.haevn.model.rating.MythicPlusScoreMapping;
 import de.haevn.model.rating.RatingDefinition;
 import de.haevn.model.weekly.Affix;
 import de.haevn.utils.NetworkUtils;
+import de.haevn.utils.PropertyKeys;
 import de.haevn.utils.SerializationUtils;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleLongProperty;
@@ -23,11 +24,7 @@ import java.util.function.Consumer;
 
 public final class GitHubApi extends AbstractApi {
 
-    private static final String SEASONAL_KEY = "git.url.seasonal";
-    private static final String DEFINITION_KEY = "git.url.definition";
-    private static final String SCORE_MAP_KEY = "git.url.scoreMap";
-    private static final String AFFIX_COMBO_KEY = "git.url.affixCombo";
-    private static final String REALM_KEY = "git.url.realm";
+
     private static final Logger LOGGER = LoggerHandler.get(GitHubApi.class);
     private static final GitHubApi instance = new GitHubApi();
     private final SimpleLongProperty lastUpdate = new SimpleLongProperty(0);
@@ -73,7 +70,7 @@ public final class GitHubApi extends AbstractApi {
 
         return CompletableFuture.supplyAsync(() -> {
             try {
-                final String url = urlHandler.get(SEASONAL_KEY);
+                final String url = urlHandler.get(PropertyKeys.SEASONAL_KEY);
 
                 LOGGER.atInfo("Fetching seasonal dungeons from %s.", url);
                 final HttpResponse<String> result = NetworkUtils.download(url);
@@ -101,7 +98,7 @@ public final class GitHubApi extends AbstractApi {
     private CompletableFuture<Integer> fetchRatingDefinition() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                final String url = urlHandler.get(DEFINITION_KEY);
+                final String url = urlHandler.get(PropertyKeys.DEFINITION_KEY);
 
                 LOGGER.atInfo("Fetching rating definition from %s.", url);
                 final HttpResponse<String> result = NetworkUtils.download(url);
@@ -127,7 +124,7 @@ public final class GitHubApi extends AbstractApi {
     private CompletableFuture<Integer> fetchMythicPlusScoreMapping() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                final String url = urlHandler.get(SCORE_MAP_KEY);
+                final String url = urlHandler.get(PropertyKeys.SCORE_MAP_KEY);
 
                 LOGGER.atInfo("Fetching score mapping from %s.", url);
                 final HttpResponse<String> result = NetworkUtils.download(url);
@@ -154,7 +151,7 @@ public final class GitHubApi extends AbstractApi {
     private CompletableFuture<Integer> fetchAffixRotation() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                final String url = urlHandler.get(AFFIX_COMBO_KEY);
+                final String url = urlHandler.get(PropertyKeys.AFFIX_COMBO_KEY);
 
                 LOGGER.atInfo("Fetching affix rotation from %s.", url);
                 final HttpResponse<String> result = NetworkUtils.download(url);
@@ -192,7 +189,7 @@ public final class GitHubApi extends AbstractApi {
     private CompletableFuture<Integer> fetchCountryRealms() {
         return CompletableFuture.supplyAsync(() -> {
             try {
-                final String url = urlHandler.get(REALM_KEY);
+                final String url = urlHandler.get(PropertyKeys.REALM_KEY);
 
                 LOGGER.atInfo("Fetching country realms from %s.", url);
                 final HttpResponse<String> result = NetworkUtils.download(url);

@@ -10,6 +10,7 @@ import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.elements.html.H3;
 import de.haevn.ui.utils.Creator;
 import de.haevn.utils.PropertyHandler;
+import de.haevn.utils.PropertyKeys;
 import de.haevn.utils.ThemeHandler;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -71,9 +72,9 @@ class SettingsView extends BorderPane implements IView {
     }
 
     private GridPane createHelp() {
-        final String repositoryUrl = PropertyHandler.getInstance("urls").get("settings.repo");
-        final String issueUrl = PropertyHandler.getInstance("urls").get("settings.support.issue");
-        final String featureUrl = PropertyHandler.getInstance("urls").get("settings.support.feature");
+        final String repositoryUrl = PropertyHandler.getInstance("urls").get(PropertyKeys.SUPPORT_REPO);
+        final String issueUrl = PropertyHandler.getInstance("urls").get(PropertyKeys.SUPPORT_ISSUE);
+        final String featureUrl = PropertyHandler.getInstance("urls").get(PropertyKeys.SUPPORT_FEATURE);
 
         GridPane pane = new GridPane();
         pane.setHgap(10);

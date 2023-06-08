@@ -7,6 +7,7 @@ import de.haevn.logging.LoggerHandler;
 import de.haevn.ui.widgets.MainView;
 import de.haevn.utils.FileIO;
 import de.haevn.utils.PropertyHandler;
+import de.haevn.utils.PropertyKeys;
 import de.haevn.utils.ThemeHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -21,9 +22,9 @@ import java.net.URL;
 public class Main extends Application {
     private static final Logger LOGGER = LoggerHandler.get(Main.class);
     private static final String CONFIG_FILE = "config";
-    public static final String VERSION = PropertyHandler.getInstance(CONFIG_FILE).get("app.version");
-    public static final String BUILD = PropertyHandler.getInstance(CONFIG_FILE).get("app.build");
-    public static final String NAME = PropertyHandler.getInstance(CONFIG_FILE).get("app.name");
+    public static final String VERSION = PropertyHandler.getInstance(CONFIG_FILE).get(PropertyKeys.APP_VERSION);
+    public static final String BUILD = PropertyHandler.getInstance(CONFIG_FILE).get(PropertyKeys.APP_BUILD);
+    public static final String NAME = PropertyHandler.getInstance(CONFIG_FILE).get(PropertyKeys.APP_NAME);
     private static Main instance;
     private Scene scene;
 

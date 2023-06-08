@@ -11,6 +11,7 @@ import de.haevn.ui.elements.lookup.*;
 import de.haevn.ui.utils.Creator;
 import de.haevn.utils.NetworkUtils;
 import de.haevn.utils.PropertyHandler;
+import de.haevn.utils.PropertyKeys;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.event.ActionEvent;
@@ -92,7 +93,7 @@ class PlayerSearchView extends BorderPane implements IView {
         Platform.runLater(() -> {
             if (ex instanceof NetworkException network) {
                 if (NetworkUtils.is4xx(network.getStatusCode())) {
-                    errorWidget.setMessage("Given Player " + searchBox.getNameString() + "-" + searchBox.getRealmString() + " in region " + PropertyHandler.getInstance("config").get("app.region") + " seems not existing.");
+                    errorWidget.setMessage("Given Player " + searchBox.getNameString() + "-" + searchBox.getRealmString() + " in region " + PropertyHandler.getInstance("config").get(PropertyKeys.APP_REGION) + " seems not existing.");
                 } else if (NetworkUtils.is5xx(network.getStatusCode())) {
                     errorWidget.setMessage("It seems that the raider.io API is currently not available: " + network.getStatusCode());
                 } else {

@@ -28,7 +28,7 @@ public final class NetworkUtils {
             final HttpRequest request = HttpRequest.newBuilder()
                     .uri(new URI(url))
                     .GET()
-                    .timeout(java.time.Duration.ofSeconds(propertyHandler.getLong("network.timeout")))
+                    .timeout(java.time.Duration.ofSeconds(propertyHandler.getLong(PropertyKeys.NETWORK_TIMEOUT)))
                     .build();
             return HttpClient.newBuilder()
                     .followRedirects(HttpClient.Redirect.NORMAL)

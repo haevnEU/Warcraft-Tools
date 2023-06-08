@@ -85,7 +85,7 @@ public class CrashReport extends AbstractWindow {
 
         json.message = throwable.getMessage();
         json.time = Date.from(Instant.now()).toString();
-        json.version = PropertyHandler.getInstance("config").get("app.version") + " (" + PropertyHandler.getInstance("config").get("app.build") + ")";
+        json.version = PropertyHandler.getInstance("config").get(PropertyKeys.APP_VERSION) + " (" + PropertyHandler.getInstance("config").get(PropertyKeys.APP_BUILD) + ")";
         json.stacktrace = ExceptionUtils.getStackTrace(throwable);
 
         stacktrace.setText(json.version + "\n" + json.time + "\nMessage: " + json.message + "\nStacktrace:\n" + json.stacktrace);
