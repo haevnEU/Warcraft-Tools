@@ -10,7 +10,7 @@ public enum Addon {
     NONE("");
 
     public static final Map<Addon, Season[]> getSeasons = Map.of(
-            Addon.DRAGONFLIGHT, new Season[]{Season.DF_SEASON_1},
+            Addon.DRAGONFLIGHT, new Season[]{Season.DF_SEASON_1, Season.DF_SEASON_2},
             Addon.SHADOWLANDS, new Season[]{Season.SL_SEASON_3, Season.SL_SEASON_4}
     );
     public final String label;

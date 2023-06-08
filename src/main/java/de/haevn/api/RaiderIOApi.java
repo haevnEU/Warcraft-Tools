@@ -12,6 +12,7 @@ import de.haevn.model.lookup.PlayerLookupModel;
 import de.haevn.model.seasonal.SeasonCutoff;
 import de.haevn.model.weekly.Affix;
 import de.haevn.utils.NetworkUtils;
+import de.haevn.utils.PropertyKeys;
 import de.haevn.utils.SerializationUtils;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -66,7 +67,7 @@ public final class RaiderIOApi extends AbstractApi {
     }
 
     private CompletableFuture<Integer> fetchCurrentAffix() {
-        final String url = String.format(urlHandler.get(CURRENT_AFFIX_KEY), region.get());
+        final String url = String.format(urlHandler.get(PropertyKeys.RIO_URL_CURRENT_AFFIX), region.get());
         LOGGER.atInfo("Fetching current affix from %s", url);
         return NetworkUtils.downloadAsync(url).thenApply(response -> {
             LOGGER.atInfo("Fetching current affix");
@@ -133,7 +134,7 @@ public final class RaiderIOApi extends AbstractApi {
         for (var season : seasons) {
             try {
                 final String slug = season.label;
-                final String url = String.format(urlHandler.get(CUTOFF_KEY), slug, region.get());
+                final String url = String.format(urlHandler.get(PropertyKeys.RIO_URL_CUTOFF), slug, region.get());
                 LOGGER.atInfo("Fetching cutoff for season %s from %s", season.label, url);
                 final HttpResponse<String> result = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", result.statusCode(), result.body().length());
@@ -159,7 +160,7 @@ public final class RaiderIOApi extends AbstractApi {
         return CompletableFuture.supplyAsync(() -> {
             try {
                 LOGGER.atInfo("Fetching player %s-%s", realm, name);
-                final String url = String.format(urlHandler.get(CHARACTER_KEY), region.get(), realm, name, (urlHandler.get(QUERY_KEY) + urlHandler.get(QUERY_KEY_SEASONS)));
+                final String url = String.format(urlHandler.get(PropertyKeys.RIO_URL_CHARACTER), region.get(), realm, name, (urlHandler.get(PropertyKeys.RIO_QUERY_CHARACTER) + urlHandler.get(PropertyKeys.RIO_QUERY_CHARACTER_SEASONS)));
 
                 final HttpResponse<String> download = NetworkUtils.download(url);
                 LOGGER.atInfo("Request result: %s %s bytes", download.statusCode(), download.body().length());

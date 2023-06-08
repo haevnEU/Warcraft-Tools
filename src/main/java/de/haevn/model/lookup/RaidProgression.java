@@ -11,11 +11,14 @@ public final class RaidProgression {
 
     @JsonAlias("vault-of-the-incarnates")
     private Raid vaultOfTheIncarnates;
+    @JsonAlias("aberrus-the-shadowed-crucible")
+    private Raid aberrusTheShadowedCrucible;
 
     @JsonIgnore
     public List<Raid> toList() {
         vaultOfTheIncarnates.name = "Vault of the Incarnates";
-        return List.of(vaultOfTheIncarnates);
+        aberrusTheShadowedCrucible.name = "Aberrus the Shadowed Crucible";
+        return List.of(aberrusTheShadowedCrucible, vaultOfTheIncarnates);
     }
 
     @Data

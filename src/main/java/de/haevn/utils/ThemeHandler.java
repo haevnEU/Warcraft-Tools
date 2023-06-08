@@ -20,7 +20,7 @@ public final class ThemeHandler {
 
     private ThemeHandler() {
         currentTheme.addListener((observable, oldValue, newValue) -> setCurrentTheme(newValue));
-        String theme = PropertyHandler.getInstance("config").get("app.theme");
+        String theme = PropertyHandler.getInstance("config").get(PropertyKeys.APP_THEME);
         setCurrentTheme(theme.toUpperCase());
 
         var found = new File(FileIO.getRootPathWithSeparator() + "styles").listFiles((dir, name) -> name.endsWith(".css"));

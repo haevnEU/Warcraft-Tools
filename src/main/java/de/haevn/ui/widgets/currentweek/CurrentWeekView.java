@@ -8,6 +8,7 @@ import de.haevn.ui.elements.html.AH1;
 import de.haevn.ui.elements.html.H1;
 import de.haevn.ui.elements.html.H4;
 import de.haevn.utils.PropertyHandler;
+import de.haevn.utils.PropertyKeys;
 import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.collections.FXCollections;
@@ -29,7 +30,7 @@ class CurrentWeekView extends BorderPane implements IView {
         final GridPane pane = new GridPane();
         final FlowPane widgetCutoff = new FlowPane();
         final FlowPane widgetAchievements = new FlowPane();
-        final String cutoffUrl = PropertyHandler.getInstance("urls").get("rio.url.cutoff.current");
+        final String cutoffUrl = PropertyHandler.getInstance("urls").get(PropertyKeys.RIO_URL_CURRENT_CUTOFF);
         widgetCutoff.setId("widget-box");
         widgetAchievements.setId("widget-box");
 
