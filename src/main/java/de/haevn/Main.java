@@ -1,14 +1,14 @@
 package de.haevn;
 
-import de.haevn.api.GitHubApi;
-import de.haevn.api.RaiderIOApi;
-import de.haevn.logging.Logger;
-import de.haevn.logging.LoggerHandler;
-import de.haevn.ui.widgets.MainView;
-import de.haevn.utils.FileIO;
-import de.haevn.utils.PropertyHandler;
-import de.haevn.utils.PropertyKeys;
-import de.haevn.utils.ThemeHandler;
+import de.haevn.v1.api.GitHubApi;
+import de.haevn.v1.api.RaiderIOApi;
+import de.haevn.v1.logging.Logger;
+import de.haevn.v1.logging.LoggerHandler;
+import de.haevn.v1.ui.widgets.MainView;
+import de.haevn.v1.utils.FileIO;
+import de.haevn.v1.utils.PropertyHandler;
+import de.haevn.v1.utils.PropertyKeys;
+import de.haevn.v1.utils.ThemeHandler;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -43,6 +43,21 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        primaryStage.setTitle(NAME + " " + VERSION + " (" + BUILD + ")");
+
+        Main.instance = this;
+
+
+        final double width = 1024;
+        final double height = 840;
+        if(System.getenv().containsKey("PREVIEW")){
+            scene = new Scene(new de.haevn.v2.ui.MainView(), width, height);
+        }else{
+            scene = new Scene( new MainView(), width, height);
+
+        }
+        scene.setFill(Paint.valueOf("#1e1e1e"));
         LOGGER.atInfo("Loading %s %s (%s)", NAME, VERSION, BUILD);
         var result = FileIO.validate();
 
@@ -61,13 +76,8 @@ public class Main extends Application {
         if(null != iconSource){
             primaryStage.getIcons().add(new Image(iconSource));
         }
-        Main.instance = this;
-        MainView mainView = new MainView();
 
-        final double width = 1024;
-        final double height = 840;
         LOGGER.atInfo("With dimensions: %s x %s", width, height);
-        scene = new Scene(mainView, width, height);
         scene.setFill(Paint.valueOf("#1e1e1e"));
 
         primaryStage.setScene(scene);

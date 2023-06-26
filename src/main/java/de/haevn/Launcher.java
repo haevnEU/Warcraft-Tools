@@ -1,6 +1,6 @@
 package de.haevn;
 
-import de.haevn.utils.FileIO;
+import de.haevn.v1.utils.FileIO;
 import lombok.SneakyThrows;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
