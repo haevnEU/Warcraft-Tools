@@ -9,10 +9,16 @@ import de.haevn.v1.utils.FileIO;
 import de.haevn.v1.utils.PropertyHandler;
 import de.haevn.v1.utils.PropertyKeys;
 import de.haevn.v1.utils.ThemeHandler;
+import de.haevn.v2.api.NetworkApi;
+import de.haevn.v2.ui.week.WeekWidget;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 
@@ -52,11 +58,16 @@ public class Main extends Application {
         final double width = 1024;
         final double height = 840;
         if(System.getenv().containsKey("PREVIEW")){
-            scene = new Scene(new de.haevn.v2.ui.MainView(), width, height);
+            var view = new de.haevn.v2.ui.MainView();
+            scene = new Scene(view, width, height);
         }else{
             scene = new Scene( new MainView(), width, height);
-
         }
+
+        KeyCombination kc = new KeyCodeCombination(KeyCode.F5, KeyCombination.CONTROL_DOWN);
+        scene.getAccelerators().put(kc, ()->{
+            NetworkApi.getInstance().refresh();
+        });
         scene.setFill(Paint.valueOf("#1e1e1e"));
         LOGGER.atInfo("Loading %s %s (%s)", NAME, VERSION, BUILD);
         var result = FileIO.validate();

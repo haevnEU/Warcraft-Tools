@@ -12,7 +12,7 @@ public class LookupWidget implements IJfxWidget {
 
     @Override
     public String getName() {
-        return "WeekWidget";
+        return "LookUp";
     }
 
     @Override

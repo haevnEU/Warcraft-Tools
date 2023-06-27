@@ -9,6 +9,9 @@ public class WeekWidget implements IJfxWidget {
     private final WeekView view = new WeekView();
     private final WeekController controller = new WeekController();
 
+    public WeekWidget(){
+        controller.link(view);
+    }
 
     @Override
     public String getName() {
