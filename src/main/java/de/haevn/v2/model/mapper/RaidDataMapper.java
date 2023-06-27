@@ -1,7 +1,6 @@
 package de.haevn.v2.model.mapper;
 
-import de.haevn.v2.model.RaidData;
-import de.haevn.v2.model.dto.raid.Rank;
+import de.haevn.v2.model.raid.RaidData;
 import de.haevn.v2.model.dto.raid.Ranking;
 
 import java.util.Map;
@@ -26,6 +25,10 @@ public class RaidDataMapper {
     public RaidDataMapper addMythicRaidRanking(String slug, Ranking ranking) {
         return addRaidRanking(data.getMythicRankings(), slug, ranking);
 
+    }
+
+    public RaidDataMapper addAddon() {
+        return this;
     }
 
     private RaidDataMapper addRaidRanking(Map<String, Ranking> map, String slug, Ranking ranking) {

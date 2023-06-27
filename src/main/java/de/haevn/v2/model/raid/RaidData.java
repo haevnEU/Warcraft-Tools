@@ -1,4 +1,4 @@
-package de.haevn.v2.model;
+package de.haevn.v2.model.raid;
 
 import de.haevn.v2.model.dto.raid.Ranking;
 import lombok.Data;

@@ -1,7 +1,9 @@
 package de.haevn.v2.api;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import de.haevn.v2.model.RaidData;
+import de.haevn.v2.model.Addon;
+import de.haevn.v2.model.raid.RaidData;
+import de.haevn.v2.model.dto.raid.Raid;
 import de.haevn.v2.model.dto.raid.Rank;
 import de.haevn.v2.model.dto.raid.Ranking;
 import de.haevn.v2.model.mapper.RaidDataMapper;
@@ -25,50 +27,37 @@ public class RaidApi implements IApi<RaidData> {
     private static final String page = "0";
     private static final String HALL_OF_FAME_URL = String.format("https://raider.io/api/v1/raiding/hall-of-fame?raid=%s&difficulty=%s&region=%s", aberrusTheShadowsCrucible, mode, region);
     private static final String RANKING_URL = "https://raider.io/api/v1/raiding/raid-rankings?raid=%s&difficulty=%s&region=%s&realm=%s&limit=100&page=0";
+    private static final String STATIC_DATA_URL = "https://raider.io/api/v1/raiding/static-data?expansion_id=%s";
 
-    private int step = 0;
-    private int maxStep = 6;
+
 
     public CompletableFuture<RaidData> refresh() {
         return CompletableFuture.supplyAsync(() -> {
-            RaidDataMapper mapper = new RaidDataMapper();
+            Addon addon = new Addon();
+            // Request information about the current addon
 
-            final var hallOfFame = get(HALL_OF_FAME_URL, new TypeReference<Rank>() {
-            }).join();
-
-            Consumer<String> addRankings = slug -> {
-                final var normalRanking = requestRanking(slug, "normal", region, realm).join();
-                step++;
-                final var heroicRanking = requestRanking(slug, "heroic", region, realm).join();
-                step++;
-                final var mythicRanking = requestRanking(slug, "mythic", region, realm).join();
-                step++;
-
-                normalRanking.ifPresent(r -> mapper.addNormalRaidRanking(slug, r));
-                heroicRanking.ifPresent(r -> mapper.addHeroicRaidRanking(slug, r));
-                mythicRanking.ifPresent(r -> mapper.addMythicRaidRanking(slug, r));
-
-            };
-
-            addRankings.accept(VaultOfTheIncarnates);
-            addRankings.accept(aberrusTheShadowsCrucible);
-
-            return mapper.build();
+            var addonStaticData = get(String.format(STATIC_DATA_URL, 9), new TypeReference<List<Raid>>() {}, "raids").join();
+            if(addonStaticData.isEmpty()){
+                System.out.println("No addon data found");
+                return null;
+            }
+            for (Raid raid : addonStaticData.get()) {
+                
+                // Request addon
+                addon.addRaid(raid.getSlug(), raid);
+            }
+            return null;
         });
     }
 
-    public synchronized int currentStep() {
-        return step;
-    }
 
-    public synchronized int maxStep() {
-        return maxStep;
-    }
 
-    public CompletableFuture<Optional<Ranking>> requestRanking(String raidSlug, String mode, String region, String realm) {
-        return get(String.format(RANKING_URL, raidSlug, mode, region, realm), new TypeReference<Ranking>() {
-        });
-    }
+
+
+
+
+
+
 
 
     @SneakyThrows
@@ -80,7 +69,7 @@ public class RaidApi implements IApi<RaidData> {
         int cnt = 0;
         int mult = 1;
         while (!call.isDone()) {
-            System.out.print("\rApi request in execution (Step: " + api.currentStep() + "/" + api.maxStep + ") ");
+            System.out.print("\rApi request in execution (Step: "  + "/" + api.maxStep + ") ");
             for (int i = 0; i < 20; i++) {
                 if (i == cnt) {
                     System.out.print("█");
@@ -93,27 +82,11 @@ public class RaidApi implements IApi<RaidData> {
             cnt = cnt + mult;
             Thread.sleep(125);
         }
-        System.out.print("\r");
-        var result = call.get();
-        String guildName = "";
-        do {
-            Scanner in = new Scanner(System.in);
-            guildName = in.nextLine();
-            System.out.print("Enter guild name: ");
-            var filtered = filterex(guildName, result);
-            filtered.stream().map(rank -> "Guild: " + rank.getGuild().getName() + " (" + rank.getGuild().getFaction() + ") Realm: " + rank.getRank() + " Region: " + rank.getRegionRank())
-                    .forEach(System.out::println);
-
-
-        } while (!guildName.equalsIgnoreCase("!q"));
-        System.out.println("Done");
-    }
-
-    static void print() {
 
     }
 
-    static List<Rank> filterex(String guildName, RaidData result) {
+
+    static List<Rank> filterex(String guildName, RaidData result, String slug) {
         // Actual filtering for name or rank
         Predicate<Rank> filter = rank -> true;
         try {
@@ -123,7 +96,7 @@ public class RaidApi implements IApi<RaidData> {
             String finalGuildName = guildName;
             filter = rank -> rank.getGuild().getName().toLowerCase().contains(finalGuildName.toLowerCase());
         }
-        return result.getMythicRankings().get(VaultOfTheIncarnates).getRaidRankings().stream()
+        return result.getMythicRankings().get(slug).getRaidRankings().stream()
                 .filter(filter).toList();
     }
 
