@@ -1,5 +1,6 @@
 package de.haevn.v2.api;
 
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import de.haevn.network.NetworkInteraction;
 import de.haevn.network.NetworkUtils;

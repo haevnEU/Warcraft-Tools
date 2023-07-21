@@ -69,7 +69,7 @@ public class RaidApi implements IApi<RaidData> {
         int cnt = 0;
         int mult = 1;
         while (!call.isDone()) {
-            System.out.print("\rApi request in execution (Step: "  + "/" + api.maxStep + ") ");
+          //  System.out.print("\rApi request in execution (Step: "  + "/" + api.maxStep + ") ");
             for (int i = 0; i < 20; i++) {
                 if (i == cnt) {
                     System.out.print("█");
